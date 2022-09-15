@@ -31,3 +31,6 @@ export const isBrowser =
   typeof document !== 'undefined' &&
   window?.document &&
   window.document?.addEventListener;
+
+// 触发重绘
+export const reflow = (node: HTMLElement | null) => node?.scrollTop;

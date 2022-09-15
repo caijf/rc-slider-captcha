@@ -1,6 +1,8 @@
 @import './config/index.less';
 
 .@{prefixCls} {
+  position: relative;
+
   & > * {
     // iOS中通过Javascript定义的可点击元素，长按就会出现一个灰色背景
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -139,11 +141,22 @@
   }
 
   &-panel {
-    padding-bottom: 20px;
+    padding-bottom: 15px;
 
     &-inner {
       overflow: hidden;
       border-radius: 2px;
     }
+  }
+
+  &-float &-panel {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    display: none;
+    opacity: 0;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    transition-property: bottom, opacity;
   }
 }

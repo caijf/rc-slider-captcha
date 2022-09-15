@@ -14,7 +14,7 @@ const getCaptcha = async () => {
 
 const verifyCaptcha = async (data: { x: number }) => {
   await waitTime();
-  if (data.x && data.x > 57 && data.x < 63) {
+  if (data.x && data.x > 87 && data.x < 93) {
     return Promise.resolve();
   }
   return Promise.reject();

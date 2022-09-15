@@ -16,6 +16,10 @@ sidemenu: false
 
 <code src='./demos/basic.tsx' />
 
+### 触发式
+
+<code src='./demos/float.tsx' />
+
 ## API
 
 样式支持 css 变量改变主题和尺寸。
@@ -62,20 +66,23 @@ enum CurrentTargetType {
   Button = 'button',
 }
 
-type ActionType = {
+type VerifyParam = {
+  x: number; // 拼图 x轴移动值
+  y: number; // y 轴移动值
+  duration: number; // 操作持续时长
+  trail: [number, number][]; // 移动轨迹
+  targetType: CurrentTargetType; // 操作dom目标
+  errorCount: number; // 期间连续错误次数
+};
+
+export type ActionType = {
   refresh: (resetLimitErrors?: boolean) => void;
 };
 
-interface SliderCaptchaProps {
+export interface SliderCaptchaProps {
+  mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式，默认为 embed。
   limitErrorCount?: number; // 限制连续错误次数
-  onVerify?: (data: {
-    x: number; // 拼图 x轴移动值
-    y: number; // y 轴移动值
-    duration: number; // 操作持续时长
-    trail: [number, number][]; // 移动轨迹
-    targetType: CurrentTargetType; // 操作dom目标
-    errorCount: number; // 期间连续错误次数
-  }) => Promise<any>; // 移动松开后触发验证方法
+  onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
   tipText?: Partial<TipTextType>;
   tipIcon?: Partial<TipIconType>;
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸

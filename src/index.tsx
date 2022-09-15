@@ -8,9 +8,9 @@ import SliderIcon from './SliderIcon';
 import './index.less';
 import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
-import { getClient, isBrowser, setStyle } from './utils';
+import { getClient, isBrowser, reflow, setStyle } from './utils';
 
-// TODO 动画、改用css变量、构建、浏览器兼容、测试
+// TODO 改用css变量、构建、浏览器兼容、测试
 
 type TipTextType = {
   default: ReactNode;
@@ -51,20 +51,23 @@ enum CurrentTargetType {
   Button = 'button',
 }
 
-type ActionType = {
+type VerifyParam = {
+  x: number; // 拼图 x轴移动值
+  y: number; // y 轴移动值
+  duration: number; // 操作持续时长
+  trail: [number, number][]; // 移动轨迹
+  targetType: CurrentTargetType; // 操作dom目标
+  errorCount: number; // 期间连续错误次数
+};
+
+export type ActionType = {
   refresh: (resetLimitErrors?: boolean) => void;
 };
 
-interface SliderCaptchaProps {
+export interface SliderCaptchaProps {
+  mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式，默认为 embed。
   limitErrorCount?: number; // 限制连续错误次数
-  onVerify?: (data: {
-    x: number; // 拼图 x轴移动值
-    y: number; // y 轴移动值
-    duration: number; // 操作持续时长
-    trail: [number, number][]; // 移动轨迹
-    targetType: CurrentTargetType; // 操作dom目标
-    errorCount: number; // 期间连续错误次数
-  }) => Promise<any>; // 移动松开后触发验证方法
+  onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
   tipText?: Partial<TipTextType>;
   tipIcon?: Partial<TipIconType>;
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
@@ -92,7 +95,7 @@ const defaultConfig = {
   },
   puzzleSize: {
     width: 60,
-    left: 30,
+    left: 0,
   },
   tipText: {
     default: '向右拖动滑块填充拼图',
@@ -113,6 +116,7 @@ const defaultConfig = {
 };
 
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
+  mode: outMode = 'embed',
   limitErrorCount = 0,
   tipText: outTipText,
   tipIcon: outTipIcon,
@@ -136,8 +140,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const sliderButtonRef = useRef<HTMLSpanElement>(null);
   const puzzleRef = useRef<HTMLImageElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // config
+  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), []);
   const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
   const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
@@ -153,7 +159,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const isPressedRef = useRef(false); // 标识是否按下
   const isMovedRef = useRef(false); // 标识是否移动过
 
-  const timerRef = useRef<any>(null); // 自动刷新的定时器
+  const modeRef = useStateRef<typeof mode>(mode); // 模式
+  const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
+  const floatDelayShowTimerRef = useRef<any>(null); // 触发式鼠标移入定时器
+  const floatDelayHideTimerRef = useRef<any>(null); // 触发式鼠标移出定时器
+  const refreshTimerRef = useRef<any>(null); // 自动刷新的定时器
   const isLimitErrors =
     statusRef.current === Status.Error &&
     limitErrorCount > 0 &&
@@ -192,9 +202,57 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (resetLimitErrors) {
       errorCountRef.current = 0;
     }
-    clearTimeout(timerRef.current);
+    clearTimeout(refreshTimerRef.current);
     reset();
     getJigsawImages();
+  };
+
+  const handleClickControl = () => {
+    if (isLimitErrors) {
+      refresh(true);
+    }
+  };
+
+  const handleClickRefresh = () => {
+    if (status !== Status.Verify && !isLimitErrors) {
+      refresh();
+    }
+  };
+
+  const showPanel = () => {
+    clearTimeout(floatTransitionTimerRef.current);
+    setStyle(panelRef.current, 'display', 'block');
+    reflow(panelRef.current);
+    setStyle(panelRef.current, 'bottom', '42px');
+    setStyle(panelRef.current, 'opacity', '1');
+  };
+
+  const hidePanel = () => {
+    setStyle(panelRef.current, 'bottom', '22px');
+    setStyle(panelRef.current, 'opacity', '0');
+    floatTransitionTimerRef.current = setTimeout(() => {
+      setStyle(panelRef.current, 'display', 'none');
+    }, 300);
+  };
+
+  const handleMouseEnter = () => {
+    if (mode !== 'float' || status === Status.Success) {
+      return;
+    }
+    clearTimeout(floatDelayHideTimerRef.current);
+    floatDelayShowTimerRef.current = setTimeout(() => {
+      showPanel();
+    }, 300);
+  };
+
+  const handleMouseLeave = () => {
+    if (mode !== 'float') {
+      return;
+    }
+    clearTimeout(floatDelayShowTimerRef.current);
+    floatDelayHideTimerRef.current = setTimeout(() => {
+      hidePanel();
+    }, 300);
   };
 
   // 鼠标按下或触摸开始
@@ -203,6 +261,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
+    const isTouchEvent = e.type === 'touchstart'; // 是否为移动端事件
     const target = e.currentTarget as HTMLElement; // 用于判断当前触发事件的节点
 
     if (target && sliderButtonRef.current && puzzleRef.current) {
@@ -222,6 +281,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       ratioRef.current = maxDistanceRef.current.puzzle / maxDistanceRef.current.button;
       if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
         ratioRef.current = 1 / ratioRef.current;
+      }
+
+      // 处理移动端-触发式兼容
+      if (isTouchEvent && modeRef.current === 'float') {
+        showPanel();
       }
 
       isPressedRef.current = true;
@@ -267,6 +331,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
+    const isTouchEvent = e.type === 'touchend'; // 是否为移动端事件
+
     if (onVerify) {
       isPressedRef.current = false;
       isMovedRef.current = false;
@@ -295,34 +361,29 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         .then(() => {
           errorCountRef.current = 0;
           setStatus(Status.Success);
+          if (modeRef.current === 'float') {
+            hidePanel();
+          }
         })
         .catch(() => {
           errorCountRef.current += 1;
           setStatus(Status.Error);
 
+          if (isTouchEvent && modeRef.current === 'float') {
+            hidePanel();
+          }
+
           if (
             (limitErrorCount <= 0 || errorCountRef.current < limitErrorCount) &&
             autoRefreshOnError
           ) {
-            timerRef.current = setTimeout(() => {
+            refreshTimerRef.current = setTimeout(() => {
               refresh();
             }, errorHoldDuration);
           }
         });
     } else {
       reset();
-    }
-  };
-
-  const handleClickControl = () => {
-    if (isLimitErrors) {
-      refresh(true);
-    }
-  };
-
-  const handleClickRefresh = () => {
-    if (status !== Status.Verify && !isLimitErrors) {
-      refresh();
     }
   };
 
@@ -382,8 +443,13 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   }));
 
   return (
-    <div className={prefixCls} style={{ width: bgSize.width }}>
-      <div className={`${prefixCls}-panel`}>
+    <div
+      className={classnames(prefixCls, `${prefixCls}-${mode}`)}
+      style={{ width: bgSize.width }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={`${prefixCls}-panel`} ref={panelRef}>
         <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
           <div
             className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-done`]: isDone })}
