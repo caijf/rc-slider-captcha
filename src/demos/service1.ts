@@ -1,6 +1,6 @@
 import { waitTime } from 'util-helpers';
-import ImageBg from './bg@2x.jpeg';
-import ImagePuzzle from './puzzle@2x.png';
+import ImageBg from './assets/1bg@2x.jpg';
+import ImagePuzzle from './assets/1puzzle@2x.png';
 
 export const getCaptcha = async () => {
   await waitTime();

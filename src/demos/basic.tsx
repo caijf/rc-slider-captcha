@@ -1,24 +1,10 @@
+/**
+ * title: 嵌入式
+ * description: 默认 `mode="embed"`，无需设置。
+ */
 import React from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
-import { waitTime } from 'util-helpers';
-import ImageBg from './bg@2x.jpeg';
-import ImagePuzzle from './puzzle@2x.png';
-
-const getCaptcha = async () => {
-  await waitTime();
-  return {
-    bgUrl: ImageBg,
-    puzzleUrl: ImagePuzzle,
-  };
-};
-
-const verifyCaptcha = async (data: { x: number }) => {
-  await waitTime();
-  if (data.x && data.x > 87 && data.x < 93) {
-    return Promise.resolve();
-  }
-  return Promise.reject();
-};
+import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
   return (

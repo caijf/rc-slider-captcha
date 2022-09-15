@@ -8,17 +8,68 @@ sidemenu: false
 
 ## 代码演示
 
-<code src='./demos/icon.tsx' />
-<code src='./demos/button.tsx' />
-<code src='./demos/slideway.tsx' />
+<code src='./demos/dev-icon.tsx' />
+<code src='./demos/dev-button.tsx' />
+<code src='./demos/dev-slideway.tsx' />
 
 ### 基础用法
 
 <code src='./demos/basic.tsx' />
 
-### 触发式
-
 <code src='./demos/float.tsx' />
+
+**触发式交互说明：**
+
+- PC 端：鼠标移入时显示拼图，移出隐藏拼图。
+- 移动端：触摸滑块显示拼图，停止触摸后，如果有向右滑动过则验证后隐藏拼图，否则隐藏拼图。
+
+**注意，验证成功后，PC 端和移动端都会隐藏拼图，且不再显示。假如后面提交时验证码失效，可以通过手动触发刷新。**
+
+### 手动触发刷新
+
+嵌入式和触发式都适用。
+
+<code src='./demos/actionRef.tsx' />
+
+### 自定义尺寸
+
+**什么情况下需要自定义尺寸？**
+
+1. 背景图`宽度`不等于 `320` 或`高度`不等于 `160`
+2. 拼图`宽度`不等于 `60` 或高度不等于背景图高度需要调整 `left` 、 `top`
+
+<code src='./demos/size.tsx' />
+
+### 自定义图标和文本
+
+<code src='./demos/iconAndText.tsx' />
+
+### 自定义样式
+
+也可以在自定义图标和文本中展示，需要配合 css 变量。
+
+### 验证失败处理
+
+1. 验证失败不自动刷新
+2. 连续验证失败超过限制次数，需要手动点击刷新
+
+### 智能检测
+
+为了防止一些爬虫更难破解滑块验证码，通过 `y` `duration` `trail` 结合算法判断是否人为操作。
+
+`onVerify` 回调方法包含了以下参数：
+
+- `x` - 拼图移动距离
+- `y` - 按下鼠标到释放鼠标 `y` 轴的差值
+- `targetType` - 用户操作的是拼图还是滑块按钮 `puzzle` or `button`
+- `duration` - 操作时长
+- `trail` - 拖动轨迹
+
+大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，需要计算 `x 乘以 缩放比例`）。
+
+### 自定义拼图内容
+
+多少秒内完成，超过多少用户。
 
 ## API
 
@@ -53,14 +104,6 @@ type JigsawImages = {
   puzzleUrl: string; // 拼图
 };
 
-enum Status {
-  Default = 1,
-  Loading,
-  Verify,
-  Success,
-  Error,
-}
-
 enum CurrentTargetType {
   Puzzle = 'puzzle',
   Button = 'button',
@@ -75,8 +118,17 @@ type VerifyParam = {
   errorCount: number; // 期间连续错误次数
 };
 
+export enum Status {
+  Default = 1,
+  Loading,
+  Verify,
+  Success,
+  Error,
+}
+
 export type ActionType = {
-  refresh: (resetLimitErrors?: boolean) => void;
+  refresh: (resetErrorCount?: boolean) => void; // 刷新，参数为是否重置连续错误次数为0
+  status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
 };
 
 export interface SliderCaptchaProps {

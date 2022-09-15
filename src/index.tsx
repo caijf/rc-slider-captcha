@@ -10,7 +10,7 @@ import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
 import { getClient, isBrowser, reflow, setStyle, isSupportTouch } from './utils';
 
-// TODO 改用css变量、构建、浏览器兼容、测试
+// TODO 注释、改用css变量、更多示例、构建、浏览器兼容、测试
 
 type TipTextType = {
   default: ReactNode;
@@ -38,14 +38,6 @@ type JigsawImages = {
   puzzleUrl: string; // 拼图
 };
 
-enum Status {
-  Default = 1,
-  Loading,
-  Verify,
-  Success,
-  Error,
-}
-
 enum CurrentTargetType {
   Puzzle = 'puzzle',
   Button = 'button',
@@ -60,8 +52,17 @@ type VerifyParam = {
   errorCount: number; // 期间连续错误次数
 };
 
+export enum Status {
+  Default = 1,
+  Loading,
+  Verify,
+  Success,
+  Error,
+}
+
 export type ActionType = {
-  refresh: (resetLimitErrors?: boolean) => void;
+  refresh: (resetErrorCount?: boolean) => void; // 刷新，参数为是否重置连续错误次数为0
+  status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
 };
 
 export interface SliderCaptchaProps {
@@ -198,8 +199,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   };
 
   // 刷新
-  const refresh = (resetLimitErrors = false) => {
-    if (resetLimitErrors) {
+  const refresh = (resetErrorCount = false) => {
+    if (resetErrorCount) {
       errorCountRef.current = 0;
     }
     clearTimeout(refreshTimerRef.current);
@@ -464,6 +465,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   React.useImperativeHandle(actionRef, () => ({
     refresh,
+    get status() {
+      return statusRef.current;
+    },
   }));
 
   return (
@@ -493,15 +497,16 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
               data-id={CurrentTargetType.Puzzle}
               ref={puzzleRef}
             />
-            {showRefreshIcon && status !== Status.Success && (
-              <SliderIcon
-                type="refresh"
+            {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
+              <div
                 className={classnames(`${jigsawPrefixCls}-refresh`, {
                   [`${jigsawPrefixCls}-refresh-disabled`]:
                     status === Status.Verify || isLimitErrors,
                 })}
                 onClick={handleClickRefresh}
-              />
+              >
+                {tipIcon.refresh}
+              </div>
             )}
             {jigsawContent}
           </div>
