@@ -204,6 +204,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       errorCountRef.current = 0;
     }
     clearTimeout(refreshTimerRef.current);
+
+    if (statusRef.current === Status.Loading) {
+      return;
+    }
+
     reset();
     getJigsawImages();
   };
