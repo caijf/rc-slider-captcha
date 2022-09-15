@@ -1,0 +1,38 @@
+@import '../config/index.less';
+
+@-webkit-keyframes slider-icon-animate_spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes slider-icon-animate_spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.@{prefixCls}-icon {
+  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  & > svg {
+    line-height: 1;
+  }
+
+  &-spin {
+    -webkit-animation: slider-icon-animate_spin 1s infinite linear;
+    animation: slider-icon-animate_spin 1s infinite linear;
+  }
+}

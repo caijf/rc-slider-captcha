@@ -1,1 +1,0 @@
-## Hello rc-slider-captcha!

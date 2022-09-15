@@ -1,0 +1,64 @@
+@import '../config/index.less';
+
+.@{prefixCls}-button {
+  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 100%;
+  padding: 5px 0;
+  color: #676d73;
+  font-size: 22px;
+  line-height: 1;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: background-color 0.2s linear;
+  touch-action: none;
+
+  &-active,
+  &-verify,
+  &:hover {
+    color: #fff;
+    background-color: @primary;
+  }
+  &-active,
+  &:active {
+    cursor: grabbing;
+  }
+
+  &-verify,
+  &-verify:active {
+    cursor: wait;
+  }
+
+  &-error,
+  &-error:hover {
+    color: #fff;
+    background-color: @error;
+    cursor: default;
+  }
+
+  &-success,
+  &-success:hover {
+    color: #fff;
+    background-color: @success;
+    cursor: default;
+  }
+
+  &-error:active,
+  &-success:active {
+    cursor: default;
+  }
+
+  &-disabled,
+  &-disabled:hover,
+  &-disabled:active {
+    color: #676d73;
+    background-color: #fff;
+    cursor: no-drop;
+  }
+}
