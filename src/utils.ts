@@ -32,5 +32,9 @@ export const isBrowser =
   window?.document &&
   window.document?.addEventListener;
 
+// 是否支持Touch事件
+// 区分移动端和PC端的事件绑定，移动端也会触发 mouseup mousedown 事件
+export const isSupportTouch = typeof window === 'object' && 'ontouchstart' in window;
+
 // 触发重绘
 export const reflow = (node: HTMLElement | null) => node?.scrollTop;

@@ -23,7 +23,9 @@
 
   &-active,
   &-verify,
-  &:hover {
+  // 移动端不需要移入样式
+  &-pc:hover,
+  &:active {
     color: #fff;
     background-color: @primary;
   }

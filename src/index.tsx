@@ -8,7 +8,7 @@ import SliderIcon from './SliderIcon';
 import './index.less';
 import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
-import { getClient, isBrowser, reflow, setStyle } from './utils';
+import { getClient, isBrowser, reflow, setStyle, isSupportTouch } from './utils';
 
 // TODO 改用css变量、构建、浏览器兼容、测试
 
@@ -207,10 +207,55 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     getJigsawImages();
   };
 
+  const showPanel = () => {
+    if (modeRef.current !== 'float' || statusRef.current === Status.Success) {
+      return;
+    }
+
+    clearTimeout(floatTransitionTimerRef.current);
+    clearTimeout(floatDelayHideTimerRef.current);
+
+    floatDelayShowTimerRef.current = setTimeout(() => {
+      setStyle(panelRef.current, 'display', 'block');
+      reflow(panelRef.current);
+      setStyle(panelRef.current, 'bottom', '42px');
+      setStyle(panelRef.current, 'opacity', '1');
+    }, 300);
+  };
+
+  const hidePanel = () => {
+    if (modeRef.current !== 'float') {
+      return;
+    }
+
+    clearTimeout(floatDelayShowTimerRef.current);
+    floatDelayHideTimerRef.current = setTimeout(() => {
+      setStyle(panelRef.current, 'bottom', '22px');
+      setStyle(panelRef.current, 'opacity', '0');
+      floatTransitionTimerRef.current = setTimeout(() => {
+        setStyle(panelRef.current, 'display', 'none');
+      }, 300);
+    }, 300);
+  };
+
   const handleClickControl = () => {
     if (isLimitErrors) {
       refresh(true);
     }
+  };
+
+  const handleMouseEnterControl = () => {
+    if (isSupportTouch) {
+      return;
+    }
+    showPanel();
+  };
+
+  const handleMouseLeaveControl = () => {
+    if (isSupportTouch) {
+      return;
+    }
+    hidePanel();
   };
 
   const handleClickRefresh = () => {
@@ -219,47 +264,13 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   };
 
-  const showPanel = () => {
-    clearTimeout(floatTransitionTimerRef.current);
-    setStyle(panelRef.current, 'display', 'block');
-    reflow(panelRef.current);
-    setStyle(panelRef.current, 'bottom', '42px');
-    setStyle(panelRef.current, 'opacity', '1');
-  };
-
-  const hidePanel = () => {
-    setStyle(panelRef.current, 'bottom', '22px');
-    setStyle(panelRef.current, 'opacity', '0');
-    floatTransitionTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, 'display', 'none');
-    }, 300);
-  };
-
-  const handleMouseEnter = () => {
-    if (mode !== 'float' || status === Status.Success) {
-      return;
-    }
-    clearTimeout(floatDelayHideTimerRef.current);
-    floatDelayShowTimerRef.current = setTimeout(() => {
-      showPanel();
-    }, 300);
-  };
-
-  const handleMouseLeave = () => {
-    if (mode !== 'float') {
-      return;
-    }
-    clearTimeout(floatDelayShowTimerRef.current);
-    floatDelayHideTimerRef.current = setTimeout(() => {
-      hidePanel();
-    }, 300);
-  };
-
   // 鼠标按下或触摸开始
   const touchstart = (e: any) => {
     if (statusRef.current !== Status.Default) {
       return;
     }
+
+    e.preventDefault(); // 防止移动端按下后会选择文本或图片
 
     const isTouchEvent = e.type === 'touchstart'; // 是否为移动端事件
     const target = e.currentTarget as HTMLElement; // 用于判断当前触发事件的节点
@@ -284,7 +295,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       }
 
       // 处理移动端-触发式兼容
-      if (isTouchEvent && modeRef.current === 'float') {
+      if (isTouchEvent) {
         showPanel();
       }
 
@@ -292,7 +303,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   };
 
-  const touchmove = (e: MouseEvent | TouchEvent) => {
+  const touchmove = (e: any) => {
     if (!isPressedRef.current) {
       return;
     }
@@ -324,14 +335,17 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       setStyle(puzzleRef.current, 'left', distance + puzzleSize.left + 'px');
     }
   };
-  const touchend = (e: MouseEvent | TouchEvent) => {
+  const touchend = (e: any) => {
+    const isTouchEvent = e.type === 'touchend'; // 是否为移动端事件
+
     if (!isPressedRef.current || !isMovedRef.current) {
+      if (isTouchEvent && isPressedRef.current) {
+        hidePanel();
+      }
       isPressedRef.current = false;
       isMovedRef.current = false;
       return;
     }
-
-    const isTouchEvent = e.type === 'touchend'; // 是否为移动端事件
 
     if (onVerify) {
       isPressedRef.current = false;
@@ -361,15 +375,13 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         .then(() => {
           errorCountRef.current = 0;
           setStatus(Status.Success);
-          if (modeRef.current === 'float') {
-            hidePanel();
-          }
+          hidePanel();
         })
         .catch(() => {
           errorCountRef.current += 1;
           setStatus(Status.Error);
 
-          if (isTouchEvent && modeRef.current === 'float') {
+          if (isTouchEvent) {
             hidePanel();
           }
 
@@ -392,18 +404,30 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       getJigsawImages();
     }
 
-    if (isBrowser) {
-      document.addEventListener('mousemove', touchmove);
-      document.addEventListener('touchmove', touchmove);
-      document.addEventListener('mouseup', touchend);
-      document.addEventListener('touchend', touchend);
+    const events = isSupportTouch
+      ? {
+          start: 'touchstart',
+          move: 'touchmove',
+          end: 'touchend',
+        }
+      : {
+          start: 'mousedown',
+          move: 'mousemove',
+          end: 'mouseup',
+        };
+
+    if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
+      sliderButtonRef.current.addEventListener(events.start, touchstart);
+      puzzleRef.current.addEventListener(events.start, touchstart);
+      document.addEventListener(events.move, touchmove);
+      document.addEventListener(events.end, touchend);
 
       return () => {
-        if (isBrowser) {
-          document.removeEventListener('mousemove', touchmove);
-          document.removeEventListener('touchmove', touchmove);
-          document.removeEventListener('mouseup', touchend);
-          document.removeEventListener('touchend', touchend);
+        if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
+          sliderButtonRef.current.removeEventListener(events.start, touchstart);
+          puzzleRef.current.removeEventListener(events.start, touchstart);
+          document.removeEventListener(events.move, touchmove);
+          document.removeEventListener(events.end, touchend);
         }
       };
     }
@@ -446,8 +470,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     <div
       className={classnames(prefixCls, `${prefixCls}-${mode}`)}
       style={{ width: bgSize.width }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnterControl}
+      onMouseLeave={handleMouseLeaveControl}
     >
       <div className={`${prefixCls}-panel`} ref={panelRef}>
         <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
@@ -468,8 +492,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
               alt="验证码滑块"
               data-id={CurrentTargetType.Puzzle}
               ref={puzzleRef}
-              onMouseDown={touchstart}
-              onTouchStart={touchstart}
             />
             {showRefreshIcon && status !== Status.Success && (
               <SliderIcon
@@ -506,9 +528,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           success={status === Status.Success}
           error={status === Status.Error}
           data-id={CurrentTargetType.Button}
+          mobile={isSupportTouch}
           ref={sliderButtonRef}
-          onMouseDown={touchstart}
-          onTouchStart={touchstart}
         >
           {currentTipIcon}
         </SliderButton>

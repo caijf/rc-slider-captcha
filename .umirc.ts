@@ -17,4 +17,12 @@ export default defineConfig({
   polyfill: {
     imports: ['element-remove', 'core-js'],
   },
+  headScripts: [
+    {
+      src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js',
+    },
+    {
+      content: 'var vConsole = new window.VConsole();',
+    },
+  ],
 });
