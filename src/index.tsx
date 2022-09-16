@@ -197,6 +197,39 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     setStatus(Status.Default);
   };
 
+  // 触发式下，显示面板
+  const showPanel = (delay = 300) => {
+    if (modeRef.current !== 'float' || statusRef.current === Status.Success) {
+      return;
+    }
+
+    clearTimeout(floatTransitionTimerRef.current);
+    clearTimeout(floatDelayHideTimerRef.current);
+
+    floatDelayShowTimerRef.current = setTimeout(() => {
+      setStyle(panelRef.current, 'display', 'block');
+      reflow(panelRef.current);
+      setStyle(panelRef.current, 'bottom', '42px');
+      setStyle(panelRef.current, 'opacity', '1');
+    }, delay);
+  };
+
+  // 触发式下，隐藏面板
+  const hidePanel = (delay = 300) => {
+    if (modeRef.current !== 'float') {
+      return;
+    }
+
+    clearTimeout(floatDelayShowTimerRef.current);
+    floatDelayHideTimerRef.current = setTimeout(() => {
+      setStyle(panelRef.current, 'bottom', '22px');
+      setStyle(panelRef.current, 'opacity', '0');
+      floatTransitionTimerRef.current = setTimeout(() => {
+        setStyle(panelRef.current, 'display', 'none');
+      }, 300);
+    }, delay);
+  };
+
   // 重置状态和元素位置
   const reset = () => {
     isPressedRef.current = false;
@@ -225,39 +258,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     reset();
     getJigsawImages();
-  };
-
-  // 触发式下，显示面板
-  const showPanel = () => {
-    if (modeRef.current !== 'float' || statusRef.current === Status.Success) {
-      return;
-    }
-
-    clearTimeout(floatTransitionTimerRef.current);
-    clearTimeout(floatDelayHideTimerRef.current);
-
-    floatDelayShowTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, 'display', 'block');
-      reflow(panelRef.current);
-      setStyle(panelRef.current, 'bottom', '42px');
-      setStyle(panelRef.current, 'opacity', '1');
-    }, 300);
-  };
-
-  // 触发式下，隐藏面板
-  const hidePanel = () => {
-    if (modeRef.current !== 'float') {
-      return;
-    }
-
-    clearTimeout(floatDelayShowTimerRef.current);
-    floatDelayHideTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, 'bottom', '22px');
-      setStyle(panelRef.current, 'opacity', '0');
-      floatTransitionTimerRef.current = setTimeout(() => {
-        setStyle(panelRef.current, 'display', 'none');
-      }, 300);
-    }, 300);
   };
 
   // 点击滑块操作条，如果连续超过错误次数则刷新
@@ -322,7 +322,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
       // 处理移动端-触发式兼容
       if (isTouchEvent) {
-        showPanel();
+        showPanel(0);
       }
 
       isPressedRef.current = true;
