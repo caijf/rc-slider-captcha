@@ -13,8 +13,8 @@
     width: 100%;
     min-height: 42px;
     padding-left: 40px;
-    background-color: @bg-color;
-    border: 1px solid @border-color;
+    background-color: var(--rcsc-bg-color);
+    border: 1px solid var(--rcsc-border-color);
     border-radius: 2px;
 
     &-button {
@@ -30,8 +30,8 @@
       display: none;
       width: 0;
       height: 100%;
-      background-color: @primary-light;
-      border: 1px solid @primary;
+      background-color: var(--rcsc-primary-light);
+      border: 1px solid var(--rcsc-primary);
       border-radius: 2px;
     }
 
@@ -40,7 +40,7 @@
       align-items: center;
       justify-content: center;
       padding: 10px 0;
-      color: @text-color;
+      color: var(--rcsc-text-color);
       font-size: 14px;
       line-height: 20px;
       text-align: center;
@@ -55,26 +55,26 @@
     }
 
     &-error &-indicator {
-      background-color: @error-light;
-      border-color: @error;
+      background-color: var(--rcsc-error-light);
+      border-color: var(--rcsc-error);
     }
 
     &-success &-indicator {
-      background-color: @success-light;
-      border-color: @success;
+      background-color: var(--rcsc-success-light);
+      border-color: var(--rcsc-success);
     }
 
     // 失败多次
     &-errors {
       padding-left: 0;
-      background-color: @error-light;
-      border-color: @error;
+      background-color: var(--rcsc-error-light);
+      border-color: var(--rcsc-error);
     }
     &-errors &-button {
       display: none;
     }
     &-errors &-tips {
-      color: @error;
+      color: var(--rcsc-error);
       cursor: pointer;
     }
   }

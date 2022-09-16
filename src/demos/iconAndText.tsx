@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowRepeat, EmojiFrownFill, EmojiSmileFill, HeartFill } from 'doly-icons';
+import { ArrowRepeat, EmojiFrownFill, EmojiSmileFill, Gem, Heart } from 'doly-icons';
 import SliderCaptcha from 'rc-slider-captcha';
 import { getCaptcha, verifyCaptcha } from './service1';
+import styles from './iconAndText.less';
 
 function Demo() {
   return (
@@ -12,16 +13,21 @@ function Demo() {
         return verifyCaptcha(data);
       }}
       tipIcon={{
-        default: <HeartFill style={{ color: '#e91e63' }} />,
+        default: <Gem />,
         loading: <ArrowRepeat spin />,
         success: <EmojiSmileFill />,
         error: <EmojiFrownFill />,
         refresh: <ArrowRepeat />,
       }}
       tipText={{
-        default: '向右👉拖动爱心❤️完成拼图哦～',
+        default: '向右👉拖动完成拼图',
         loading: '👩🏻‍💻🧑‍💻努力中...',
       }}
+      loadingBoxProps={{
+        icon: <Heart />,
+        text: "I'm loading",
+      }}
+      className={styles.custom}
     />
   );
 }

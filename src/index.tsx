@@ -10,7 +10,7 @@ import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
 import { getClient, isBrowser, reflow, setStyle, isSupportTouch } from './utils';
 
-// TODO 改用css变量、更多示例、构建、浏览器兼容、测试
+// TODO 更多示例、构建、测试
 
 type TipTextType = {
   default: ReactNode;
@@ -136,7 +136,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   actionRef,
   showRefreshIcon = true,
   jigsawContent,
-  errorHoldDuration = 1000,
+  errorHoldDuration = 500,
   loadingBoxProps,
   sliderButtonProps,
   className,
@@ -170,6 +170,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const trailRef = useRef([] as [number, number][]); // 移动轨迹
   const isPressedRef = useRef(false); // 标识是否按下
   const isMovedRef = useRef(false); // 标识是否移动过
+  const sliderButtonWidthRef = useRef(SliderBorderWidth); // 滑块按钮宽度
 
   const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
   const floatDelayShowTimerRef = useRef<any>(null); // 触发式鼠标移入定时器
@@ -184,8 +185,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const maxDistanceRef = useRef({ button: 0, puzzle: 0 }); // 最大可移动距离
   // 更新最大可移动距离
   const updateMaxDistance = () => {
-    const w = sliderButtonRef.current ? sliderButtonRef.current.clientWidth : SliderButtonWidth;
-    maxDistanceRef.current.button = bgSize.width - w - SliderBorderWidth;
+    maxDistanceRef.current.button = bgSize.width - sliderButtonWidthRef.current - SliderBorderWidth;
     maxDistanceRef.current.puzzle = bgSize.width - puzzleSize.width - puzzleSize.left;
   };
 
@@ -311,6 +311,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       };
       trailRef.current = [[startInfoRef.current.x, startInfoRef.current.y]];
 
+      sliderButtonWidthRef.current = sliderButtonRef.current.clientWidth;
       updateMaxDistance();
       currentTargetTypeRef.current = target.getAttribute('data-id') as CurrentTargetType;
 
@@ -351,14 +352,14 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       const distance = diffX * ratioRef.current;
 
       setStyle(sliderButtonRef.current, 'left', distance + 'px');
-      setStyle(indicatorRef.current, 'width', distance + SliderButtonWidth + 'px');
+      setStyle(indicatorRef.current, 'width', distance + sliderButtonWidthRef.current + 'px');
       setStyle(puzzleRef.current, 'left', diffX + puzzleSize.left + 'px');
     } else {
       diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
       const distance = diffX * ratioRef.current;
 
       setStyle(sliderButtonRef.current, 'left', diffX + 'px');
-      setStyle(indicatorRef.current, 'width', diffX + SliderButtonWidth + 'px');
+      setStyle(indicatorRef.current, 'width', diffX + sliderButtonWidthRef.current + 'px');
       setStyle(puzzleRef.current, 'left', distance + puzzleSize.left + 'px');
     }
   };
