@@ -2,34 +2,6 @@
 
 滑块验证码
 
-## Getting Started
+## 兼容
 
-Install dependencies,
-
-```bash
-$ npm i
-```
-
-Start the dev server,
-
-```bash
-$ npm start
-```
-
-Build documentation,
-
-```bash
-$ npm run docs:build
-```
-
-Run test,
-
-```bash
-$ npm test
-```
-
-Build library via `father`,
-
-```bash
-$ npm run build
-```
+兼容 IE11 和现代浏览器。

@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { prefixCls } from './config';
-import LoadingBox from './LoadingBox';
-import SliderButton from './SliderButton';
+import LoadingBox, { LoadingBoxProps } from './LoadingBox';
+import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
 
 import './index.less';
@@ -10,7 +10,7 @@ import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
 import { getClient, isBrowser, reflow, setStyle, isSupportTouch } from './utils';
 
-// TODO 注释、改用css变量、更多示例、构建、浏览器兼容、测试
+// TODO 改用css变量、更多示例、构建、浏览器兼容、测试
 
 type TipTextType = {
   default: ReactNode;
@@ -52,6 +52,7 @@ type VerifyParam = {
   errorCount: number; // 期间连续错误次数
 };
 
+// 内部状态
 export enum Status {
   Default = 1,
   Loading,
@@ -60,6 +61,7 @@ export enum Status {
   Error,
 }
 
+// 常用操作
 export type ActionType = {
   refresh: (resetErrorCount?: boolean) => void; // 刷新，参数为是否重置连续错误次数为0
   status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
@@ -69,24 +71,28 @@ export interface SliderCaptchaProps {
   mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式，默认为 embed。
   limitErrorCount?: number; // 限制连续错误次数
   onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
-  tipText?: Partial<TipTextType>;
-  tipIcon?: Partial<TipIconType>;
+  tipText?: Partial<TipTextType>; // 提示文本
+  tipIcon?: Partial<TipIconType>; // 提示图标
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
   puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
   request: () => Promise<JigsawImages>; // 请求背景图和拼图
   autoRequest?: boolean; // 自动发起请求
   autoRefreshOnError?: boolean; // 验证失败后自动刷新
-  actionRef?: React.MutableRefObject<ActionType | undefined>; // 手动操作
+  actionRef?: React.MutableRefObject<ActionType | undefined>; // 常用操作
   showRefreshIcon?: boolean; // 显示右上角刷新图标
   jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
   errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
+  loadingBoxProps?: LoadingBoxProps;
+  sliderButtonProps?: SliderButtonProps;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const controlPrefixCls = `${prefixCls}-control`;
 const jigsawPrefixCls = `${prefixCls}-jigsaw`;
 
-const SliderButtonWidth = 40;
-const JigsawBorderWidth = 2;
+const SliderButtonWidth = 40; // 滑块按钮宽度
+const SliderBorderWidth = 2; // 滑块边框宽度
 
 // 默认配置
 const defaultConfig = {
@@ -131,11 +137,15 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   showRefreshIcon = true,
   jigsawContent,
   errorHoldDuration = 1000,
+  loadingBoxProps,
+  sliderButtonProps,
+  className,
+  style,
 }) => {
   const [jigsawImgs, setJigsawImgs] = useState<JigsawImages>();
   const [status, setStatus] = useState<Status>(Status.Default);
-  const statusRef = useStateRef(status);
-  const update = useUpdate();
+  const statusRef = useStateRef(status); // 同步status值，提供给事件方法使用
+  const update = useUpdate(); // 触发组件渲染
 
   // dom ref
   const sliderButtonRef = useRef<HTMLSpanElement>(null);
@@ -144,7 +154,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
-  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), []);
+  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), []); // 模式
+  const modeRef = useStateRef<typeof mode>(mode); // 提供给事件方法使用
   const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
   const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
@@ -160,7 +171,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const isPressedRef = useRef(false); // 标识是否按下
   const isMovedRef = useRef(false); // 标识是否移动过
 
-  const modeRef = useStateRef<typeof mode>(mode); // 模式
   const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
   const floatDelayShowTimerRef = useRef<any>(null); // 触发式鼠标移入定时器
   const floatDelayHideTimerRef = useRef<any>(null); // 触发式鼠标移出定时器
@@ -168,14 +178,14 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const isLimitErrors =
     statusRef.current === Status.Error &&
     limitErrorCount > 0 &&
-    errorCountRef.current >= limitErrorCount;
+    errorCountRef.current >= limitErrorCount; // 是否超过限制错误次数
 
+  const ratioRef = useRef(1); // 当滑块或拼图为触发事件的焦点时，两者的变换比例
   const maxDistanceRef = useRef({ button: 0, puzzle: 0 }); // 最大可移动距离
-  const ratioRef = useRef(1); // 当滑块或拼图为触发事件的焦点时的变换比例
   // 更新最大可移动距离
   const updateMaxDistance = () => {
     const w = sliderButtonRef.current ? sliderButtonRef.current.clientWidth : SliderButtonWidth;
-    maxDistanceRef.current.button = bgSize.width - w - JigsawBorderWidth;
+    maxDistanceRef.current.button = bgSize.width - w - SliderBorderWidth;
     maxDistanceRef.current.puzzle = bgSize.width - puzzleSize.width - puzzleSize.left;
   };
 
@@ -200,11 +210,15 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 刷新
   const refresh = (resetErrorCount = false) => {
+    // 重置连续错误次数记录
     if (resetErrorCount) {
       errorCountRef.current = 0;
     }
+
+    // 清除延迟调用刷新方法的定时器
     clearTimeout(refreshTimerRef.current);
 
+    // 防止连续调用刷新方法，会触发多次请求的问题
     if (statusRef.current === Status.Loading) {
       return;
     }
@@ -213,6 +227,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     getJigsawImages();
   };
 
+  // 触发式下，显示面板
   const showPanel = () => {
     if (modeRef.current !== 'float' || statusRef.current === Status.Success) {
       return;
@@ -229,6 +244,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }, 300);
   };
 
+  // 触发式下，隐藏面板
   const hidePanel = () => {
     if (modeRef.current !== 'float') {
       return;
@@ -244,27 +260,31 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }, 300);
   };
 
+  // 点击滑块操作条，如果连续超过错误次数则刷新
   const handleClickControl = () => {
     if (isLimitErrors) {
       refresh(true);
     }
   };
 
-  const handleMouseEnterControl = () => {
+  // 鼠标移入显示面板，如果支持touch事件不处理
+  const handleMouseEnter = () => {
     if (isSupportTouch) {
       return;
     }
     showPanel();
   };
 
-  const handleMouseLeaveControl = () => {
+  // 鼠标移出隐藏面板，如果支持touch事件不处理
+  const handleMouseLeave = () => {
     if (isSupportTouch) {
       return;
     }
     hidePanel();
   };
 
-  const handleClickRefresh = () => {
+  // 点击刷新图标
+  const handleClickRefreshIcon = () => {
     if (status !== Status.Verify && !isLimitErrors) {
       refresh();
     }
@@ -309,6 +329,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   };
 
+  // 鼠标移动 或 触摸移动
   const touchmove = (e: any) => {
     if (!isPressedRef.current) {
       return;
@@ -341,6 +362,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       setStyle(puzzleRef.current, 'left', distance + puzzleSize.left + 'px');
     }
   };
+
+  // 鼠标弹起 或 停止触摸
   const touchend = (e: any) => {
     const isTouchEvent = e.type === 'touchend'; // 是否为移动端事件
 
@@ -439,9 +462,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   }, []);
 
-  const loading = status === Status.Loading;
-  const isDone = status === Status.Verify || status === Status.Error || status === Status.Success;
+  const loading = status === Status.Loading; // 加载中
+  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止滑动
 
+  // 当前提示文本
   const currentTipText = useMemo(() => {
     if (status === Status.Default && !isMovedRef.current) {
       return tipText.default;
@@ -455,6 +479,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     return null;
   }, [status, tipText, isMovedRef.current, isLimitErrors]);
 
+  // 当前提示图标
   const currentTipIcon = useMemo(() => {
     if (status === Status.Success) {
       return tipIcon.success;
@@ -468,6 +493,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     return tipIcon.default;
   }, [status, tipIcon]);
 
+  // 提供给外部
   React.useImperativeHandle(actionRef, () => ({
     refresh,
     get status() {
@@ -477,15 +503,15 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   return (
     <div
-      className={classnames(prefixCls, `${prefixCls}-${mode}`)}
-      style={{ width: bgSize.width }}
-      onMouseEnter={handleMouseEnterControl}
-      onMouseLeave={handleMouseLeaveControl}
+      className={classnames(prefixCls, className, `${prefixCls}-${mode}`)}
+      style={{ width: bgSize.width, ...style }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className={`${prefixCls}-panel`} ref={panelRef}>
         <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
           <div
-            className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-done`]: isDone })}
+            className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
             style={{ ...bgSize, ...(loading ? { display: 'none' } : {}) }}
           >
             <img
@@ -508,14 +534,21 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
                   [`${jigsawPrefixCls}-refresh-disabled`]:
                     status === Status.Verify || isLimitErrors,
                 })}
-                onClick={handleClickRefresh}
+                onClick={handleClickRefreshIcon}
               >
                 {tipIcon.refresh}
               </div>
             )}
             {jigsawContent}
           </div>
-          <LoadingBox style={{ ...bgSize, ...(loading ? {} : { display: 'none' }) }} />
+          <LoadingBox
+            {...loadingBoxProps}
+            style={{
+              ...loadingBoxProps?.style,
+              ...bgSize,
+              ...(loading ? {} : { display: 'none' }),
+            }}
+          />
         </div>
       </div>
       <div
@@ -531,7 +564,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       >
         <div className={classnames(`${controlPrefixCls}-indicator`)} ref={indicatorRef} />
         <SliderButton
-          className={`${controlPrefixCls}-button`}
+          {...sliderButtonProps}
+          className={classnames(`${controlPrefixCls}-button`, sliderButtonProps?.className)}
           disabled={loading}
           active={isMovedRef.current}
           verify={status === Status.Verify}

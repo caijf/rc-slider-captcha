@@ -25,4 +25,11 @@ export default defineConfig({
       content: 'var vConsole = new window.VConsole();',
     },
   ],
+  styles: [
+    `@media screen and (max-width: 400px){
+      body .__dumi-default-previewer-demo{
+        padding: 40px 10px;
+      }
+    }`,
+  ],
 });

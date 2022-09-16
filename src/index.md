@@ -14,7 +14,11 @@ sidemenu: false
 
 ### 基础用法
 
+只需传入 `request` 和 `onVerify` 。
+
 <code src='./demos/basic.tsx' />
+
+### 触发式
 
 <code src='./demos/float.tsx' />
 
@@ -36,9 +40,10 @@ sidemenu: false
 **什么情况下需要自定义尺寸？**
 
 1. 背景图`宽度`不等于 `320` 或`高度`不等于 `160`
-2. 拼图`宽度`不等于 `60` 或高度不等于背景图高度需要调整 `left` 、 `top`
+2. 拼图`宽度`不等于 `60` 或高度不等于背景图高度，需要调整 `left` 、 `top`
 
 <code src='./demos/size.tsx' />
+<code src='./demos/size2.tsx' />
 
 ### 自定义图标和文本
 
@@ -146,5 +151,7 @@ export interface SliderCaptchaProps {
   showRefreshIcon?: boolean; // 显示右上角刷新图标
   jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
   errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
+  className?: string;
+  style?: CSSProperties;
 }
 ```
