@@ -1,3 +1,6 @@
+// className 前缀
+export const prefixCls = 'rc-slider-captcha';
+
 // 获取事件触发客户端坐标
 export function getClient(e: any) {
   let x = 0,
@@ -19,9 +22,11 @@ export function getClient(e: any) {
 }
 
 // 设置样式
-export function setStyle(el: HTMLElement | null, styleName: string, styleValue: string) {
+export function setStyle(el: HTMLElement | null, styleObj: Record<string, string> = {}) {
   if (el) {
-    el.style[styleName as any] = styleValue;
+    for (const prop in styleObj) {
+      el.style[prop as any] = styleObj[prop];
+    }
   }
 }
 

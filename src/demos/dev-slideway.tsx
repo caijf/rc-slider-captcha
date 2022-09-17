@@ -4,7 +4,7 @@
  */
 import * as React from 'react';
 import classnames from 'classnames';
-import { prefixCls } from '../config';
+import { prefixCls } from '../utils';
 import SliderButton from '../SliderButton';
 import SliderIcon from '../SliderIcon';
 import '../index.less';

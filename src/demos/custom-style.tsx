@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRepeat, EmojiFrownFill, EmojiSmileFill, Gem, Heart } from 'doly-icons';
 import SliderCaptcha from 'rc-slider-captcha';
 import { getCaptcha, verifyCaptcha } from './service1';
-import styles from './iconAndText.less';
+import styles from './custom-style.less';
 
 function Demo() {
   return (

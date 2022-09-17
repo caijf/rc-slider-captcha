@@ -45,33 +45,29 @@ sidemenu: false
 <code src='./demos/size.tsx' />
 <code src='./demos/size2.tsx' />
 
-### 自定义图标和文本
+### 自定义样式
 
-<code src='./demos/iconAndText.tsx' />
+<code src='./demos/custom-style.tsx' />
 
 ### 验证失败处理
 
-1. 验证失败不自动刷新
-2. 连续验证失败超过限制次数，需要手动点击刷新
+一、验证失败不自动刷新，需要手动点击刷新图标 或 手动调用刷新方法
 
-### 安全检测
+<code src='./demos/error.tsx' />
 
-如果对安全比较重视的，可以通过 `y` `duration` `trail` 等结合算法判断是否人为操作，防止一些非人为操作破解滑块验证码。
+二、连续验证失败超过限制次数，需要手动点击刷新
 
-`onVerify` 回调方法包含了以下参数：
+<code src='./demos/errors.tsx' />
 
-- `x` - 拼图移动距离
-- `y` - 按下鼠标到释放鼠标 `y` 轴的差值
-- `targetType` - 用户操作的是拼图还是按钮
-- `duration` - 操作时长
-- `trail` - 拖动轨迹
-- `errorCount` - 连续错误次数
+### 验证成功提示
 
-大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 `x 乘以 缩放比例`）。
+自定义拼图内容，验证成功后显示“多少秒完成，打败了多少用户”。
 
-### 自定义拼图内容
+<code src='./demos/custom-content.tsx' />
 
-多少秒内完成，超过多少用户。
+### 结合弹窗
+
+<code src='./demos/modal.tsx' />
 
 ## API
 
@@ -152,3 +148,18 @@ export interface SliderCaptchaProps {
   style?: CSSProperties;
 }
 ```
+
+## 安全检测
+
+如果对安全比较重视的，可以通过 `y` `duration` `trail` 等结合算法判断是否人为操作，防止一些非人为操作破解滑块验证码。
+
+`onVerify` 回调方法包含了以下参数：
+
+- `x` - 拼图移动距离
+- `y` - 按下鼠标到释放鼠标 `y` 轴的差值
+- `targetType` - 用户操作的是拼图还是按钮
+- `duration` - 操作时长
+- `trail` - 拖动轨迹
+- `errorCount` - 连续错误次数
+
+大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 `x 乘以 缩放比例`）。

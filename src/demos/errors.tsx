@@ -1,23 +1,20 @@
+/**
+ * title: 连续失败次数限制
+ * description: 当连续失败3次后，需要点击滑块控制条才能刷新。
+ */
 import React from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
-import { getCaptcha, verifyCaptcha } from './service3';
+import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
   return (
     <SliderCaptcha
-      mode="float"
       request={getCaptcha}
       onVerify={(data) => {
         console.log(data);
         return verifyCaptcha(data);
       }}
-      bgSize={{
-        width: 348,
-        height: 110,
-      }}
-      puzzleSize={{
-        width: 62,
-      }}
+      limitErrorCount={3}
     />
   );
 }

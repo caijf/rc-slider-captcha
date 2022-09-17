@@ -1,23 +1,20 @@
+/**
+ * title: 验证失败不自动刷新
+ * description: 设置 `autoRefreshOnError={false}` 。如果验证失败需要外部手动刷新 或 用户点击刷新图标。
+ */
 import React from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
-import { getCaptcha, verifyCaptcha } from './service3';
+import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
   return (
     <SliderCaptcha
-      mode="float"
       request={getCaptcha}
       onVerify={(data) => {
         console.log(data);
         return verifyCaptcha(data);
       }}
-      bgSize={{
-        width: 348,
-        height: 110,
-      }}
-      puzzleSize={{
-        width: 62,
-      }}
+      autoRefreshOnError={false}
     />
   );
 }

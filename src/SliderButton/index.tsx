@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
-import { prefixCls } from '../config';
+import { prefixCls } from '../utils';
+import '../style';
 import './index.less';
 
 const currentPrefixCls = `${prefixCls}-button`;

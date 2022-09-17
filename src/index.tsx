@@ -1,14 +1,13 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { prefixCls } from './config';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
-
-import './index.less';
 import useUpdate from './hooks/useUpdate';
 import useStateRef from './hooks/useStateRef';
-import { getClient, isBrowser, reflow, setStyle, isSupportTouch } from './utils';
+import { getClient, isBrowser, reflow, setStyle, isSupportTouch, prefixCls } from './utils';
+import './style';
+import './index.less';
 
 // TODO 更多示例、构建、测试
 
@@ -170,7 +169,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const trailRef = useRef([] as [number, number][]); // 移动轨迹
   const isPressedRef = useRef(false); // 标识是否按下
   const isMovedRef = useRef(false); // 标识是否移动过
-  const sliderButtonWidthRef = useRef(SliderBorderWidth); // 滑块按钮宽度
+  const sliderButtonWidthRef = useRef(SliderButtonWidth); // 滑块按钮宽度
 
   const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
   const floatDelayShowTimerRef = useRef<any>(null); // 触发式鼠标移入定时器
@@ -207,10 +206,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     clearTimeout(floatDelayHideTimerRef.current);
 
     floatDelayShowTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, 'display', 'block');
+      setStyle(panelRef.current, { display: 'block' });
       reflow(panelRef.current);
-      setStyle(panelRef.current, 'bottom', '42px');
-      setStyle(panelRef.current, 'opacity', '1');
+      setStyle(panelRef.current, { bottom: '42px', opacity: '1' });
     }, delay);
   };
 
@@ -222,10 +220,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     clearTimeout(floatDelayShowTimerRef.current);
     floatDelayHideTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, 'bottom', '22px');
-      setStyle(panelRef.current, 'opacity', '0');
+      setStyle(panelRef.current, { bottom: '22px', opacity: '0' });
       floatTransitionTimerRef.current = setTimeout(() => {
-        setStyle(panelRef.current, 'display', 'none');
+        setStyle(panelRef.current, { display: 'none' });
       }, 300);
     }, delay);
   };
@@ -236,9 +233,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     isMovedRef.current = false;
     setStatus(Status.Default);
 
-    setStyle(sliderButtonRef.current, 'left', '0px');
-    setStyle(indicatorRef.current, 'width', '0px');
-    setStyle(puzzleRef.current, 'left', puzzleSize.left + 'px');
+    setStyle(sliderButtonRef.current, { left: '0' });
+    setStyle(indicatorRef.current, { width: '0' });
+    setStyle(puzzleRef.current, { left: puzzleSize.left + 'px' });
   };
 
   // 刷新
@@ -347,21 +344,24 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       update();
     }
 
+    let puzzleLeft = diffX; // 拼图左偏移值
+    let sliderButtonLeft = diffX; // 滑块按钮左偏移值
+
     if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
       diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.puzzle));
-      const distance = diffX * ratioRef.current;
-
-      setStyle(sliderButtonRef.current, 'left', distance + 'px');
-      setStyle(indicatorRef.current, 'width', distance + sliderButtonWidthRef.current + 'px');
-      setStyle(puzzleRef.current, 'left', diffX + puzzleSize.left + 'px');
+      puzzleLeft = diffX + +puzzleSize.left;
+      sliderButtonLeft = diffX * ratioRef.current;
     } else {
       diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
-      const distance = diffX * ratioRef.current;
-
-      setStyle(sliderButtonRef.current, 'left', diffX + 'px');
-      setStyle(indicatorRef.current, 'width', diffX + sliderButtonWidthRef.current + 'px');
-      setStyle(puzzleRef.current, 'left', distance + puzzleSize.left + 'px');
+      sliderButtonLeft = diffX;
+      puzzleLeft = diffX * ratioRef.current + puzzleSize.left;
     }
+
+    setStyle(sliderButtonRef.current, { left: sliderButtonLeft + 'px' });
+    setStyle(indicatorRef.current, {
+      width: sliderButtonLeft + sliderButtonWidthRef.current + 'px',
+    });
+    setStyle(puzzleRef.current, { left: puzzleLeft + 'px' });
   };
 
   // 鼠标弹起 或 停止触摸
