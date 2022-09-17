@@ -348,7 +348,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
       diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.puzzle));
-      puzzleLeft = diffX + +puzzleSize.left;
+      puzzleLeft = diffX + puzzleSize.left;
       sliderButtonLeft = diffX * ratioRef.current;
     } else {
       diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
@@ -358,7 +358,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     setStyle(sliderButtonRef.current, { left: sliderButtonLeft + 'px' });
     setStyle(indicatorRef.current, {
-      width: sliderButtonLeft + sliderButtonWidthRef.current + 'px',
+      width: sliderButtonLeft + sliderButtonWidthRef.current + SliderBorderWidth + 'px',
     });
     setStyle(puzzleRef.current, { left: puzzleLeft + 'px' });
   };

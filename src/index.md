@@ -39,8 +39,6 @@ sidemenu: false
 
 ### 手动刷新
 
-嵌入式和触发式都适用。
-
 <code src='./demos/actionRef.tsx' />
 
 ### 自定义尺寸
