@@ -1,10 +1,16 @@
 import { defineConfig } from 'dumi';
 
+const publicPath = process.env.NODE_ENV === 'production' ? '/rc-slider-captcha/' : '/';
+
 export default defineConfig({
   title: 'rc-slider-captcha',
-  favicon:
-    'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
-  logo: 'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
+  history: {
+    type: 'hash',
+  },
+  hash: true,
+  publicPath,
+  favicon: 'https://www.caijinfeng.com/favicon.ico',
+  logo: 'https://www.caijinfeng.com/logo.png',
   outputPath: 'docs-dist',
   // more config: https://d.umijs.org/config
   esbuild: false,
@@ -18,6 +24,16 @@ export default defineConfig({
     imports: ['element-remove', 'core-js'],
   },
   headScripts: [
+    {
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-9R6Q9PDGBK',
+    },
+    {
+      content: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9R6Q9PDGBK');
+    `,
+    },
     {
       src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js',
     },

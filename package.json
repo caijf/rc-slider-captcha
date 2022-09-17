@@ -2,6 +2,12 @@
   "private": true,
   "name": "rc-slider-captcha",
   "version": "0.0.0",
+  "description": "React slider captcha component.",
+  "keywords": [
+    "react",
+    "component",
+    "slider-captcha"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -26,6 +32,16 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caijf/rc-slider-captcha.git"
+  },
+  "author": "caijf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caijf/rc-slider-captcha/issues"
+  },
+  "homepage": "https://github.com/caijf/rc-slider-captcha#readme",
   "dependencies": {
     "classnames": "^2.3.1"
   },

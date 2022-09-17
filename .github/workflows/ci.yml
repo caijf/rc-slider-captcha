@@ -1,0 +1,32 @@
+name: Build and Deploy Docs
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - docs/**
+      - src/**
+      - .umirc.ts
+      - .github/**
+      - package.json
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        with:
+          persist-credentials: false
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Build docs
+        run: yarn docs:build
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN_WORKFLOW }}
+          BRANCH: gh-pages
+          FOLDER: docs-dist

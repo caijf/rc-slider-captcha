@@ -4,14 +4,15 @@ sidemenu: false
 
 # rc-slider-captcha
 
-滑块验证码
+[![npm][npm]][npm-url] ![GitHub](https://img.shields.io/github/license/caijf/rc-slider-captcha.svg) [![GitHub Star][github-star]][github-url]
+
+react 滑块验证码组件。
 
 ## 特性
 
 - 简单易用
 - 适配 PC 和 移动端
 - 兼容 IE11 和现代浏览器
-- 灵活配置，适用各种场景
 - 使用 TypeScript 开发，提供完整的类型定义文件
 
 ## 代码演示
@@ -150,3 +151,8 @@ export enum Status {
 | --rcsc-border-color  | 边框色    | `#e4e7eb` |
 | --rcsc-bg-color      | 背景色    | `#f7f9fa` |
 | --rcsc-text-color    | 文本色    | `#45494c` |
+
+[npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg
+[npm-url]: https://npmjs.com/package/rc-slider-captcha
+[github-star]: https://img.shields.io/github/stars/caijf/rc-slider-captcha?style=social
+[github-url]: https://github.com/caijf/rc-slider-captcha
