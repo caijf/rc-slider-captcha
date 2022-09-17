@@ -2,9 +2,9 @@
  * title: 结合弹窗
  * description: 点击登录按钮显示滑块验证码弹窗，你可以在 `onVerify` 成功之后进行页面跳转或其他操作。
  */
-import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import SliderCaptcha from 'rc-slider-captcha';
+import React, { useState } from 'react';
 import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
@@ -21,9 +21,10 @@ function Demo() {
       <Modal
         open={open}
         onCancel={() => setOpen(false)}
-        footer={false}
-        width={368}
         title="安全验证"
+        width={368}
+        footer={false}
+        bodyStyle={{ padding: 20 }}
       >
         <SliderCaptcha
           request={getCaptcha}

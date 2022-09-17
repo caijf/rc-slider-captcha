@@ -26,7 +26,10 @@ export default defineConfig({
     },
   ],
   styles: [
-    `@media screen and (max-width: 400px){
+    `body .__dumi-default-navbar{
+      display: none;
+    }
+    @media screen and (max-width: 400px){
       body .__dumi-default-previewer-demo{
         padding: 40px 10px;
       }

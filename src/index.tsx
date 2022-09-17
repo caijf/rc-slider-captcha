@@ -512,19 +512,19 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
           <div
             className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
-            style={{ ...bgSize, ...(loading ? { display: 'none' } : {}) }}
+            style={{ ...bgSize, ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {}) }}
           >
             <img
               className={`${jigsawPrefixCls}-bg`}
               style={bgSize}
               src={jigsawImgs?.bgUrl}
-              alt="验证码背景"
+              alt=""
             />
             <img
               className={`${jigsawPrefixCls}-puzzle`}
               style={puzzleSize}
               src={jigsawImgs?.puzzleUrl}
-              alt="验证码滑块"
+              alt=""
               data-id={CurrentTargetType.Puzzle}
               ref={puzzleRef}
             />
