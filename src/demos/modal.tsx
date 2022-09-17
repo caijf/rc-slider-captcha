@@ -1,3 +1,7 @@
+/**
+ * title: 结合弹窗
+ * description: 点击登录按钮显示滑块验证码弹窗，你可以在 `onVerify` 成功之后进行页面跳转或其他操作。
+ */
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
 import SliderCaptcha from 'rc-slider-captcha';

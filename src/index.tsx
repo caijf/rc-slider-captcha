@@ -9,7 +9,7 @@ import { getClient, isBrowser, reflow, setStyle, isSupportTouch, prefixCls } fro
 import './style';
 import './index.less';
 
-// TODO 更多示例、构建、测试
+// TODO 构建、测试
 
 type TipTextType = {
   default: ReactNode;
