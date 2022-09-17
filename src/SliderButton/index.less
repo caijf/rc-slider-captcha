@@ -1,4 +1,4 @@
-@import '../style/config.less';
+@import '../style/index.less';
 
 .@{prefixCls}-button {
   display: inline-block;
@@ -27,7 +27,7 @@
   &-pc:hover,
   &:active {
     color: #fff;
-    background-color: var(--rcsc-primary);
+    background-color: @primary;
   }
   &-active,
   &:active {
@@ -43,7 +43,7 @@
   &-error:hover,
   &-error:active {
     color: #fff;
-    background-color: var(--rcsc-error);
+    background-color: @error;
     cursor: default;
   }
 
@@ -51,7 +51,7 @@
   &-success:hover,
   &-success:active {
     color: #fff;
-    background-color: var(--rcsc-success);
+    background-color: @success;
     cursor: default;
   }
 

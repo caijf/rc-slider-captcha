@@ -1,15 +1,14 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import useStateRef from './hooks/useStateRef';
+import useUpdate from './hooks/useUpdate';
+import './index.less';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
-import useUpdate from './hooks/useUpdate';
-import useStateRef from './hooks/useStateRef';
-import { getClient, isBrowser, reflow, setStyle, isSupportTouch, prefixCls } from './utils';
-import './style';
-import './index.less';
+import { getClient, isBrowser, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
 
-// TODO 构建、测试
+// TODO 测试
 
 type TipTextType = {
   default: ReactNode;

@@ -1,4 +1,4 @@
-@import '../style/config.less';
+@import '../style/index.less';
 
 .@{prefixCls}-loading {
   display: flex;
@@ -7,10 +7,10 @@
   justify-content: center;
   box-sizing: border-box;
   padding: 15px;
-  color: var(--rcsc-text-color);
+  color: @text-color;
   font-size: 14px;
   text-align: center;
-  background-color: var(--rcsc-bg-color);
+  background-color: @bg-color;
 
   &-icon {
     font-size: 30px;

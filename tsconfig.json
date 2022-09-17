@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES5",
+    "module": "ES2015",
     "moduleResolution": "node",
     "jsx": "react",
     "esModuleInterop": true,
     "types": ["jest"],
+    "lib": ["DOM", "ESNext"],
     "strict": true,
     "skipLibCheck": true,
-    "declaration": true
+    "declaration": true,
+    "importHelpers": true,
+    "downlevelIteration": true
   }
 }
