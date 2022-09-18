@@ -2,7 +2,7 @@
 
 [![npm][npm]][npm-url] ![GitHub](https://img.shields.io/github/license/caijf/rc-slider-captcha.svg)
 
-react 滑块验证码组件。
+React 滑块验证码组件。
 
 [查看示例][site]
 
