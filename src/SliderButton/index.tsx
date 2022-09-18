@@ -24,13 +24,13 @@ const SliderButton = React.forwardRef<HTMLSpanElement, SliderButtonProps>(
           [`${currentPrefixCls}-verify`]: verify,
           [`${currentPrefixCls}-success`]: success,
           [`${currentPrefixCls}-error`]: error,
-          [`${currentPrefixCls}-pc`]: !mobile,
+          [`${currentPrefixCls}-pc`]: !mobile
         })}
         ref={ref}
         {...restProps}
       />
     );
-  },
+  }
 );
 
 SliderButton.displayName = 'SliderButton';

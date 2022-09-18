@@ -1,18 +1,18 @@
 import React from 'react';
-import BaseIcon, { SliderIconBaseProps } from './SliderIconBase';
 import IconArrayRight from './IconArrowRight';
 import IconCheck from './IconCheck';
 import IconLoading from './IconLoading';
 import IconRefresh from './IconRefresh';
 import IconX from './IconX';
 import './index.less';
+import BaseIcon, { SliderIconBaseProps } from './SliderIconBase';
 
 const iconMap = {
   arrowRight: <IconArrayRight />,
   check: <IconCheck />,
   loading: <IconLoading />,
   refresh: <IconRefresh />,
-  x: <IconX />,
+  x: <IconX />
 };
 
 export interface SliderIconProps extends SliderIconBaseProps {

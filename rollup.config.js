@@ -11,12 +11,12 @@ export default {
     {
       file: 'dist/index.cjs.js',
       exports: 'named',
-      format: 'cjs',
+      format: 'cjs'
     },
     {
       file: 'dist/index.esm.js',
-      format: 'es',
-    },
+      format: 'es'
+    }
   ],
   external: ['react', 'classnames'],
   plugins: [
@@ -26,13 +26,13 @@ export default {
       include: ['src/**/*'],
       exclude: ['src/demos/**/*'],
       compilerOptions: {
-        declarationDir: 'dist',
-      },
+        declarationDir: 'dist'
+      }
     }),
     postcss({
       inject: true,
       extensions: ['.less'],
-      plugins: [autoprefixer, cssvariables({ preserve: true })],
-    }),
-  ],
+      plugins: [autoprefixer, cssvariables({ preserve: true })]
+    })
+  ]
 };

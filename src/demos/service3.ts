@@ -6,7 +6,7 @@ export const getCaptcha = async () => {
   await waitTime();
   return {
     bgUrl: ImageBg,
-    puzzleUrl: ImagePuzzle,
+    puzzleUrl: ImagePuzzle
   };
 };
 

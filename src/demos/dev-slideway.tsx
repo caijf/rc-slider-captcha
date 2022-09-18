@@ -2,12 +2,12 @@
  * debug: true
  * title: 滑轨
  */
-import * as React from 'react';
 import classnames from 'classnames';
-import { prefixCls } from '../utils';
+import * as React from 'react';
+import '../index.less';
 import SliderButton from '../SliderButton';
 import SliderIcon from '../SliderIcon';
-import '../index.less';
+import { prefixCls } from '../utils';
 
 const currentPrefixCls = `${prefixCls}-control`;
 

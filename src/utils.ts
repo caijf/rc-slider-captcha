@@ -17,7 +17,7 @@ export function getClient(e: any) {
   }
   return {
     clientX: x,
-    clientY: y,
+    clientY: y
   };
 }
 

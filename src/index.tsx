@@ -38,7 +38,7 @@ type JigsawImages = {
 
 enum CurrentTargetType {
   Puzzle = 'puzzle',
-  Button = 'button',
+  Button = 'button'
 }
 
 type VerifyParam = {
@@ -56,7 +56,7 @@ export enum Status {
   Loading,
   Verify,
   Success,
-  Error,
+  Error
 }
 
 // 常用操作
@@ -96,11 +96,11 @@ const SliderBorderWidth = 2; // 滑块边框宽度
 const defaultConfig = {
   bgSize: {
     width: 320,
-    height: 160,
+    height: 160
   },
   puzzleSize: {
     width: 60,
-    left: 0,
+    left: 0
   },
   tipText: {
     default: '向右拖动滑块填充拼图',
@@ -109,15 +109,15 @@ const defaultConfig = {
       <>
         <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
       </>
-    ),
+    )
   } as TipTextType,
   tipIcon: {
     default: <SliderIcon type="arrowRight" />,
     loading: <SliderIcon type="loading" spin />,
     error: <SliderIcon type="x" />,
     success: <SliderIcon type="check" />,
-    refresh: <SliderIcon type="refresh" />,
-  } as TipIconType,
+    refresh: <SliderIcon type="refresh" />
+  } as TipIconType
 };
 
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
@@ -138,7 +138,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   loadingBoxProps,
   sliderButtonProps,
   className,
-  style,
+  style
 }) => {
   const [jigsawImgs, setJigsawImgs] = useState<JigsawImages>();
   const [status, setStatus] = useState<Status>(Status.Default);
@@ -159,7 +159,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
   const puzzleSize = useMemo(
     () => ({ ...defaultConfig.puzzleSize, ...outPuzzleSize }),
-    [outPuzzleSize],
+    [outPuzzleSize]
   );
 
   const currentTargetTypeRef = useRef<CurrentTargetType>(CurrentTargetType.Button); // 当前触发事件的节点，拼图或按钮
@@ -303,7 +303,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       startInfoRef.current = {
         x: clientX,
         y: clientY,
-        timestamp: new Date().getTime(),
+        timestamp: new Date().getTime()
       };
       trailRef.current = [[startInfoRef.current.x, startInfoRef.current.y]];
 
@@ -358,7 +358,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     setStyle(sliderButtonRef.current, { left: sliderButtonLeft + 'px' });
     setStyle(indicatorRef.current, {
-      width: sliderButtonLeft + sliderButtonWidthRef.current + SliderBorderWidth + 'px',
+      width: sliderButtonLeft + sliderButtonWidthRef.current + SliderBorderWidth + 'px'
     });
     setStyle(puzzleRef.current, { left: puzzleLeft + 'px' });
   };
@@ -399,7 +399,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         duration: endTimestamp - startInfoRef.current.timestamp,
         trail: trailRef.current,
         targetType: currentTargetTypeRef.current,
-        errorCount: errorCountRef.current,
+        errorCount: errorCountRef.current
       })
         .then(() => {
           errorCountRef.current = 0;
@@ -437,12 +437,12 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       ? {
           start: 'touchstart',
           move: 'touchmove',
-          end: 'touchend',
+          end: 'touchend'
         }
       : {
           start: 'mousedown',
           move: 'mousemove',
-          end: 'mouseup',
+          end: 'mouseup'
         };
 
     if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
@@ -502,7 +502,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     refresh,
     get status() {
       return statusRef.current;
-    },
+    }
   }));
 
   return (
@@ -535,8 +535,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
             {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
               <div
                 className={classnames(`${jigsawPrefixCls}-refresh`, {
-                  [`${jigsawPrefixCls}-refresh-disabled`]:
-                    status === Status.Verify || isLimitErrors,
+                  [`${jigsawPrefixCls}-refresh-disabled`]: status === Status.Verify || isLimitErrors
                 })}
                 onClick={handleClickRefreshIcon}
               >
@@ -550,7 +549,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
             style={{
               ...loadingBoxProps?.style,
               ...bgSize,
-              ...(loading ? {} : { display: 'none' }),
+              ...(loading ? {} : { display: 'none' })
             }}
           />
         </div>
@@ -562,7 +561,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           [`${controlPrefixCls}-verify`]: status === Status.Verify,
           [`${controlPrefixCls}-success`]: status === Status.Success,
           [`${controlPrefixCls}-error`]: status === Status.Error && !isLimitErrors,
-          [`${controlPrefixCls}-errors`]: isLimitErrors,
+          [`${controlPrefixCls}-errors`]: isLimitErrors
         })}
         onClick={handleClickControl}
       >

@@ -36,7 +36,7 @@ const Demo = () => {
       request={async () => {
         return {
           bgUrl: 'background image url',
-          puzzleUrl: 'puzzle image url',
+          puzzleUrl: 'puzzle image url'
         };
       }}
       onVerify={async (data) => {
@@ -107,7 +107,7 @@ export enum Status {
   Loading, // 加载中
   Verify, // 验证中
   Success, // 验证成功
-  Error, // 验证失败
+  Error // 验证失败
 }
 ```
 

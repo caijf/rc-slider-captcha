@@ -5,7 +5,7 @@ const publicPath = process.env.NODE_ENV === 'production' ? '/rc-slider-captcha/'
 export default defineConfig({
   title: 'rc-slider-captcha',
   history: {
-    type: 'hash',
+    type: 'hash'
   },
   hash: true,
   publicPath,
@@ -15,31 +15,31 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   esbuild: false,
   nodeModulesTransform: {
-    type: 'all',
+    type: 'all'
   },
   targets: {
-    ie: 11,
+    ie: 11
   },
   polyfill: {
-    imports: ['element-remove', 'core-js'],
+    imports: ['element-remove', 'core-js']
   },
   headScripts: [
     {
-      src: 'https://www.googletagmanager.com/gtag/js?id=G-9R6Q9PDGBK',
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-9R6Q9PDGBK'
     },
     {
       content: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-9R6Q9PDGBK');
-    `,
+    `
     },
     {
-      src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js',
+      src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js'
     },
     {
-      content: 'var vConsole = new window.VConsole();',
-    },
+      content: 'var vConsole = new window.VConsole();'
+    }
   ],
   styles: [
     `body .__dumi-default-navbar{
@@ -49,7 +49,7 @@ gtag('config', 'G-9R6Q9PDGBK');
       body .__dumi-default-previewer-demo{
         padding: 40px 10px;
       }
-    }`,
+    }`
   ],
   extraBabelPlugins: [
     [
@@ -57,8 +57,8 @@ gtag('config', 'G-9R6Q9PDGBK');
       {
         libraryName: 'antd',
         libraryDirectory: 'es',
-        style: true,
-      },
-    ],
-  ],
+        style: true
+      }
+    ]
+  ]
 });

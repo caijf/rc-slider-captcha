@@ -2,8 +2,8 @@
  * title: 基础用法
  * description:  回调方法 `onVerify` 的参数一般情况下只需要用到 `x` 。
  */
-import React from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
+import React from 'react';
 import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {

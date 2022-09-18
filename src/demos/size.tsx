@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
+import React, { useState } from 'react';
 import { getCaptcha, verifyCaptcha } from './service2';
 
 function Demo() {
@@ -19,12 +19,12 @@ function Demo() {
       }}
       bgSize={{
         width: 310,
-        height: 110,
+        height: 110
       }}
       puzzleSize={{
         width: 55,
         height: 45,
-        top,
+        top
       }}
     />
   );

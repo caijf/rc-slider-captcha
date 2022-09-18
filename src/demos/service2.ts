@@ -7,7 +7,7 @@ export const getCaptcha = async () => {
   return {
     bgUrl: ImageBg,
     puzzleUrl: ImagePuzzle,
-    y: 31,
+    y: 31
   };
 };
 

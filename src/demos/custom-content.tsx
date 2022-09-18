@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import SliderCaptcha from 'rc-slider-captcha';
-import { getCaptcha, verifyCaptcha } from './service1';
+import React, { useState } from 'react';
 import styles from './custom-content.less';
+import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
   const [visible, setVisible] = useState(false);
