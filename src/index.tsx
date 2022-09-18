@@ -152,7 +152,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
-  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), []); // 模式
+  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), [outMode]); // 模式
   const modeRef = useStateRef<typeof mode>(mode); // 提供给事件方法使用
   const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
   const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
@@ -453,13 +453,16 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
       return () => {
         if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           sliderButtonRef.current.removeEventListener(events.start, touchstart);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           puzzleRef.current.removeEventListener(events.start, touchstart);
           document.removeEventListener(events.move, touchmove);
           document.removeEventListener(events.end, touchend);
         }
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loading = status === Status.Loading; // 加载中
@@ -477,6 +480,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return tipText.errors;
     }
     return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, tipText, isMovedRef.current, isLimitErrors]);
 
   // 当前提示图标

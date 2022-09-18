@@ -2,7 +2,7 @@ import React from 'react';
 
 const IconLoading: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   return (
-    <svg viewBox="0 0 120 120" width="1em" height="1em">
+    <svg viewBox="0 0 120 120" width="1em" height="1em" {...props}>
       <defs>
         <line
           id="l"
