@@ -20,6 +20,8 @@
     "build": "rm -rf dist && rollup -c",
     "lint:js": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint-fix:js": "npm run lint:js -- --fix",
+    "lint:style": "stylelint src/**/*.less",
+    "lint-fix:style": "npm run lint:stylelint -- --fix",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "prepublishOnly": "npm run build"
   },
@@ -79,6 +81,13 @@
     "rollup": "^2.79.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
+    "stylelint": "^14.11.0",
+    "stylelint-config-css-modules": "^4.1.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^28.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
+    "stylelint-no-unsupported-browser-features": "^5.0.4",
     "tslib": "^2.4.0",
     "util-helpers": "^4.12.7",
     "yorkie": "^2.0.0"
