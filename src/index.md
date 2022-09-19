@@ -153,6 +153,8 @@ export enum Status {
 | --rcsc-bg-color      | 背景色    | `#f7f9fa` |
 | --rcsc-text-color    | 文本色    | `#45494c` |
 
+> \* 注意 IE11 不支持 css 变量，如果你的项目需要兼容 IE11，尽量不使用 css 变量改变样式。
+
 [npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg
 [npm-url]: https://npmjs.com/package/rc-slider-captcha
 [github-star]: https://img.shields.io/github/stars/caijf/rc-slider-captcha?style=social
