@@ -450,6 +450,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       puzzleRef.current.addEventListener(events.start, touchstart);
       document.addEventListener(events.move, touchmove);
       document.addEventListener(events.end, touchend);
+      document.addEventListener('touchcancel', touchend);
 
       return () => {
         if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
@@ -459,6 +460,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           puzzleRef.current.removeEventListener(events.start, touchstart);
           document.removeEventListener(events.move, touchmove);
           document.removeEventListener(events.end, touchend);
+          document.removeEventListener('touchcancel', touchend);
         }
       };
     }
