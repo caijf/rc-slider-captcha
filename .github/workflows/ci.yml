@@ -20,6 +20,8 @@ jobs:
           persist-credentials: false
       - name: Install
         run: yarn install
+      - name: Test
+        run: yarn test
       - name: Build
         run: yarn build
       - name: Build docs
