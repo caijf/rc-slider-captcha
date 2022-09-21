@@ -24,7 +24,7 @@
     "lint:style": "stylelint src/**/*.less",
     "lint-fix:style": "npm run lint:stylelint -- --fix",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "prepublishOnly": "npm test && npm run build",
+    "prepublishOnly": "npm run build && npm test",
     "commit": "cz"
   },
   "config": {
