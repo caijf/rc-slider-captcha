@@ -84,7 +84,7 @@ type VerifyParam = {
   y: number; // y 轴移动值（按下鼠标到释放鼠标 y 轴的差值）
   duration: number; // 操作持续时长
   trail: [number, number][]; // 移动轨迹
-  targetType: CurrentTargetType; // 操作dom目标 puzzle-拼图 button-滑块按钮
+  targetType: 'puzzle' | 'button'; // 操作dom目标 puzzle-拼图 button-滑块按钮
   errorCount: number; // 连续错误次数
 };
 ```
