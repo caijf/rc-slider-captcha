@@ -153,12 +153,20 @@
 
   &-float &-panel {
     position: absolute;
-    bottom: 22px;
     left: 0;
     display: none;
     opacity: 0;
     transition-timing-function: ease-out;
     transition-duration: 0.3s;
-    transition-property: bottom, opacity;
+    transition-property: top, bottom, opacity;
+  }
+
+  &-float-top &-panel {
+    bottom: 22px;
+  }
+
+  &-float-bottom &-panel {
+    top: 22px;
+    padding: 15px 0 0;
   }
 }

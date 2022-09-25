@@ -221,7 +221,7 @@ exports[`snapshot render default, float mode, refresh icon, other 1`] = `
 
 exports[`snapshot render default, float mode, refresh icon, other 2`] = `
 <div
-  className="rc-slider-captcha rc-slider-captcha-float"
+  className="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-top"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
   style={

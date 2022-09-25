@@ -70,6 +70,7 @@ const Demo = () => {
 | autoRequest | 自动发起请求 | `boolean` | `true` |
 | autoRefreshOnError | 验证失败后自动刷新 | `boolean` | `true` |
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
+| placement | 浮层位置，触发式下生效 | `'top' \| 'bottom'` | `'top'` |
 | className | 类名 | `string` | - |
 | style | 样式 | `CSSProperties` | - |
 

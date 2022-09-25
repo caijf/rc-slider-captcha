@@ -90,6 +90,7 @@
     "postcss": "^8.4.16",
     "postcss-css-variables": "^0.18.0",
     "prettier": "^2.7.1",
+    "prettier-plugin-two-style-order": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",

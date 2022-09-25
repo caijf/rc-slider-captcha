@@ -8,8 +8,6 @@ import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
 import { getClient, isBrowser, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
 
-// TODO 测试
-
 type TipTextType = {
   default: ReactNode;
   loading: ReactNode;
@@ -80,6 +78,7 @@ export interface SliderCaptchaProps {
   showRefreshIcon?: boolean; // 显示右上角刷新图标
   jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
   errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
+  placement?: 'top' | 'bottom'; // 触发式的浮层位置
   loadingBoxProps?: LoadingBoxProps;
   sliderButtonProps?: SliderButtonProps;
   className?: string;
@@ -135,6 +134,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   showRefreshIcon = true,
   jigsawContent,
   errorHoldDuration = 500,
+  placement = 'top',
   loadingBoxProps,
   sliderButtonProps,
   className,
@@ -161,6 +161,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     () => ({ ...defaultConfig.puzzleSize, ...outPuzzleSize }),
     [outPuzzleSize]
   );
+  const placementPos = useMemo(() => (placement === 'bottom' ? 'top' : 'bottom'), [placement]);
 
   const currentTargetTypeRef = useRef<CurrentTargetType>(CurrentTargetType.Button); // 当前触发事件的节点，拼图或按钮
   const errorCountRef = useRef(0); // 连续错误次数
@@ -207,7 +208,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     floatDelayShowTimerRef.current = setTimeout(() => {
       setStyle(panelRef.current, { display: 'block' });
       reflow(panelRef.current);
-      setStyle(panelRef.current, { bottom: '42px', opacity: '1' });
+      setStyle(panelRef.current, { [placementPos]: '42px', opacity: '1' });
     }, delay);
   };
 
@@ -219,7 +220,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     clearTimeout(floatDelayShowTimerRef.current);
     floatDelayHideTimerRef.current = setTimeout(() => {
-      setStyle(panelRef.current, { bottom: '22px', opacity: '0' });
+      setStyle(panelRef.current, { [placementPos]: '22px', opacity: '0' });
       floatTransitionTimerRef.current = setTimeout(() => {
         setStyle(panelRef.current, { display: 'none' });
       }, 300);
@@ -509,7 +510,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   return (
     <div
-      className={classnames(prefixCls, className, `${prefixCls}-${mode}`)}
+      className={classnames(prefixCls, className, `${prefixCls}-${mode}`, {
+        [`${prefixCls}-${mode}-${placement}`]: mode === 'float'
+      })}
       style={{ width: bgSize.width, ...style }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
