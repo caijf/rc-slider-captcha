@@ -1,5 +1,6 @@
 import classnames from 'classnames';
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
+import useSafeState from './hooks/useSafeState';
 import useStateRef from './hooks/useStateRef';
 import useUpdate from './hooks/useUpdate';
 import './index.less';
@@ -140,8 +141,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   className,
   style
 }) => {
-  const [jigsawImgs, setJigsawImgs] = useState<JigsawImages>();
-  const [status, setStatus] = useState<Status>(Status.Default);
+  const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
+  const [status, setStatus] = useSafeState<Status>(Status.Default);
   const statusRef = useStateRef(status); // 同步status值，提供给事件方法使用
   const update = useUpdate(); // 触发组件渲染
 
