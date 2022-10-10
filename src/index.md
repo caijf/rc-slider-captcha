@@ -110,6 +110,7 @@ React 滑块验证码组件。
 type VerifyParam = {
   x: number; // 拼图 x 轴移动值（拼图和滑块按钮可移动距离不一样，这里的移动距离是计算后的拼图移动距离。）
   y: number; // y 轴移动值（按下鼠标到释放鼠标 y 轴的差值）
+  sliderOffsetX: number; // 滑块 x 轴偏移值（暂时没有什么场景会用到）
   duration: number; // 操作持续时长
   trail: [number, number][]; // 移动轨迹
   targetType: 'puzzle' | 'button'; // 操作dom目标 puzzle-拼图 button-滑块按钮

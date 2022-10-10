@@ -43,6 +43,7 @@ enum CurrentTargetType {
 type VerifyParam = {
   x: number; // 拼图 x轴移动值
   y: number; // y 轴移动值
+  sliderOffsetX: number; // 滑块 x轴偏移值
   duration: number; // 操作持续时长
   trail: [number, number][]; // 移动轨迹
   targetType: CurrentTargetType; // 操作dom目标
@@ -387,17 +388,22 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       const { clientX, clientY } = getClient(e);
 
       const diffY = clientY - startInfoRef.current.y;
-      let diffX = clientX - startInfoRef.current.x; // 移动距离
+      let diffX = clientX - startInfoRef.current.x; // 拼图移动距离
+      let sliderOffsetX = diffX; // 滑块偏移值
+
       if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
         diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.puzzle));
+        sliderOffsetX = diffX * ratioRef.current;
       } else {
         diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
+        sliderOffsetX = diffX;
         diffX *= ratioRef.current;
       }
 
       onVerify({
         x: diffX,
         y: diffY,
+        sliderOffsetX,
         duration: endTimestamp - startInfoRef.current.timestamp,
         trail: trailRef.current,
         targetType: currentTargetTypeRef.current,
