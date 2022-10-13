@@ -25,7 +25,8 @@
     "lint-fix:style": "npm run lint:stylelint -- --fix",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "prepublishOnly": "npm run build && npm test",
-    "commit": "cz"
+    "commit": "cz",
+    "tsc": "tsc --noEmit"
   },
   "config": {
     "commitizen": {
