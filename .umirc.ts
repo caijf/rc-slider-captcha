@@ -1,6 +1,7 @@
 import { defineConfig } from 'dumi';
 
-const publicPath = process.env.NODE_ENV === 'production' ? '/rc-slider-captcha/' : '/';
+const isDev = process.env.NODE_ENV === 'development';
+const publicPath = !isDev ? '/rc-slider-captcha/' : '/';
 
 export default defineConfig({
   title: 'rc-slider-captcha',
@@ -15,7 +16,7 @@ export default defineConfig({
   // more config: https://d.umijs.org/config
   esbuild: false,
   nodeModulesTransform: {
-    type: 'all'
+    type: isDev ? 'none' : 'all'
   },
   targets: {
     ie: 11
