@@ -1,8 +1,6 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
-import useSafeState from './hooks/useSafeState';
-import useStateRef from './hooks/useStateRef';
-import useUpdate from './hooks/useUpdate';
+import { useUpdate, useSafeState, useLatest } from 'rc-hooks';
 import './index.less';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
@@ -144,7 +142,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 }) => {
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
   const [status, setStatus] = useSafeState<Status>(Status.Default);
-  const statusRef = useStateRef(status); // 同步status值，提供给事件方法使用
+  const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
   const update = useUpdate(); // 触发组件渲染
 
   // dom ref
@@ -155,7 +153,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // config
   const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), [outMode]); // 模式
-  const modeRef = useStateRef<typeof mode>(mode); // 提供给事件方法使用
+  const latestMode = useLatest<typeof mode>(mode); // 提供给事件方法使用
   const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
   const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
@@ -178,7 +176,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const floatDelayHideTimerRef = useRef<any>(null); // 触发式鼠标移出定时器
   const refreshTimerRef = useRef<any>(null); // 自动刷新的定时器
   const isLimitErrors =
-    statusRef.current === Status.Error &&
+    latestStatus.current === Status.Error &&
     limitErrorCount > 0 &&
     errorCountRef.current >= limitErrorCount; // 是否超过限制错误次数
 
@@ -200,7 +198,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 触发式下，显示面板
   const showPanel = (delay = 300) => {
-    if (modeRef.current !== 'float' || statusRef.current === Status.Success) {
+    if (latestMode.current !== 'float' || latestStatus.current === Status.Success) {
       return;
     }
 
@@ -216,7 +214,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 触发式下，隐藏面板
   const hidePanel = (delay = 300) => {
-    if (modeRef.current !== 'float') {
+    if (latestMode.current !== 'float') {
       return;
     }
 
@@ -251,7 +249,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     clearTimeout(refreshTimerRef.current);
 
     // 防止连续调用刷新方法，会触发多次请求的问题
-    if (statusRef.current === Status.Loading) {
+    if (latestStatus.current === Status.Loading) {
       return;
     }
 
@@ -291,7 +289,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 鼠标按下或触摸开始
   const touchstart = (e: any) => {
-    if (statusRef.current !== Status.Default) {
+    if (latestStatus.current !== Status.Default) {
       return;
     }
 
@@ -511,7 +509,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   React.useImperativeHandle(actionRef, () => ({
     refresh,
     get status() {
-      return statusRef.current;
+      return latestStatus.current;
     }
   }));
 

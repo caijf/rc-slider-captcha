@@ -18,7 +18,7 @@ export default {
       format: 'es'
     }
   ],
-  external: ['react', 'classnames'],
+  external: ['react', 'rc-hooks', 'classnames'],
   plugins: [
     nodeResolve(),
     commonjs(),

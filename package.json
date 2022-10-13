@@ -52,7 +52,8 @@
   },
   "homepage": "https://github.com/caijf/rc-slider-captcha#readme",
   "dependencies": {
-    "classnames": "^2.3.1"
+    "classnames": "^2.3.1",
+    "rc-hooks": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
