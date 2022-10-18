@@ -11,6 +11,7 @@
 /es
 /dist
 /docs-dist
+/types
 
 # misc
 .DS_Store

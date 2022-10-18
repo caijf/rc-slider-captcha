@@ -18,16 +18,13 @@ export default {
       format: 'es'
     }
   ],
-  external: ['react', 'rc-hooks', 'classnames'],
+  external: ['react', 'rc-hooks', 'classnames', 'tslib'],
   plugins: [
     nodeResolve(),
     commonjs(),
     typescript({
       include: ['src/**/*'],
-      exclude: ['src/demos/**/*'],
-      compilerOptions: {
-        declarationDir: 'dist'
-      }
+      exclude: ['src/demos/**/*']
     }),
     postcss({
       inject: true,

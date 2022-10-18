@@ -9,15 +9,17 @@
   ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "types": "types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "scripts": {
     "test": "jest",
     "start": "dumi dev",
     "docs:build": "dumi build",
-    "build": "rm -rf dist && rollup -c",
+    "build": "rm -rf dist && rollup -c && npm run build:types",
+    "build:types": "rm -rf types && tsc -p tsconfig.types.json",
     "lint": "npm run lint:js && npm run lint:style",
     "lint:js": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint-fix:js": "npm run lint:js -- --fix",
@@ -54,7 +56,8 @@
   "homepage": "https://github.com/caijf/rc-slider-captcha#readme",
   "dependencies": {
     "classnames": "^2.3.1",
-    "rc-hooks": "^2.3.0"
+    "rc-hooks": "^2.3.0",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -106,7 +109,6 @@
     "stylelint-config-standard": "^28.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
     "stylelint-no-unsupported-browser-features": "^5.0.4",
-    "tslib": "^2.4.0",
     "typescript": "^4.8.3",
     "util-helpers": "^4.12.7",
     "yorkie": "^2.0.0"
