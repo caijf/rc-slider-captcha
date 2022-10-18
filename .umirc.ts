@@ -14,7 +14,6 @@ export default defineConfig({
   logo: 'https://www.caijinfeng.com/logo.png',
   outputPath: 'docs-dist',
   // more config: https://d.umijs.org/config
-  esbuild: isDev,
   nodeModulesTransform: {
     type: isDev ? 'none' : 'all'
   },
