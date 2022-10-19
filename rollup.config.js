@@ -24,7 +24,7 @@ export default {
     commonjs(),
     typescript({
       include: ['src/**/*'],
-      exclude: ['src/demos/**/*']
+      exclude: ['src/demos/**/*', '.umi/**/*', '.umi*/**/*']
     }),
     postcss({
       inject: true,
