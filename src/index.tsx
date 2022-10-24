@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
-import { useUpdate, useSafeState, useLatest } from 'rc-hooks';
+import { useSafeState, useLatest } from 'rc-hooks';
 import './index.less';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
@@ -33,12 +33,12 @@ type JigsawImages = {
   puzzleUrl: string; // 拼图
 };
 
-enum CurrentTargetType {
+export enum CurrentTargetType {
   Puzzle = 'puzzle',
   Button = 'button'
 }
 
-type VerifyParam = {
+export type VerifyParam = {
   x: number; // 拼图 x轴移动值
   y: number; // y 轴移动值
   sliderOffsetX: number; // 滑块 x轴偏移值
@@ -52,6 +52,7 @@ type VerifyParam = {
 export enum Status {
   Default = 1,
   Loading,
+  Moving,
   Verify,
   Success,
   Error
@@ -143,7 +144,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
   const [status, setStatus] = useSafeState<Status>(Status.Default);
   const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
-  const update = useUpdate(); // 触发组件渲染
 
   // dom ref
   const sliderButtonRef = useRef<HTMLSpanElement>(null);
@@ -168,7 +168,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const startInfoRef = useRef({ x: 0, y: 0, timestamp: 0 }); // 鼠标按下或触摸开始信息
   const trailRef = useRef([] as [number, number][]); // 移动轨迹
   const isPressedRef = useRef(false); // 标识是否按下
-  const isMovedRef = useRef(false); // 标识是否移动过
   const sliderButtonWidthRef = useRef(SliderButtonWidth); // 滑块按钮宽度
 
   const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
@@ -204,6 +203,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     clearTimeout(floatTransitionTimerRef.current);
     clearTimeout(floatDelayHideTimerRef.current);
+    clearTimeout(floatDelayShowTimerRef.current);
 
     floatDelayShowTimerRef.current = setTimeout(() => {
       setStyle(panelRef.current, { display: 'block' });
@@ -218,7 +218,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
+    clearTimeout(floatTransitionTimerRef.current);
+    clearTimeout(floatDelayHideTimerRef.current);
     clearTimeout(floatDelayShowTimerRef.current);
+
     floatDelayHideTimerRef.current = setTimeout(() => {
       setStyle(panelRef.current, { [placementPos]: '22px', opacity: '0' });
       floatTransitionTimerRef.current = setTimeout(() => {
@@ -230,7 +233,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   // 重置状态和元素位置
   const reset = () => {
     isPressedRef.current = false;
-    isMovedRef.current = false;
+    // isMovedRef.current = false;
     setStatus(Status.Default);
 
     setStyle(sliderButtonRef.current, { left: '0' });
@@ -339,9 +342,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     let diffX = clientX - startInfoRef.current.x; // 移动距离
     trailRef.current.push([clientX, clientY]); // 记录移动轨迹
 
-    if (!isMovedRef.current && diffX > 0) {
-      isMovedRef.current = true;
-      update();
+    if (latestStatus.current !== Status.Moving && diffX > 0) {
+      setStatus(Status.Moving);
     }
 
     let puzzleLeft = diffX; // 拼图左偏移值
@@ -366,20 +368,25 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 鼠标弹起 或 停止触摸
   const touchend = (e: any) => {
-    const isTouchEvent = e.type === 'touchend'; // 是否为移动端事件
+    if (!isPressedRef.current) {
+      return;
+    }
 
-    if (!isPressedRef.current || !isMovedRef.current) {
-      if (isTouchEvent && isPressedRef.current) {
+    // 是否为移动端事件
+    const isTouchEvent = e.type === 'touchend';
+
+    if (latestStatus.current !== Status.Moving) {
+      isPressedRef.current = false;
+
+      // 如果是移动端事件，并且是触发式，隐藏浮层
+      if (isTouchEvent) {
         hidePanel();
       }
-      isPressedRef.current = false;
-      isMovedRef.current = false;
       return;
     }
 
     if (onVerify) {
       isPressedRef.current = false;
-      isMovedRef.current = false;
       setStatus(Status.Verify);
 
       const endTimestamp = new Date().getTime();
@@ -478,7 +485,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 当前提示文本
   const currentTipText = useMemo(() => {
-    if (status === Status.Default && !isMovedRef.current) {
+    if (status === Status.Default) {
       return tipText.default;
     }
     if (status === Status.Loading) {
@@ -488,8 +495,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return tipText.errors;
     }
     return null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, tipText, isMovedRef.current, isLimitErrors]);
+  }, [status, tipText, isLimitErrors]);
 
   // 当前提示图标
   const currentTipIcon = useMemo(() => {
@@ -567,10 +573,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       <div
         className={classnames(controlPrefixCls, {
           [`${controlPrefixCls}-loading`]: loading,
-          [`${controlPrefixCls}-moving`]: isMovedRef.current && !isLimitErrors,
+          [`${controlPrefixCls}-moving`]: status === Status.Moving,
           [`${controlPrefixCls}-verify`]: status === Status.Verify,
           [`${controlPrefixCls}-success`]: status === Status.Success,
-          [`${controlPrefixCls}-error`]: status === Status.Error && !isLimitErrors,
+          [`${controlPrefixCls}-error`]: status === Status.Error,
           [`${controlPrefixCls}-errors`]: isLimitErrors
         })}
         onClick={handleClickControl}
@@ -580,7 +586,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           {...sliderButtonProps}
           className={classnames(`${controlPrefixCls}-button`, sliderButtonProps?.className)}
           disabled={loading}
-          active={isMovedRef.current}
+          active={status === Status.Moving}
           verify={status === Status.Verify}
           success={status === Status.Success}
           error={status === Status.Error}

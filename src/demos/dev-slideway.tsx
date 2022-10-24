@@ -32,7 +32,7 @@ const Demo = () => {
       <br />
       <div className={classnames(currentPrefixCls, `${currentPrefixCls}-moving`)}>
         <div className={classnames(`${currentPrefixCls}-indicator`)} style={{ width: '90px' }} />
-        <SliderButton className={`${currentPrefixCls}-button`} active style={{ left: '50px' }}>
+        <SliderButton className={`${currentPrefixCls}-button`} active style={{ left: '48px' }}>
           <SliderIcon type="arrowRight" />
         </SliderButton>
         <div className={classnames(`${currentPrefixCls}-tips`)}></div>
@@ -40,7 +40,7 @@ const Demo = () => {
       <br />
       <div className={classnames(currentPrefixCls, `${currentPrefixCls}-verify`)}>
         <div className={classnames(`${currentPrefixCls}-indicator`)} style={{ width: '200px' }} />
-        <SliderButton className={`${currentPrefixCls}-button`} verify style={{ left: '160px' }}>
+        <SliderButton className={`${currentPrefixCls}-button`} verify style={{ left: '158px' }}>
           <SliderIcon type="loading" spin />
         </SliderButton>
         <div className={classnames(`${currentPrefixCls}-tips`)}></div>
@@ -52,7 +52,7 @@ const Demo = () => {
           className={`${currentPrefixCls}-button`}
           active
           success
-          style={{ left: '160px' }}
+          style={{ left: '158px' }}
         >
           <SliderIcon type="check" />
         </SliderButton>
@@ -65,14 +65,20 @@ const Demo = () => {
           className={`${currentPrefixCls}-button`}
           active
           error
-          style={{ left: '50px' }}
+          style={{ left: '48px' }}
         >
           <SliderIcon type="x" />
         </SliderButton>
         <div className={classnames(`${currentPrefixCls}-tips`)}></div>
       </div>
       <br />
-      <div className={classnames(currentPrefixCls, `${currentPrefixCls}-errors`)}>
+      <div
+        className={classnames(
+          currentPrefixCls,
+          `${currentPrefixCls}-error`,
+          `${currentPrefixCls}-errors`
+        )}
+      >
         <div className={classnames(`${currentPrefixCls}-indicator`)} />
         <SliderButton className={`${currentPrefixCls}-button`}>
           <SliderIcon type="arrowRight" />

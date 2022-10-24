@@ -135,6 +135,7 @@ export type ActionType = {
 export enum Status {
   Default = 1, // 默认
   Loading, // 加载中
+  Moving, // 移动中
   Verify, // 验证中
   Success, // 验证成功
   Error // 验证失败
