@@ -298,7 +298,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     e.preventDefault(); // 防止移动端按下后会选择文本或图片
 
-    const isTouchEvent = e.type === 'touchstart'; // 是否为移动端事件
     const target = e.currentTarget as HTMLElement; // 用于判断当前触发事件的节点
 
     if (target && sliderButtonRef.current && puzzleRef.current) {
@@ -322,7 +321,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       }
 
       // 处理移动端-触发式兼容
-      if (isTouchEvent) {
+      if (isSupportTouch) {
         showPanel(0);
       }
 
@@ -372,14 +371,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
-    // 是否为移动端事件
-    const isTouchEvent = e.type === 'touchend';
-
     if (latestStatus.current !== Status.Moving) {
       isPressedRef.current = false;
 
       // 如果是移动端事件，并且是触发式，隐藏浮层
-      if (isTouchEvent) {
+      if (isSupportTouch) {
         hidePanel();
       }
       return;
@@ -423,7 +419,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           errorCountRef.current += 1;
           setStatus(Status.Error);
 
-          if (isTouchEvent) {
+          if (isSupportTouch) {
             hidePanel();
           }
 
@@ -458,23 +454,22 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           end: 'mouseup'
         };
 
-    if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
-      sliderButtonRef.current.addEventListener(events.start, touchstart);
-      puzzleRef.current.addEventListener(events.start, touchstart);
+    const sliderButtonTarget = sliderButtonRef.current;
+    const puzzleTarget = puzzleRef.current;
+
+    if (isBrowser && sliderButtonTarget && puzzleTarget) {
+      sliderButtonTarget.addEventListener(events.start, touchstart);
+      puzzleTarget.addEventListener(events.start, touchstart);
       document.addEventListener(events.move, touchmove);
       document.addEventListener(events.end, touchend);
       document.addEventListener('touchcancel', touchend);
 
       return () => {
-        if (isBrowser && sliderButtonRef.current && puzzleRef.current) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          sliderButtonRef.current.removeEventListener(events.start, touchstart);
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          puzzleRef.current.removeEventListener(events.start, touchstart);
-          document.removeEventListener(events.move, touchmove);
-          document.removeEventListener(events.end, touchend);
-          document.removeEventListener('touchcancel', touchend);
-        }
+        sliderButtonTarget.removeEventListener(events.start, touchstart);
+        puzzleTarget.removeEventListener(events.start, touchstart);
+        document.removeEventListener(events.move, touchmove);
+        document.removeEventListener(events.end, touchend);
+        document.removeEventListener('touchcancel', touchend);
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
