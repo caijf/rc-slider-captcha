@@ -77,6 +77,10 @@ React 滑块验证码组件。
 
 <code src='./demos/modal.tsx' />
 
+### 客户端生成拼图
+
+<code src='./demos/create-puzzle.tsx' />
+
 ## API
 
 ### SliderCaptcha
