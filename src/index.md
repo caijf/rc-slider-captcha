@@ -79,6 +79,8 @@ React 滑块验证码组件。
 
 ### 客户端生成拼图
 
+> [拼图生成器](https://caijf.github.io/create-puzzle/index.html#/generator)
+
 <code src='./demos/create-puzzle.tsx' />
 
 ## API
