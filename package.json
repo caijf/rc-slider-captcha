@@ -122,7 +122,9 @@
     "react-dom": "18",
     "@types/react": "18",
     "@types/react-dom": "18",
-    "@babel/types": "7.19.4"
+    "@babel/generator": "~7.19.0",
+    "@babel/types": "~7.19.0",
+    "@babel/traverse": "~7.19.0"
   },
   "browserslist": {
     "development": [
