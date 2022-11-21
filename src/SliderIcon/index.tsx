@@ -4,7 +4,7 @@ import IconCheck from './IconCheck';
 import IconLoading from './IconLoading';
 import IconRefresh from './IconRefresh';
 import IconX from './IconX';
-import './index.less';
+import '../style';
 import BaseIcon, { SliderIconBaseProps } from './SliderIconBase';
 
 const iconMap = {

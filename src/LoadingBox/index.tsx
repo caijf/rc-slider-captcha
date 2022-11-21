@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 import SliderIcon from '../SliderIcon';
 import { prefixCls } from '../utils';
-import './index.less';
+import '../style';
 
 const currentPrefixCls = `${prefixCls}-loading`;
 

@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
 import { useSafeState, useLatest } from 'rc-hooks';
-import './index.less';
+import './style';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';

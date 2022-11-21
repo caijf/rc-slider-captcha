@@ -1,1 +1,176 @@
 @import './config.less';
+@import './SliderIcon.less';
+@import './SliderButton.less';
+@import './LoadingBox.less';
+
+.@{prefixCls} {
+  position: relative;
+
+  & > * {
+    // iOS中通过Javascript定义的可点击元素，长按就会出现一个灰色背景
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  &-control {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 42px;
+    padding-left: 40px;
+    background-color: @bg-color;
+    border: 1px solid @border-color;
+    border-radius: 2px;
+
+    &-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-indicator {
+      position: absolute;
+      top: -1px;
+      bottom: -1px;
+      left: -1px;
+      display: none;
+      box-sizing: border-box;
+      width: 0;
+      background-color: @primary-light;
+      border: 1px solid @primary;
+      border-radius: 2px;
+    }
+
+    &-tips {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      color: @text-color;
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    // 其他状态
+    &-moving &-indicator,
+    &-verify &-indicator,
+    &-error &-indicator,
+    &-success &-indicator {
+      display: block;
+    }
+
+    &-error &-indicator {
+      background-color: @error-light;
+      border-color: @error;
+    }
+
+    &-success &-indicator {
+      background-color: @success-light;
+      border-color: @success;
+    }
+
+    // 失败多次
+    &-errors {
+      padding-left: 0;
+      background-color: @error-light;
+      border-color: @error;
+    }
+    &-errors &-button,
+    &-errors &-indicator {
+      display: none;
+    }
+    &-errors &-tips {
+      color: @error;
+      cursor: pointer;
+    }
+  }
+
+  &-jigsaw {
+    position: relative;
+    background-color: #f7f9fa;
+    user-select: none;
+
+    img {
+      position: absolute;
+    }
+    &-bg {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    &-puzzle {
+      width: 60px;
+      height: 100%;
+      touch-action: none;
+
+      &:hover {
+        cursor: grab;
+      }
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &-refresh {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+      padding: 5px;
+      color: #fff;
+      font-size: 22px;
+      line-height: 0;
+      cursor: pointer;
+      opacity: 0.75;
+      transition: opacity 0.2s linear;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &-disabled {
+        cursor: not-allowed;
+
+        &:hover {
+          opacity: 0.75;
+        }
+      }
+    }
+
+    &-stop &-puzzle {
+      pointer-events: none;
+
+      &:hover,
+      &:active {
+        cursor: default;
+      }
+    }
+  }
+
+  &-panel {
+    padding-bottom: 15px;
+
+    &-inner {
+      overflow: hidden;
+      border-radius: 2px;
+    }
+  }
+
+  &-float &-panel {
+    position: absolute;
+    left: 0;
+    display: none;
+    opacity: 0;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    transition-property: top, bottom, opacity;
+  }
+
+  &-float-top &-panel {
+    bottom: 22px;
+  }
+
+  &-float-bottom &-panel {
+    top: 22px;
+    padding: 15px 0 0;
+  }
+}
