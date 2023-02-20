@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          persist-credentials: false
+          node-version: 16
       - name: Install
         run: yarn install
       - name: Build
@@ -27,8 +28,8 @@ jobs:
       - name: Build docs
         run: yarn docs:build
       - name: Deploy docs
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN_WORKFLOW }}
-          BRANCH: gh-pages
-          FOLDER: docs-dist
+          token: ${{ secrets.ACCESS_TOKEN_WORKFLOW }}
+          branch: gh-pages
+          folder: docs-dist
