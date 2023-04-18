@@ -26,6 +26,8 @@ React 滑块验证码组件。
 
 只需传入 `request` 和 `onVerify` 。
 
+`request` 异步返回背景图和滑块图。 `onVerify` 用户滑动停止时触发，用于验证。
+
 <code src='./demos/basic.tsx' />
 
 ### 触发式
@@ -150,17 +152,17 @@ export enum Status {
 
 ### CSS 变量
 
-| 变量名               | 说明      | 默认值    |
-| -------------------- | --------- | --------- |
-| --rcsc-primary       | 主色      | `#1991fa` |
-| --rcsc-primary-light | 主色-浅   | `#d1e9fe` |
-| --rcsc-error         | 错误色    | `#f57a7a` |
-| --rcsc-error-light   | 错误色-浅 | `#fce1e1` |
-| --rcsc-success       | 成功色    | `#52ccba` |
-| --rcsc-success-light | 成功色-浅 | `#d2f4ef` |
-| --rcsc-border-color  | 边框色    | `#e4e7eb` |
-| --rcsc-bg-color      | 背景色    | `#f7f9fa` |
-| --rcsc-text-color    | 文本色    | `#45494c` |
+| 变量名 | 说明 | 默认值 |
+| --- | --- | --- |
+| --rcsc-primary | 主色 | `#1991fa` <span style="display: inline-block; width: 16px; height: 16px; background: #1991fa; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-primary-light | 主色-浅 | `#d1e9fe` <span style="display: inline-block; width: 16px; height: 16px; background: #d1e9fe; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-error | 错误色 | `#f57a7a` <span style="display: inline-block; width: 16px; height: 16px; background: #f57a7a; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-error-light | 错误色-浅 | `#fce1e1` <span style="display: inline-block; width: 16px; height: 16px; background: #fce1e1; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-success | 成功色 | `#52ccba` <span style="display: inline-block; width: 16px; height: 16px; background: #52ccba; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-success-light | 成功色-浅 | `#d2f4ef` <span style="display: inline-block; width: 16px; height: 16px; background: #d2f4ef; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-border-color | 边框色 | `#e4e7eb` <span style="display: inline-block; width: 16px; height: 16px; background: #e4e7eb; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-bg-color | 背景色 | `#f7f9fa` <span style="display: inline-block; width: 16px; height: 16px; background: #f7f9fa; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
+| --rcsc-text-color | 文本色 | `#45494c` <span style="display: inline-block; width: 16px; height: 16px; background: #45494c; border-radius: 2px; vertical-align: middle; margin: 0 4px;"></span> |
 
 > \* 注意 IE11 不支持 css 变量，如果你的项目需要兼容 IE11，尽量不使用 css 变量改变样式。
 
