@@ -32,6 +32,7 @@ function Demo() {
       bgSize={{
         width: 360
       }}
+      loadingDelay={300}
     />
   );
 }

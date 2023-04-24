@@ -79,6 +79,7 @@ export interface SliderCaptchaProps {
   showRefreshIcon?: boolean; // 显示右上角刷新图标
   jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
   errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
+  loadingDelay?: number; // 延迟加载状态
   placement?: 'top' | 'bottom'; // 触发式的浮层位置
   loadingBoxProps?: LoadingBoxProps;
   sliderButtonProps?: SliderButtonProps;
@@ -135,6 +136,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   showRefreshIcon = true,
   jigsawContent,
   errorHoldDuration = 500,
+  loadingDelay = 0,
   placement = 'top',
   loadingBoxProps,
   sliderButtonProps,
@@ -144,6 +146,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
   const [status, setStatus] = useSafeState<Status>(Status.Default);
   const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
+  const loadingTimerRef = useRef<any>(null); // 延迟加载状态定时器
+  const hasLoadingDelay = typeof loadingDelay === 'number' && loadingDelay > 0;
 
   // dom ref
   const sliderButtonRef = useRef<HTMLSpanElement>(null);
@@ -189,8 +193,20 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 获取背景图和拼图
   const getJigsawImages = async () => {
-    setStatus(Status.Loading);
+    if (hasLoadingDelay) {
+      loadingTimerRef.current = setTimeout(() => {
+        setStatus(Status.Loading);
+      }, loadingDelay);
+    } else {
+      setStatus(Status.Loading);
+    }
+
     const result = await request();
+
+    if (hasLoadingDelay) {
+      clearTimeout(loadingTimerRef.current);
+    }
+
     setJigsawImgs(result);
     setStatus(Status.Default);
   };
