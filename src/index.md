@@ -129,7 +129,7 @@ type VerifyParam = {
 
 如果对安全比较重视的，可以通过 `y` `duration` `trail` 等结合算法判断是否人为操作，防止一些非人为操作破解滑块验证码。
 
-大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 `x 乘以 缩放比例`）。
+大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 x 乘以缩放比例）。
 
 ### actionRef
 
@@ -137,7 +137,7 @@ type VerifyParam = {
 
 ```typescript
 export type ActionType = {
-  refresh: (resetErrorCount?: boolean) => void; // 刷新，参数为是否重置连续错误次数为0
+  refresh: (resetErrorCount?: boolean) => void; // 主动刷新。true 表示重置连续错误次数为 0 ， false 表示不重置。默认为 false 。
   status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
 };
 
