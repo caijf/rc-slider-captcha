@@ -73,7 +73,7 @@ import SliderCaptcha, {
 | mode | 显示模式。`embed` - 嵌入式， `float` - 触发式。 | `'embed' \| 'float'` | `'embed'` |
 | bgSize | 背景图尺寸 | `{ width: number; height: number; }` | `{ width: 320, height: 160 }` |
 | puzzleSize | 拼图尺寸和偏移调整，默认宽度 `60`，高度为背景图高度。 | `{ width: number; height: number; left: number; top: number; }` | `{ width: 60 }` |
-| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; errors: ReactNode; }` | - |
+| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; errors: ReactNode; }` | - |
 | tipIcon | 提示图标配置 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; }` | - |
 | actionRef | 常用操作 | `React.MutableRefObject<ActionType \| undefined>;` | - |
 | showRefreshIcon | 显示右上角刷新图标 | `boolean` | `true` |

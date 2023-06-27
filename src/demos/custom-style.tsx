@@ -21,7 +21,8 @@ function Demo() {
       }}
       tipText={{
         default: '向右👉拖动完成拼图',
-        loading: '👩🏻‍💻🧑‍💻努力中...'
+        loading: '👩🏻‍💻🧑‍💻努力中...',
+        moving: '向右拖动至拼图位置'
       }}
       loadingBoxProps={{
         icon: <Heart />,

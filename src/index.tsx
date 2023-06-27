@@ -10,6 +10,7 @@ import { getClient, isBrowser, isSupportTouch, prefixCls, reflow, setStyle } fro
 type TipTextType = {
   default: ReactNode;
   loading: ReactNode;
+  moving: ReactNode;
   errors: ReactNode;
 };
 
@@ -106,6 +107,7 @@ const defaultConfig = {
   tipText: {
     default: '向右拖动滑块填充拼图',
     loading: '加载中...',
+    moving: null,
     errors: (
       <>
         <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
@@ -501,6 +503,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
     if (status === Status.Loading) {
       return tipText.loading;
+    }
+    if (status === Status.Moving) {
+      return tipText.moving;
     }
     if (isLimitErrors) {
       return tipText.errors;
