@@ -23,8 +23,7 @@ export default {
     nodeResolve(),
     commonjs(),
     typescript({
-      include: ['src/**/*'],
-      exclude: ['src/demos/**/*', '.umi/**/*', '.umi*/**/*']
+      tsconfig: './tsconfig.build.json'
     }),
     postcss({
       inject: true,

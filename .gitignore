@@ -10,6 +10,7 @@
 # production
 /es
 /dist
+/dist-bak
 /docs-dist
 /types
 

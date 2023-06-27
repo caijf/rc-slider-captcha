@@ -1,7 +1,5 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["src"],
-  "exclude": ["src/demos/**/*", "src/.umi/**/*", "src/.umi*/**/*"],
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
