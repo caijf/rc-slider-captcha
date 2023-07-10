@@ -1,9 +1,10 @@
 /**
  * title: 客户端生成拼图
- * description:  使用 `create-puzzle` 生成背景图和拼图。
+ * description:  使用 [`create-puzzle`](https://caijf.github.io/create-puzzle/index.html) 生成背景图和拼图。
  */
 import SliderCaptcha from 'rc-slider-captcha';
 import React, { useRef } from 'react';
+import { randomInt } from 'ut2';
 import createPuzzle from 'create-puzzle';
 import DemoImage from './assets/sunflower.jpg';
 
@@ -13,7 +14,9 @@ function Demo() {
   return (
     <SliderCaptcha
       request={() =>
-        createPuzzle(DemoImage).then((res) => {
+        createPuzzle(DemoImage, {
+          x: randomInt(80, 300)
+        }).then((res) => {
           offsetXRef.current = res.x;
 
           return {
