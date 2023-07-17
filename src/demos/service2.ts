@@ -13,7 +13,7 @@ export const getCaptcha = async () => {
 
 export const verifyCaptcha = async (data: { x: number }) => {
   await sleep();
-  if (data.x && data.x > 187 && data.x < 193) {
+  if (data?.x && data.x > 187 && data.x < 193) {
     return Promise.resolve();
   }
   return Promise.reject();
