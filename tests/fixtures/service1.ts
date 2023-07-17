@@ -1,7 +1,7 @@
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 
 export const getCaptcha = async () => {
-  await waitTime();
+  await sleep();
   return {
     bgUrl: 'image1',
     puzzleUrl: 'image2'
@@ -9,7 +9,7 @@ export const getCaptcha = async () => {
 };
 
 export const verifyCaptcha = async (data: { x: number }) => {
-  await waitTime();
+  await sleep();
   if (data.x && data.x > 87 && data.x < 93) {
     return Promise.resolve();
   }

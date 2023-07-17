@@ -1,9 +1,9 @@
-import { waitTime } from 'util-helpers';
+import { sleep } from 'ut2';
 import ImageBg from './assets/3bg.png';
 import ImagePuzzle from './assets/3puzzle.png';
 
 export const getCaptcha = async () => {
-  await waitTime();
+  await sleep();
   return {
     bgUrl: ImageBg,
     puzzleUrl: ImagePuzzle
@@ -11,7 +11,7 @@ export const getCaptcha = async () => {
 };
 
 export const verifyCaptcha = async (data: { x: number }) => {
-  await waitTime();
+  await sleep();
   if (data.x && data.x > 251 && data.x < 257) {
     return Promise.resolve();
   }
