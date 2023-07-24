@@ -6,7 +6,7 @@ React 滑块验证码组件。
 
 [查看文档和示例][site]
 
-[![example](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d2d8d7dc28d4ad2aa114449ddced512~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp)](site)
+[![example](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d2d8d7dc28d4ad2aa114449ddced512~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp)][site]
 
 [掘金文章介绍地址](https://juejin.cn/post/7160519128950767652)
 
