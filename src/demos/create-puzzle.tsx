@@ -15,7 +15,8 @@ function Demo() {
     <SliderCaptcha
       request={() =>
         createPuzzle(DemoImage, {
-          x: randomInt(80, 300)
+          x: randomInt(80, 300),
+          format: 'blob'
         }).then((res) => {
           offsetXRef.current = res.x;
 
