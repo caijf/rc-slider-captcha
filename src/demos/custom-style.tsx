@@ -22,7 +22,9 @@ function Demo() {
       tipText={{
         default: '向右👉拖动完成拼图',
         loading: '👩🏻‍💻🧑‍💻努力中...',
-        moving: '向右拖动至拼图位置'
+        moving: '向右拖动至拼图位置',
+        verifying: '验证中...',
+        error: '验证失败'
       }}
       loadingBoxProps={{
         icon: <Heart />,

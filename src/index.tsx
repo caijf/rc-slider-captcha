@@ -11,6 +11,9 @@ type TipTextType = {
   default: ReactNode;
   loading: ReactNode;
   moving: ReactNode;
+  verifying: ReactNode;
+  success: ReactNode;
+  error: ReactNode;
   errors: ReactNode;
 };
 
@@ -65,15 +68,13 @@ export type ActionType = {
   status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
 };
 
-export interface SliderCaptchaProps {
-  mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式，默认为 embed。
+export type SliderCaptchaProps = {
   limitErrorCount?: number; // 限制连续错误次数
   onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
   tipText?: Partial<TipTextType>; // 提示文本
   tipIcon?: Partial<TipIconType>; // 提示图标
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
   puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
-  request: () => Promise<JigsawImages>; // 请求背景图和拼图
   autoRequest?: boolean; // 自动发起请求
   autoRefreshOnError?: boolean; // 验证失败后自动刷新
   actionRef?: React.MutableRefObject<ActionType | undefined>; // 常用操作
@@ -86,7 +87,16 @@ export interface SliderCaptchaProps {
   sliderButtonProps?: SliderButtonProps;
   className?: string;
   style?: React.CSSProperties;
-}
+} & (
+  | {
+      mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式 slider-只有滑块无拼图，默认为 embed 。
+      request: () => Promise<JigsawImages>; // 请求背景图和拼图
+    }
+  | {
+      mode: 'slider'; // 纯滑块不需要传入 request 。
+      request?: () => Promise<JigsawImages>; // 请求背景图和拼图
+    }
+);
 
 const controlPrefixCls = `${prefixCls}-control`;
 const jigsawPrefixCls = `${prefixCls}-jigsaw`;
@@ -108,6 +118,9 @@ const defaultConfig = {
     default: '向右拖动滑块填充拼图',
     loading: '加载中...',
     moving: null,
+    verifying: null,
+    success: null,
+    error: null,
     errors: (
       <>
         <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
@@ -122,6 +135,18 @@ const defaultConfig = {
     refresh: <SliderIcon type="refresh" />
   } as TipIconType
 };
+
+const events = isSupportTouch
+  ? {
+      start: 'touchstart',
+      move: 'touchmove',
+      end: 'touchend'
+    }
+  : {
+      start: 'mousedown',
+      move: 'mousemove',
+      end: 'mouseup'
+    };
 
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   mode: outMode = 'embed',
@@ -158,8 +183,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
-  const mode = useMemo(() => (outMode === 'float' ? outMode : 'embed'), [outMode]); // 模式
-  const latestMode = useLatest<typeof mode>(mode); // 提供给事件方法使用
+  const mode = useMemo(
+    () => (outMode === 'float' || outMode === 'slider' ? outMode : 'embed'),
+    [outMode]
+  ); // 模式
+  const modeIsSlider = mode === 'slider';
   const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
   const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
@@ -195,27 +223,30 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 获取背景图和拼图
   const getJigsawImages = async () => {
-    if (hasLoadingDelay) {
-      loadingTimerRef.current = setTimeout(() => {
+    if (modeIsSlider) return;
+    if (request) {
+      if (hasLoadingDelay) {
+        loadingTimerRef.current = setTimeout(() => {
+          setStatus(Status.Loading);
+        }, loadingDelay);
+      } else {
         setStatus(Status.Loading);
-      }, loadingDelay);
-    } else {
-      setStatus(Status.Loading);
+      }
+
+      const result = await request();
+
+      if (hasLoadingDelay) {
+        clearTimeout(loadingTimerRef.current);
+      }
+
+      setJigsawImgs(result);
+      setStatus(Status.Default);
     }
-
-    const result = await request();
-
-    if (hasLoadingDelay) {
-      clearTimeout(loadingTimerRef.current);
-    }
-
-    setJigsawImgs(result);
-    setStatus(Status.Default);
   };
 
   // 触发式下，显示面板
   const showPanel = (delay = 300) => {
-    if (latestMode.current !== 'float' || latestStatus.current === Status.Success) {
+    if (mode !== 'float' || latestStatus.current === Status.Success) {
       return;
     }
 
@@ -232,7 +263,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 触发式下，隐藏面板
   const hidePanel = (delay = 300) => {
-    if (latestMode.current !== 'float') {
+    if (mode !== 'float') {
       return;
     }
 
@@ -318,7 +349,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     const target = e.currentTarget as HTMLElement; // 用于判断当前触发事件的节点
 
-    if (target && sliderButtonRef.current && puzzleRef.current) {
+    if (target && sliderButtonRef.current && (modeIsSlider || puzzleRef.current)) {
       const { clientX, clientY } = getClient(e);
 
       startInfoRef.current = {
@@ -344,6 +375,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       }
 
       isPressedRef.current = true;
+
+      document.addEventListener(events.move, touchmove);
+      document.addEventListener(events.end, touchend);
+      document.addEventListener('touchcancel', touchend);
     }
   };
 
@@ -385,6 +420,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 鼠标弹起 或 停止触摸
   const touchend = (e: any) => {
+    document.removeEventListener(events.move, touchmove);
+    document.removeEventListener(events.end, touchend);
+    document.removeEventListener('touchcancel', touchend);
+
     if (!isPressedRef.current) {
       return;
     }
@@ -460,31 +499,16 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       getJigsawImages();
     }
 
-    const events = isSupportTouch
-      ? {
-          start: 'touchstart',
-          move: 'touchmove',
-          end: 'touchend'
-        }
-      : {
-          start: 'mousedown',
-          move: 'mousemove',
-          end: 'mouseup'
-        };
-
     const sliderButtonTarget = sliderButtonRef.current;
     const puzzleTarget = puzzleRef.current;
 
-    if (isBrowser && sliderButtonTarget && puzzleTarget) {
+    if (isBrowser && sliderButtonTarget) {
       sliderButtonTarget.addEventListener(events.start, touchstart);
-      puzzleTarget.addEventListener(events.start, touchstart);
-      document.addEventListener(events.move, touchmove);
-      document.addEventListener(events.end, touchend);
-      document.addEventListener('touchcancel', touchend);
+      puzzleTarget && puzzleTarget.addEventListener(events.start, touchstart);
 
       return () => {
         sliderButtonTarget.removeEventListener(events.start, touchstart);
-        puzzleTarget.removeEventListener(events.start, touchstart);
+        puzzleTarget && puzzleTarget.removeEventListener(events.start, touchstart);
         document.removeEventListener(events.move, touchmove);
         document.removeEventListener(events.end, touchend);
         document.removeEventListener('touchcancel', touchend);
@@ -507,8 +531,17 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (status === Status.Moving) {
       return tipText.moving;
     }
+    if (status === Status.Verify) {
+      return tipText.verifying;
+    }
     if (isLimitErrors) {
       return tipText.errors;
+    }
+    if (status === Status.Error) {
+      return tipText.error;
+    }
+    if (status === Status.Success) {
+      return tipText.success;
     }
     return null;
   }, [status, tipText, isLimitErrors]);
@@ -544,48 +577,51 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={`${prefixCls}-panel`} ref={panelRef}>
-        <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
-          <div
-            className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
-            style={{ ...bgSize, ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {}) }}
-          >
-            <img
-              className={`${jigsawPrefixCls}-bg`}
-              style={bgSize}
-              src={jigsawImgs?.bgUrl}
-              alt=""
+      {!modeIsSlider && (
+        <div className={`${prefixCls}-panel`} ref={panelRef}>
+          <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
+            <div
+              className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
+              style={{ ...bgSize, ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {}) }}
+            >
+              <img
+                className={`${jigsawPrefixCls}-bg`}
+                style={bgSize}
+                src={jigsawImgs?.bgUrl}
+                alt=""
+              />
+              <img
+                className={`${jigsawPrefixCls}-puzzle`}
+                style={puzzleSize}
+                src={jigsawImgs?.puzzleUrl}
+                alt=""
+                data-id={CurrentTargetType.Puzzle}
+                ref={puzzleRef}
+              />
+              {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
+                <div
+                  className={classnames(`${jigsawPrefixCls}-refresh`, {
+                    [`${jigsawPrefixCls}-refresh-disabled`]:
+                      status === Status.Verify || isLimitErrors
+                  })}
+                  onClick={handleClickRefreshIcon}
+                >
+                  {tipIcon.refresh}
+                </div>
+              )}
+              {jigsawContent}
+            </div>
+            <LoadingBox
+              {...loadingBoxProps}
+              style={{
+                ...loadingBoxProps?.style,
+                ...bgSize,
+                ...(loading ? {} : { display: 'none' })
+              }}
             />
-            <img
-              className={`${jigsawPrefixCls}-puzzle`}
-              style={puzzleSize}
-              src={jigsawImgs?.puzzleUrl}
-              alt=""
-              data-id={CurrentTargetType.Puzzle}
-              ref={puzzleRef}
-            />
-            {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
-              <div
-                className={classnames(`${jigsawPrefixCls}-refresh`, {
-                  [`${jigsawPrefixCls}-refresh-disabled`]: status === Status.Verify || isLimitErrors
-                })}
-                onClick={handleClickRefreshIcon}
-              >
-                {tipIcon.refresh}
-              </div>
-            )}
-            {jigsawContent}
           </div>
-          <LoadingBox
-            {...loadingBoxProps}
-            style={{
-              ...loadingBoxProps?.style,
-              ...bgSize,
-              ...(loading ? {} : { display: 'none' })
-            }}
-          />
         </div>
-      </div>
+      )}
       <div
         className={classnames(controlPrefixCls, {
           [`${controlPrefixCls}-loading`]: loading,

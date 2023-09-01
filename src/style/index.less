@@ -15,7 +15,6 @@
     box-sizing: border-box;
     width: 100%;
     min-height: 42px;
-    padding-left: 40px;
     background-color: @bg-color;
     border: 1px solid @border-color;
     border-radius: 2px;
@@ -24,6 +23,7 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 2;
     }
 
     &-indicator {
@@ -40,6 +40,8 @@
     }
 
     &-tips {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
