@@ -17,7 +17,7 @@ describe('snapshot', () => {
     jest.useRealTimers();
   });
 
-  it('render default, float mode, refresh icon, other', async () => {
+  it('render default, float mode, slider mode, refresh icon, other', async () => {
     const component = renderer.create(
       <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} />
     );
@@ -30,6 +30,14 @@ describe('snapshot', () => {
       component.update(
         <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} mode="float" />
       );
+    });
+
+    tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+
+    // slider mode
+    renderer.act(() => {
+      component.update(<SliderCaptcha onVerify={verifyCaptcha} mode="slider" />);
     });
 
     tree = component.toJSON();

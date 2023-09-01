@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot render default, float mode, refresh icon, other 1`] = `
+exports[`snapshot render default, float mode, slider mode, refresh icon, other 1`] = `
 <div
   className="rc-slider-captcha rc-slider-captcha-embed"
   onMouseEnter={[Function]}
@@ -219,7 +219,7 @@ exports[`snapshot render default, float mode, refresh icon, other 1`] = `
 </div>
 `;
 
-exports[`snapshot render default, float mode, refresh icon, other 2`] = `
+exports[`snapshot render default, float mode, slider mode, refresh icon, other 2`] = `
 <div
   className="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-top"
   onMouseEnter={[Function]}
@@ -437,7 +437,58 @@ exports[`snapshot render default, float mode, refresh icon, other 2`] = `
 </div>
 `;
 
-exports[`snapshot render default, float mode, refresh icon, other 3`] = `
+exports[`snapshot render default, float mode, slider mode, refresh icon, other 3`] = `
+<div
+  className="rc-slider-captcha rc-slider-captcha-slider"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  style={
+    {
+      "width": 320,
+    }
+  }
+>
+  <div
+    className="rc-slider-captcha-control rc-slider-captcha-control-loading"
+    onClick={[Function]}
+  >
+    <div
+      className="rc-slider-captcha-control-indicator"
+    />
+    <span
+      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
+      data-id="button"
+    >
+      <span
+        className="rc-slider-captcha-icon"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+          />
+          <path
+            d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+          />
+        </svg>
+      </span>
+    </span>
+    <div
+      className="rc-slider-captcha-control-tips"
+    >
+      加载中...
+    </div>
+  </div>
+</div>
+`;
+
+exports[`snapshot render default, float mode, slider mode, refresh icon, other 4`] = `
 <div
   className="rc-slider-captcha rc-slider-captcha-embed"
   onMouseEnter={[Function]}
@@ -635,7 +686,7 @@ exports[`snapshot render default, float mode, refresh icon, other 3`] = `
 </div>
 `;
 
-exports[`snapshot render default, float mode, refresh icon, other 4`] = `
+exports[`snapshot render default, float mode, slider mode, refresh icon, other 5`] = `
 <div
   className="rc-slider-captcha test rc-slider-captcha-embed"
   onMouseEnter={[Function]}
