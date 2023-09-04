@@ -70,10 +70,10 @@ import SliderCaptcha, {
 | --- | --- | --- | --- |
 | request | 请求背景图和拼图 | `() => Promise<{ bgUrl:string; puzzleUrl:string;}>` | - |
 | onVerify | 用户操作滑块完成后触发，主要用于验证，返回 `resolve` 表示验证成功，`reject` 表示验证失败。 | `(data: VerifyParam) => Promise<any>` | - |
-| mode | 显示模式。`embed` - 嵌入式， `float` - 触发式。 | `'embed' \| 'float'` | `'embed'` |
+| mode | 显示模式。`embed` - 嵌入式， `float` - 触发式， `slider` - 只有滑块无拼图。 | `'embed' \| 'float' \| 'slider'` | `'embed'` |
 | bgSize | 背景图尺寸 | `{ width: number; height: number; }` | `{ width: 320, height: 160 }` |
 | puzzleSize | 拼图尺寸和偏移调整，默认宽度 `60`，高度为背景图高度。 | `{ width: number; height: number; left: number; top: number; }` | `{ width: 60 }` |
-| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; errors: ReactNode; }` | - |
+| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; }` | - |
 | tipIcon | 提示图标配置 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; }` | - |
 | actionRef | 常用操作 | `React.MutableRefObject<ActionType \| undefined>;` | - |
 | showRefreshIcon | 显示右上角刷新图标 | `boolean` | `true` |
