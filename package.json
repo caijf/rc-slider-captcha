@@ -81,7 +81,7 @@
     "autoprefixer": "^10.4.15",
     "babel-jest": "^29.6.4",
     "babel-plugin-import": "^1.13.8",
-    "create-puzzle": "^1.2.3",
+    "create-puzzle": "^1.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "doly-icons": "^1.5.0",
     "dumi": "^1.1.53",
