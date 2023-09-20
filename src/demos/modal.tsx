@@ -24,7 +24,6 @@ function Demo() {
         title="安全验证"
         width={368}
         footer={false}
-        bodyStyle={{ padding: 20 }}
       >
         <SliderCaptcha
           request={getCaptcha}

@@ -50,15 +50,5 @@ gtag('config', 'G-9R6Q9PDGBK');
         padding: 40px 10px;
       }
     }`
-  ],
-  extraBabelPlugins: [
-    [
-      'babel-plugin-import',
-      {
-        libraryName: 'antd',
-        libraryDirectory: 'es',
-        style: true
-      }
-    ]
   ]
 });
