@@ -22,8 +22,10 @@ function Demo() {
         open={open}
         onCancel={() => setOpen(false)}
         title="安全验证"
-        width={368}
         footer={false}
+        centered
+        width={368}
+        style={{ maxWidth: '100%' }}
       >
         <SliderCaptcha
           request={getCaptcha}

@@ -19,14 +19,16 @@ React 滑块验证码组件。
 
 ## 安装
 
-```bash
+```shell
 npm install rc-slider-captcha
 ```
 
-or
-
-```bash
+```shell
 yarn add rc-slider-captcha
+```
+
+```shell
+pnpm add rc-slider-captcha
 ```
 
 ## 使用
