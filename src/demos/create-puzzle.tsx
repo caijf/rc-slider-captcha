@@ -1,5 +1,4 @@
 /**
- * title: 客户端生成拼图
  * description:  使用 [`create-puzzle`](https://caijf.github.io/create-puzzle/index.html) 生成背景图和拼图。
  */
 import SliderCaptcha from 'rc-slider-captcha';

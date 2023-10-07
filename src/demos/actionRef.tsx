@@ -1,5 +1,4 @@
 /**
- * title: 手动刷新
  * description: 假如滑动验证成功之后，等一段时间再去提交表单，服务返回验证码失效。这时候可以通过主动刷新滑块验证码，并提示用户重新验证。
  */
 import SliderCaptcha, { ActionType } from 'rc-slider-captcha';

@@ -1,7 +1,3 @@
-/**
- * title: 触发式
- * description: 设置 `mode="float"`。
- */
 import SliderCaptcha from 'rc-slider-captcha';
 import React from 'react';
 import { getCaptcha, verifyCaptcha } from './service1';

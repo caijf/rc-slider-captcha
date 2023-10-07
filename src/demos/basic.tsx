@@ -1,5 +1,4 @@
 /**
- * title: 基础用法
  * description:  回调方法 `onVerify` 的参数 [VerifyParam](#/#verifyparam) 一般情况下只需要用到拼图 `x` 轴偏移值。
  */
 import SliderCaptcha from 'rc-slider-captcha';
