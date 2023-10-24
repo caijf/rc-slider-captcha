@@ -7,5 +7,6 @@ module.exports = {
   semi: true,
   bracketSpacing: true,
   arrowParens: 'always',
-  proseWrap: 'never'
+  proseWrap: 'never',
+  plugins: ['prettier-plugin-two-style-order']
 };
