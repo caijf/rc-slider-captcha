@@ -31,8 +31,7 @@ jobs:
       - name: Build docs
         run: pnpm run docs:build
       - name: Deploy docs
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          token: ${{ secrets.ACCESS_TOKEN_WORKFLOW }}
-          branch: gh-pages
-          folder: docs-dist
+          github_token: ${{ secrets.ACCESS_TOKEN_WORKFLOW }}
+          publish_dir: docs-dist
