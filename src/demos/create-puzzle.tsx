@@ -3,7 +3,6 @@
  */
 import SliderCaptcha from 'rc-slider-captcha';
 import React, { useRef } from 'react';
-import { randomInt } from 'ut2';
 import createPuzzle from 'create-puzzle';
 import DemoImage from './assets/sunflower.jpg';
 
@@ -14,7 +13,6 @@ function Demo() {
     <SliderCaptcha
       request={() =>
         createPuzzle(DemoImage, {
-          x: randomInt(80, 300),
           format: 'blob'
         }).then((res) => {
           offsetXRef.current = res.x;

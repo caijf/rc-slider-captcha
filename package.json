@@ -77,7 +77,7 @@
     "antd": "^5.9.2",
     "autoprefixer": "^10.4.16",
     "babel-jest": "^29.7.0",
-    "create-puzzle": "^1.2.5",
+    "create-puzzle": "^1.2.7",
     "cz-conventional-changelog": "^3.3.0",
     "doly-icons": "^1.5.2",
     "dumi": "^1.1.53",
