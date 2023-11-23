@@ -53,7 +53,7 @@
   "homepage": "https://github.com/caijf/rc-slider-captcha#readme",
   "dependencies": {
     "classnames": "^2.3.2",
-    "rc-hooks": "^3.0.5",
+    "rc-hooks": "^3.0.7",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
@@ -67,14 +67,14 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.5",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
-    "@types/jest": "^29.5.7",
-    "@types/react": "^18.2.35",
-    "@types/react-dom": "^18.2.14",
-    "@types/react-test-renderer": "^18.0.5",
+    "@testing-library/react": "^14.1.2",
+    "@types/jest": "^29.5.10",
+    "@types/react": "^18.2.38",
+    "@types/react-dom": "^18.2.17",
+    "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "antd": "^5.11.0",
+    "antd": "^5.11.3",
     "autoprefixer": "^10.4.16",
     "babel-jest": "^29.7.0",
     "create-puzzle": "^2.0.0",
@@ -82,7 +82,7 @@
     "doly-icons": "^1.5.2",
     "dumi": "^1.1.54",
     "element-remove": "^1.0.4",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
@@ -106,7 +106,7 @@
     "stylelint-config-standard": "^28.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
     "stylelint-no-unsupported-browser-features": "^5.0.4",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "ut2": "^1.5.5"
   },
   "peerDependencies": {
