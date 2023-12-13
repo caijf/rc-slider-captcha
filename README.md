@@ -131,17 +131,20 @@ export enum Status {
 
 ### CSS 变量
 
-| 变量名               | 说明      | 默认值                                                    |
-| -------------------- | --------- | --------------------------------------------------------- |
-| --rcsc-primary       | 主色      | `#1991fa` <input type='color' value='#1991fa' disabled /> |
-| --rcsc-primary-light | 主色-浅   | `#d1e9fe` <input type='color' value='#d1e9fe' disabled /> |
-| --rcsc-error         | 错误色    | `#f57a7a` <input type='color' value='#f57a7a' disabled /> |
-| --rcsc-error-light   | 错误色-浅 | `#fce1e1` <input type='color' value='#fce1e1' disabled /> |
-| --rcsc-success       | 成功色    | `#52ccba` <input type='color' value='#52ccba' disabled /> |
+| 变量名 | 说明 | 默认值 |
+| --- | --- | --- |
+| --rcsc-primary | 主色 | `#1991fa` <input type='color' value='#1991fa' disabled /> |
+| --rcsc-primary-light | 主色-浅 | `#d1e9fe` <input type='color' value='#d1e9fe' disabled /> |
+| --rcsc-error | 错误色 | `#f57a7a` <input type='color' value='#f57a7a' disabled /> |
+| --rcsc-error-light | 错误色-浅 | `#fce1e1` <input type='color' value='#fce1e1' disabled /> |
+| --rcsc-success | 成功色 | `#52ccba` <input type='color' value='#52ccba' disabled /> |
 | --rcsc-success-light | 成功色-浅 | `#d2f4ef` <input type='color' value='#d2f4ef' disabled /> |
-| --rcsc-border-color  | 边框色    | `#e4e7eb` <input type='color' value='#e4e7eb' disabled /> |
-| --rcsc-bg-color      | 背景色    | `#f7f9fa` <input type='color' value='#f7f9fa' disabled /> |
-| --rcsc-text-color    | 文本色    | `#45494c` <input type='color' value='#45494c' disabled /> |
+| --rcsc-border-color | 边框色 | `#e4e7eb` <input type='color' value='#e4e7eb' disabled /> |
+| --rcsc-bg-color | 背景色 | `#f7f9fa` <input type='color' value='#f7f9fa' disabled /> |
+| --rcsc-text-color | 文本色 | `#45494c` <input type='color' value='#45494c' disabled /> |
+| --rcsc-button-color | 按钮颜色 | `#676d73` <input type='color' value='#676d73' disabled /> |
+| --rcsc-button-bg-color | 按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
+| --rcsc-button-hover-color | 鼠标移入时，按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 
 [site]: https://caijf.github.io/rc-slider-captcha/index.html
 [npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg

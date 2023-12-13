@@ -9,10 +9,10 @@
   width: 40px;
   height: 100%;
   padding: 5px 0;
-  color: #676d73;
+  color: @button-color;
   font-size: 22px;
   line-height: 1;
-  background-color: #fff;
+  background-color: @button-bg-color;
   border-radius: 2px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
   cursor: grab;
@@ -26,7 +26,7 @@
   &-verify,
   &-pc:hover,
   &:active {
-    color: #fff;
+    color: @button-hover-color;
     background-color: @primary;
   }
   &-active,
@@ -42,7 +42,7 @@
   &-error,
   &-error:hover,
   &-error:active {
-    color: #fff;
+    color: @button-hover-color;
     background-color: @error;
     cursor: default;
   }
@@ -50,7 +50,7 @@
   &-success,
   &-success:hover,
   &-success:active {
-    color: #fff;
+    color: @button-hover-color;
     background-color: @success;
     cursor: default;
   }
@@ -58,8 +58,9 @@
   &-disabled,
   &-disabled:hover,
   &-disabled:active {
-    color: #676d73;
-    background-color: #fff;
+    color: @button-color;
+    background-color: @button-bg-color;
     cursor: no-drop;
+    opacity: 0.7;
   }
 }
