@@ -177,8 +177,8 @@ export enum Status {
 | --rcsc-bg-color | 背景色 | `#f7f9fa` <input type='color' value='#f7f9fa' disabled /> |
 | --rcsc-text-color | 文本色 | `#45494c` <input type='color' value='#45494c' disabled /> |
 | --rcsc-button-color | 按钮颜色 | `#676d73` <input type='color' value='#676d73' disabled /> |
-| --rcsc-button-bg-color | 按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 | --rcsc-button-hover-color | 鼠标移入时，按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
+| --rcsc-button-bg-color | 按钮背景颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 
 > \* 注意 IE11 不支持 css 变量，如果你的项目需要兼容 IE11，尽量不使用 css 变量改变样式。
 
