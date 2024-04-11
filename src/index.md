@@ -66,6 +66,7 @@ React 滑块验证码组件。
 ### 自定义样式
 
 <code src='./demos/custom-style.tsx' />
+<code src='./demos/custom-styles.tsx' />
 
 暗色主题
 
@@ -180,6 +181,8 @@ export enum Status {
 | --rcsc-button-color | 按钮颜色 | `#676d73` <input type='color' value='#676d73' disabled /> |
 | --rcsc-button-hover-color | 鼠标移入时，按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 | --rcsc-button-bg-color | 按钮背景颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
+| --rcsc-panel-border-radius | 图片容器边框圆角 | `2px` |
+| --rcsc-control-border-radius | 滑轨\/滑轨按钮边框圆角 | `2px` |
 
 > \* 注意 IE11 不支持 css 变量，如果你的项目需要兼容 IE11，尽量不使用 css 变量改变样式。
 

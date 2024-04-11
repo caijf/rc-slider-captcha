@@ -17,13 +17,14 @@
     min-height: 42px;
     background-color: @bg-color;
     border: 1px solid @border-color;
-    border-radius: 2px;
+    border-radius: @control-border-radius;
 
     &-button {
       position: absolute;
       top: 0;
       left: 0;
       z-index: 2;
+      border-radius: @control-border-radius;
     }
 
     &-indicator {
@@ -36,7 +37,7 @@
       width: 0;
       background-color: @primary-light;
       border: 1px solid @primary;
-      border-radius: 2px;
+      border-radius: @control-border-radius;
     }
 
     &-tips {
@@ -154,7 +155,7 @@
 
     &-inner {
       overflow: hidden;
-      border-radius: 2px;
+      border-radius: @panel-border-radius;
     }
   }
 

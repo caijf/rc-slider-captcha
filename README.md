@@ -145,6 +145,8 @@ export enum Status {
 | --rcsc-button-color | 按钮颜色 | `#676d73` <input type='color' value='#676d73' disabled /> |
 | --rcsc-button-hover-color | 鼠标移入时，按钮颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 | --rcsc-button-bg-color | 按钮背景颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
+| --rcsc-panel-border-radius | 图片容器边框圆角 | `2px` |
+| --rcsc-control-border-radius | 滑轨\/滑轨按钮边框圆角 | `2px` |
 
 [site]: https://caijf.github.io/rc-slider-captcha/index.html
 [npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg
