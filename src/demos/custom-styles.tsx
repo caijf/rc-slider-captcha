@@ -47,7 +47,8 @@ function Demo() {
         jigsaw: { fontSize: 16 },
         bgImg: { fontSize: 18 },
         puzzleImg: { fontSize: 20 },
-        control: { fontSize: 22 }
+        control: { fontSize: 22 },
+        indicator: { fontSize: 24 }
       }}
     />
   );

@@ -786,6 +786,11 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
   >
     <div
       className="rc-slider-captcha-control-indicator"
+      style={
+        {
+          "backgroundColor": "black",
+        }
+      }
     />
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"

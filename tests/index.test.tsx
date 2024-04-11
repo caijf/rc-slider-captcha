@@ -92,7 +92,8 @@ describe('snapshot', () => {
             jigsaw: { backgroundColor: 'green' },
             bgImg: { borderRadius: 5 },
             puzzleImg: { color: 'blue' },
-            control: { fontSize: 20 }
+            control: { fontSize: 20 },
+            indicator: { backgroundColor: 'black' }
           }}
         />
       );
