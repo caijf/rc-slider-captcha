@@ -87,6 +87,13 @@ export type SliderCaptchaProps = {
   sliderButtonProps?: SliderButtonProps;
   className?: string;
   style?: React.CSSProperties;
+  styles?: {
+    panel?: React.CSSProperties;
+    jigsaw?: React.CSSProperties;
+    bgImg?: React.CSSProperties;
+    puzzleImg?: React.CSSProperties;
+    control?: React.CSSProperties;
+  };
 } & (
   | {
       mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式 slider-只有滑块无拼图，默认为 embed 。
@@ -168,7 +175,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   loadingBoxProps,
   sliderButtonProps,
   className,
-  style
+  style,
+  styles
 }) => {
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
   const [status, setStatus] = useSafeState<Status>(Status.Default);
@@ -579,20 +587,27 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     >
       {!modeIsSlider && (
         <div className={`${prefixCls}-panel`} ref={panelRef}>
-          <div className={`${prefixCls}-panel-inner`} style={{ height: bgSize.height }}>
+          <div
+            className={`${prefixCls}-panel-inner`}
+            style={{ ...styles?.panel, height: bgSize.height }}
+          >
             <div
               className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
-              style={{ ...bgSize, ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {}) }}
+              style={{
+                ...styles?.jigsaw,
+                ...bgSize,
+                ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {})
+              }}
             >
               <img
                 className={`${jigsawPrefixCls}-bg`}
-                style={bgSize}
+                style={{ ...styles?.bgImg, ...bgSize }}
                 src={jigsawImgs?.bgUrl}
                 alt=""
               />
               <img
                 className={`${jigsawPrefixCls}-puzzle`}
-                style={puzzleSize}
+                style={{ ...styles?.puzzleImg, ...puzzleSize }}
                 src={jigsawImgs?.puzzleUrl}
                 alt=""
                 data-id={CurrentTargetType.Puzzle}
@@ -632,6 +647,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           [`${controlPrefixCls}-errors`]: isLimitErrors
         })}
         onClick={handleClickControl}
+        style={styles?.control}
       >
         <div className={classnames(`${controlPrefixCls}-indicator`)} ref={indicatorRef} />
         <SliderButton
