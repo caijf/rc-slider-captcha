@@ -120,8 +120,9 @@ React 滑块验证码组件。
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
 | loadingDelay | 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。 | `number` | `0` |
 | placement | 浮层位置，触发式下生效 | `'top' \| 'bottom'` | `'top'` |
-| className | 类名 | `string` | - |
-| style | 样式 | `CSSProperties` | - |
+| className | 容器类名 | `string` | - |
+| style | 容器样式 | `CSSProperties` | - |
+| styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; }` | - |
 
 > 连续错误次数说明：当用户操作滑块验证成功后，将重置连续错误次数为 0 。当用户点击限制错误次数操作条刷新时也将错误次数重置为 0 。
 

@@ -87,6 +87,13 @@ describe('snapshot', () => {
           }}
           className="test"
           style={{ background: 'red' }}
+          styles={{
+            panel: { color: 'red' },
+            jigsaw: { backgroundColor: 'green' },
+            bgImg: { borderRadius: 5 },
+            puzzleImg: { color: 'blue' },
+            control: { fontSize: 20 }
+          }}
         />
       );
     });

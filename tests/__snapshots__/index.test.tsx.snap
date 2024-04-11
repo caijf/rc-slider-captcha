@@ -705,6 +705,7 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
       className="rc-slider-captcha-panel-inner"
       style={
         {
+          "color": "red",
           "height": 200,
         }
       }
@@ -713,6 +714,7 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
         className="rc-slider-captcha-jigsaw"
         style={
           {
+            "backgroundColor": "green",
             "display": "none",
             "height": 200,
             "width": 500,
@@ -724,6 +726,7 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
           className="rc-slider-captcha-jigsaw-bg"
           style={
             {
+              "borderRadius": 5,
               "height": 200,
               "width": 500,
             }
@@ -735,6 +738,7 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
           data-id="puzzle"
           style={
             {
+              "color": "blue",
               "height": 50,
               "left": 20,
               "top": 200,
@@ -774,6 +778,11 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
   <div
     className="rc-slider-captcha-control rc-slider-captcha-control-loading"
     onClick={[Function]}
+    style={
+      {
+        "fontSize": 20,
+      }
+    }
   >
     <div
       className="rc-slider-captcha-control-indicator"
