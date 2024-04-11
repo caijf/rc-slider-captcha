@@ -93,6 +93,7 @@ export type SliderCaptchaProps = {
     bgImg?: React.CSSProperties;
     puzzleImg?: React.CSSProperties;
     control?: React.CSSProperties;
+    indicator?: React.CSSProperties;
   };
 } & (
   | {
@@ -649,7 +650,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         onClick={handleClickControl}
         style={styles?.control}
       >
-        <div className={classnames(`${controlPrefixCls}-indicator`)} ref={indicatorRef} />
+        <div
+          className={classnames(`${controlPrefixCls}-indicator`)}
+          style={styles?.indicator}
+          ref={indicatorRef}
+        />
         <SliderButton
           {...sliderButtonProps}
           className={classnames(`${controlPrefixCls}-button`, sliderButtonProps?.className)}
