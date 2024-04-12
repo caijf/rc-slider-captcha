@@ -111,7 +111,7 @@ React 滑块验证码组件。
 | puzzleSize | 拼图尺寸和偏移调整，默认宽度 `60`，高度为背景图高度。 | `{ width: number; height: number; left: number; top: number; }` | `{ width: 60 }` |
 | tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; }` | - |
 | tipIcon | 提示图标配置 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; }` | - |
-| actionRef | 常用操作 | `React.MutableRefObject<ActionType \| undefined>;` | - |
+| actionRef | 常用操作，比如`刷新`。 | `React.MutableRefObject<ActionType \| undefined>;` | - |
 | showRefreshIcon | 显示右上角刷新图标 | `boolean` | `true` |
 | limitErrorCount | 限制连续错误次数。当连续错误次数达到限制时，不允许操作滑块和刷新图标，必须手动点击操作条刷新。`0` 表示不限制错误次数。 | `number` | `0` |
 | jigsawContent | 拼图区域自定义内容，需要自己定义绝对定位和 zIndex 。 | `ReactNode` | - |
@@ -123,7 +123,7 @@ React 滑块验证码组件。
 | placement | 浮层位置，触发式下生效 | `'top' \| 'bottom'` | `'top'` |
 | className | 容器类名 | `string` | - |
 | style | 容器样式 | `CSSProperties` | - |
-| styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; }` | - |
+| styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; indicator?: CSSProperties; }` | - |
 
 > 连续错误次数说明：当用户操作滑块验证成功后，将重置连续错误次数为 0 。当用户点击限制错误次数操作条刷新时也将错误次数重置为 0 。
 
