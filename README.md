@@ -34,7 +34,7 @@ pnpm add rc-slider-captcha
 ## 使用
 
 ```typescript
-import SliderCaptch from 'rc-slider-captcha';
+import SliderCaptcha from 'rc-slider-captcha';
 
 const Demo = () => {
   return (
