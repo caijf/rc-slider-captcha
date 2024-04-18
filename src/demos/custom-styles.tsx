@@ -33,15 +33,13 @@ function Demo() {
         icon: <Heart />,
         text: "I'm loading"
       }}
-      style={
-        {
-          '--rcsc-primary': '#e91e63',
-          '--rcsc-primary-light': '#f8bbd0',
-          '--rcsc-text-color': 'gray',
-          '--rcsc-panel-border-radius': '10px',
-          '--rcsc-control-border-radius': '20px'
-        } as React.CSSProperties
-      }
+      style={{
+        '--rcsc-primary': '#e91e63',
+        '--rcsc-primary-light': '#f8bbd0',
+        '--rcsc-text-color': 'gray',
+        '--rcsc-panel-border-radius': '10px',
+        '--rcsc-control-border-radius': '20px'
+      }}
       styles={{
         panel: { fontSize: 14 },
         jigsaw: { fontSize: 16 },

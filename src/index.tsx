@@ -7,6 +7,24 @@ import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
 import { getClient, isBrowser, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
 
+type StyleWithVariable<V extends string = never> = React.CSSProperties & Partial<Record<V, string>>;
+type StyleProp = StyleWithVariable<
+  | '--rcsc-primary'
+  | '--rcsc-primary-light'
+  | '--rcsc-error'
+  | '--rcsc-error-light'
+  | '--rcsc-success'
+  | '--rcsc-success-light'
+  | '--rcsc-border-color'
+  | '--rcsc-bg-color'
+  | '--rcsc-text-color'
+  | '--rcsc-button-color'
+  | '--rcsc-button-hover-color'
+  | '--rcsc-button-bg-color'
+  | '--rcsc-panel-border-radius'
+  | '--rcsc-control-border-radius'
+>;
+
 type TipTextType = {
   default: ReactNode;
   loading: ReactNode;
@@ -86,14 +104,14 @@ export type SliderCaptchaProps = {
   loadingBoxProps?: LoadingBoxProps;
   sliderButtonProps?: SliderButtonProps;
   className?: string;
-  style?: React.CSSProperties;
+  style?: StyleProp;
   styles?: {
-    panel?: React.CSSProperties;
-    jigsaw?: React.CSSProperties;
-    bgImg?: React.CSSProperties;
-    puzzleImg?: React.CSSProperties;
-    control?: React.CSSProperties;
-    indicator?: React.CSSProperties;
+    panel?: StyleProp;
+    jigsaw?: StyleProp;
+    bgImg?: StyleProp;
+    puzzleImg?: StyleProp;
+    control?: StyleProp;
+    indicator?: StyleProp;
   };
 } & (
   | {
