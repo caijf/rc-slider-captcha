@@ -67,6 +67,7 @@ React 滑块验证码组件。
 
 <code src='./demos/custom-style.tsx' />
 <code src='./demos/custom-styles.tsx' />
+<code src='./demos/custom-intl.tsx' />
 
 暗色主题
 

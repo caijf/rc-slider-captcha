@@ -1,7 +1,6 @@
 import { ArrowRepeat, EmojiFrownFill, EmojiSmileFill, Gem, Heart } from 'doly-icons';
 import SliderCaptcha from 'rc-slider-captcha';
 import React from 'react';
-import styles from './custom-style.less';
 import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
@@ -30,7 +29,12 @@ function Demo() {
         icon: <Heart />,
         text: "I'm loading"
       }}
-      className={styles.custom}
+      style={{
+        '--rcsc-primary': '#e91e63',
+        '--rcsc-primary-light': '#f8bbd0',
+        '--rcsc-panel-border-radius': '10px',
+        '--rcsc-control-border-radius': '20px'
+      }}
     />
   );
 }
