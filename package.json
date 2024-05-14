@@ -102,7 +102,7 @@
     "rollup": "^4.14.3",
     "rollup-plugin-postcss": "^4.0.2",
     "stylelint": "^14.16.1",
-    "stylelint-config-css-modules": "^4.4.0",
+    "stylelint-config-css-modules": "~4.2.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^28.0.0",

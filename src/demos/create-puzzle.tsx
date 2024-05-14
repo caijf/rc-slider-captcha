@@ -23,7 +23,7 @@ function Demo() {
           };
         })
       }
-      onVerify={async (data) => {
+      onVerify={(data) => {
         console.log(data);
         if (data.x >= offsetXRef.current - 5 && data.x < offsetXRef.current + 5) {
           return Promise.resolve();
