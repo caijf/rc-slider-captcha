@@ -79,7 +79,7 @@
     "autoprefixer": "^10.4.19",
     "babel-jest": "^29.7.0",
     "commitizen": "^4.3.0",
-    "create-puzzle": "^2.0.3",
+    "create-puzzle": "^3.0.0",
     "doly-icons": "^1.5.4",
     "dumi": "^1.1.54",
     "element-remove": "^1.0.4",

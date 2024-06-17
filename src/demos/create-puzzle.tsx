@@ -3,7 +3,7 @@
  */
 import SliderCaptcha from 'rc-slider-captcha';
 import React, { useRef } from 'react';
-import createPuzzle from 'create-puzzle';
+import { createPuzzle } from 'create-puzzle';
 import DemoImage from './assets/sunflower.jpg';
 
 function Demo() {
