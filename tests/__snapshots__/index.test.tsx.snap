@@ -46,6 +46,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 1
           alt=""
           className="rc-slider-captcha-jigsaw-puzzle"
           data-id="puzzle"
+          onMouseDown={[Function]}
+          onTouchStart={[Function]}
           style={
             {
               "left": 0,
@@ -189,6 +191,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 1
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
       data-id="button"
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
     >
       <span
         className="rc-slider-captcha-icon"
@@ -265,6 +269,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 2
           alt=""
           className="rc-slider-captcha-jigsaw-puzzle"
           data-id="puzzle"
+          onMouseDown={[Function]}
+          onTouchStart={[Function]}
           style={
             {
               "left": 0,
@@ -407,6 +413,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 2
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       data-id="button"
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
     >
       <span
         className="rc-slider-captcha-icon"
@@ -458,6 +466,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 3
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       data-id="button"
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
     >
       <span
         className="rc-slider-captcha-icon"
@@ -534,6 +544,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 4
           alt=""
           className="rc-slider-captcha-jigsaw-puzzle"
           data-id="puzzle"
+          onMouseDown={[Function]}
+          onTouchStart={[Function]}
           style={
             {
               "left": 0,
@@ -656,6 +668,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 4
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       data-id="button"
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
     >
       <span
         className="rc-slider-captcha-icon"
@@ -736,6 +750,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
           alt=""
           className="rc-slider-captcha-jigsaw-puzzle"
           data-id="puzzle"
+          onMouseDown={[Function]}
+          onTouchStart={[Function]}
           style={
             {
               "color": "blue",
@@ -795,6 +811,8 @@ exports[`snapshot render default, float mode, slider mode, refresh icon, other 5
     <span
       className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       data-id="button"
+      onMouseDown={[Function]}
+      onTouchStart={[Function]}
     >
       define icon default
     </span>
