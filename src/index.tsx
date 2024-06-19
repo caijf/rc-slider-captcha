@@ -5,7 +5,7 @@ import './style';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import SliderButton, { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
-import { getClient, isBrowser, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
+import { getClient, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
 
 type StyleWithVariable<V extends string = never> = React.CSSProperties & Partial<Record<V, string>>;
 type StyleProp = StyleWithVariable<
@@ -525,23 +525,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (autoRequest) {
       getJigsawImages();
     }
-
-    const sliderButtonTarget = sliderButtonRef.current;
-    const puzzleTarget = puzzleRef.current;
-
-    if (isBrowser && sliderButtonTarget) {
-      sliderButtonTarget.addEventListener(events.start, touchstart);
-      puzzleTarget && puzzleTarget.addEventListener(events.start, touchstart);
-
-      return () => {
-        sliderButtonTarget.removeEventListener(events.start, touchstart);
-        puzzleTarget && puzzleTarget.removeEventListener(events.start, touchstart);
-        document.removeEventListener(events.move, touchmove);
-        document.removeEventListener(events.end, touchend);
-        document.removeEventListener('touchcancel', touchend);
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loading = status === Status.Loading; // 加载中
@@ -631,6 +614,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
                 alt=""
                 data-id={CurrentTargetType.Puzzle}
                 ref={puzzleRef}
+                onTouchStart={touchstart}
+                onMouseDown={touchstart}
               />
               {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
                 <div
@@ -684,6 +669,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           data-id={CurrentTargetType.Button}
           mobile={isSupportTouch}
           ref={sliderButtonRef}
+          onTouchStart={touchstart}
+          onMouseDown={touchstart}
         >
           {currentTipIcon}
         </SliderButton>
