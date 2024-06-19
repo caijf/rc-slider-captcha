@@ -1,40 +1,63 @@
 /**
  * description:  使用 [`create-puzzle`](https://caijf.github.io/create-puzzle/index.html) 生成背景图和拼图。如果你使用的是 Node.js 做服务端，推荐使用 [`node-puzzle`](https://github.com/caijf/node-puzzle) 。
  */
-import SliderCaptcha from 'rc-slider-captcha';
-import React, { useRef } from 'react';
-import { createPuzzle } from 'create-puzzle';
+import SliderCaptcha, { ActionType } from 'rc-slider-captcha';
+import React, { useRef, useState } from 'react';
+import { Options, createPuzzle } from 'create-puzzle';
 import DemoImage from './assets/sunflower.jpg';
+import { Radio } from 'antd';
+import { useUpdateEffect } from 'rc-hooks';
 
 function Demo() {
+  const [format, setFormat] = useState<Options['format']>('blob');
+  const actionRef = useRef<ActionType>();
   const offsetXRef = useRef(0); // x 轴偏移值
 
-  return (
-    <SliderCaptcha
-      request={() =>
-        createPuzzle(DemoImage, {
-          format: 'blob'
-        }).then((res) => {
-          offsetXRef.current = res.x;
+  useUpdateEffect(() => {
+    actionRef.current?.refresh();
+  }, [format]);
 
-          return {
-            bgUrl: res.bgUrl,
-            puzzleUrl: res.puzzleUrl
-          };
-        })
-      }
-      onVerify={(data) => {
-        console.log(data);
-        if (data.x >= offsetXRef.current - 5 && data.x < offsetXRef.current + 5) {
-          return Promise.resolve();
+  return (
+    <div>
+      <div style={{ marginBottom: 16 }}>
+        图片格式：
+        <Radio.Group
+          buttonStyle="outline"
+          optionType="button"
+          value={format}
+          onChange={(e) => setFormat(e.target.value)}
+        >
+          <Radio value="blob">Blob</Radio>
+          <Radio value="dataURL">Base64</Radio>
+        </Radio.Group>
+      </div>
+      <SliderCaptcha
+        request={() =>
+          createPuzzle(DemoImage, {
+            format
+          }).then((res) => {
+            offsetXRef.current = res.x;
+
+            return {
+              bgUrl: res.bgUrl,
+              puzzleUrl: res.puzzleUrl
+            };
+          })
         }
-        return Promise.reject();
-      }}
-      bgSize={{
-        width: 360
-      }}
-      loadingDelay={300}
-    />
+        onVerify={(data) => {
+          console.log(data);
+          if (data.x >= offsetXRef.current - 5 && data.x < offsetXRef.current + 5) {
+            return Promise.resolve();
+          }
+          return Promise.reject();
+        }}
+        bgSize={{
+          width: 360
+        }}
+        loadingDelay={300}
+        actionRef={actionRef}
+      />
+    </div>
   );
 }
 
