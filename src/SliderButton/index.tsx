@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React from 'react';
-import { prefixCls } from '../utils';
+import { isSupportTouch, prefixCls } from '../utils';
 import '../style';
 
 const currentPrefixCls = `${prefixCls}-button`;
@@ -11,11 +11,10 @@ export interface SliderButtonProps extends React.HTMLAttributes<HTMLSpanElement>
   success?: boolean;
   error?: boolean;
   verify?: boolean;
-  mobile?: boolean; // 如果是移动端，去掉 hover 样式
 }
 
 const SliderButton = React.forwardRef<HTMLSpanElement, SliderButtonProps>(
-  ({ className, disabled, active, success, error, verify, mobile, ...restProps }, ref) => {
+  ({ className, disabled, active, success, error, verify, ...restProps }, ref) => {
     return (
       <span
         className={classnames(currentPrefixCls, className, {
@@ -24,7 +23,7 @@ const SliderButton = React.forwardRef<HTMLSpanElement, SliderButtonProps>(
           [`${currentPrefixCls}-verify`]: verify,
           [`${currentPrefixCls}-success`]: success,
           [`${currentPrefixCls}-error`]: error,
-          [`${currentPrefixCls}-pc`]: !mobile
+          [`${currentPrefixCls}-pc`]: !isSupportTouch // 如果是移动端，去掉 hover 样式
         })}
         ref={ref}
         {...restProps}

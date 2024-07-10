@@ -20,7 +20,7 @@ React 滑块验证码组件。
 
 <code src='./demos/dev-icon.tsx' />
 <code src='./demos/dev-button.tsx' />
-<code src='./demos/dev-slideway.tsx' />
+<code src='./demos/dev-control-bar.tsx' />
 
 ### 基础用法
 
@@ -67,11 +67,20 @@ React 滑块验证码组件。
 
 <code src='./demos/custom-style.tsx' />
 <code src='./demos/custom-styles.tsx' />
-<code src='./demos/custom-intl.tsx' />
 
 暗色主题
 
 <code src='./demos/custom-dark.tsx' background="#000" />
+
+### 自定义文本
+
+<code src='./demos/custom-intl.tsx' />
+
+### 请求失败
+
+当图片接口请求失败时，友好显示。
+
+<code src='./demos/request-failed.tsx' />
 
 ### 验证失败处理
 
@@ -110,10 +119,11 @@ React 滑块验证码组件。
 | mode | 显示模式。`embed` - 嵌入式， `float` - 触发式， `slider` - 只有滑块无拼图。 | `'embed' \| 'float' \| 'slider'` | `'embed'` |
 | bgSize | 背景图尺寸 | `{ width: number; height: number; }` | `{ width: 320, height: 160 }` |
 | puzzleSize | 拼图尺寸和偏移调整，默认宽度 `60`，高度为背景图高度。 | `{ width: number; height: number; left: number; top: number; }` | `{ width: 60 }` |
-| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; }` | - |
+| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; loadFailed: ReactNode; }` | - |
 | tipIcon | 提示图标配置 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; }` | - |
 | actionRef | 常用操作，比如`刷新`。 | `React.MutableRefObject<ActionType \| undefined>;` | - |
 | showRefreshIcon | 显示右上角刷新图标 | `boolean` | `true` |
+| refreshIcon | 自定义刷新图标 | `ReactNode` | - |
 | limitErrorCount | 限制连续错误次数。当连续错误次数达到限制时，不允许操作滑块和刷新图标，必须手动点击操作条刷新。`0` 表示不限制错误次数。 | `number` | `0` |
 | jigsawContent | 拼图区域自定义内容，需要自己定义绝对定位和 zIndex 。 | `ReactNode` | - |
 | loadingBoxProps | 拼图区域加载配置，支持 div 属性。 | `{ icon: ReactNode; text: ReactNode }` | - |
@@ -162,7 +172,8 @@ export enum Status {
   Moving, // 移动中
   Verify, // 验证中
   Success, // 验证成功
-  Error // 验证失败
+  Error, // 验证失败
+  LoadFailed // 加载失败
 }
 ```
 

@@ -1,7 +1,3 @@
-/**
- * debug: true
- * title: 自定义文本
- */
 import SliderCaptcha from 'rc-slider-captcha';
 import React from 'react';
 import { getCaptcha, verifyCaptcha } from './service1';

@@ -2,6 +2,7 @@
 @import './SliderIcon.less';
 @import './SliderButton.less';
 @import './LoadingBox.less';
+@import './ControlBar.less';
 
 .@{prefixCls} {
   position: relative;
@@ -9,83 +10,6 @@
   & > * {
     // iOS中通过Javascript定义的可点击元素，长按就会出现一个灰色背景
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-  &-control {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 42px;
-    background-color: @bg-color;
-    border: 1px solid @border-color;
-    border-radius: @control-border-radius;
-
-    &-button {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      border-radius: @control-border-radius;
-    }
-
-    &-indicator {
-      position: absolute;
-      top: -1px;
-      bottom: -1px;
-      left: -1px;
-      display: none;
-      box-sizing: border-box;
-      width: 0;
-      background-color: @primary-light;
-      border: 1px solid @primary;
-      border-radius: @control-border-radius;
-    }
-
-    &-tips {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 0;
-      color: @text-color;
-      font-size: 14px;
-      line-height: 20px;
-      text-align: center;
-      user-select: none;
-    }
-
-    // 其他状态
-    &-moving &-indicator,
-    &-verify &-indicator,
-    &-error &-indicator,
-    &-success &-indicator {
-      display: block;
-    }
-
-    &-error &-indicator {
-      background-color: @error-light;
-      border-color: @error;
-    }
-
-    &-success &-indicator {
-      background-color: @success-light;
-      border-color: @success;
-    }
-
-    // 失败多次
-    &-errors {
-      padding-left: 0;
-      background-color: @error-light;
-      border-color: @error;
-    }
-    &-errors &-button,
-    &-errors &-indicator {
-      display: none;
-    }
-    &-errors &-tips {
-      color: @error;
-      cursor: pointer;
-    }
   }
 
   &-jigsaw {
@@ -176,5 +100,18 @@
   &-float-bottom &-panel {
     top: 22px;
     padding: 15px 0 0;
+  }
+
+  &-load-failed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    color: #ccc;
+    font-size: 85px;
+    background-color: @bg-color;
   }
 }

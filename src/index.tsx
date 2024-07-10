@@ -1,11 +1,13 @@
 import classnames from 'classnames';
-import React, { ReactNode, useEffect, useMemo, useRef } from 'react';
+import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { useSafeState, useLatest } from 'rc-hooks';
 import './style';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
-import SliderButton, { SliderButtonProps } from './SliderButton';
+import { SliderButtonProps } from './SliderButton';
 import SliderIcon from './SliderIcon';
 import { getClient, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
+import ControlBar, { ControlBarRefType, TipIconType, TipTextType } from './ControlBar';
+import { Status } from './interface';
 
 type StyleWithVariable<V extends string = never> = React.CSSProperties & Partial<Record<V, string>>;
 type StyleProp = StyleWithVariable<
@@ -24,24 +26,6 @@ type StyleProp = StyleWithVariable<
   | '--rcsc-panel-border-radius'
   | '--rcsc-control-border-radius'
 >;
-
-type TipTextType = {
-  default: ReactNode;
-  loading: ReactNode;
-  moving: ReactNode;
-  verifying: ReactNode;
-  success: ReactNode;
-  error: ReactNode;
-  errors: ReactNode;
-};
-
-type TipIconType = {
-  default: ReactNode;
-  loading: ReactNode;
-  error: ReactNode;
-  success: ReactNode;
-  refresh: ReactNode;
-};
 
 type SizeType = {
   width: number;
@@ -70,15 +54,7 @@ export type VerifyParam = {
   errorCount: number; // 期间连续错误次数
 };
 
-// 内部状态
-export enum Status {
-  Default = 1,
-  Loading,
-  Moving,
-  Verify,
-  Success,
-  Error
-}
+export { Status };
 
 // 常用操作
 export type ActionType = {
@@ -90,7 +66,15 @@ export type SliderCaptchaProps = {
   limitErrorCount?: number; // 限制连续错误次数
   onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
   tipText?: Partial<TipTextType>; // 提示文本
-  tipIcon?: Partial<TipIconType>; // 提示图标
+  tipIcon?: Partial<
+    TipIconType & {
+      /**
+       * @deprecated 即将废弃，请使用 `refreshIcon` 。
+       */
+      refresh: ReactNode;
+    }
+  >; // 提示图标
+  refreshIcon?: ReactNode;
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
   puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
   autoRequest?: boolean; // 自动发起请求
@@ -124,11 +108,7 @@ export type SliderCaptchaProps = {
     }
 );
 
-const controlPrefixCls = `${prefixCls}-control`;
 const jigsawPrefixCls = `${prefixCls}-jigsaw`;
-
-const SliderButtonWidth = 40; // 滑块按钮宽度
-const SliderBorderWidth = 2; // 滑块边框宽度
 
 // 默认配置
 const defaultConfig = {
@@ -139,27 +119,7 @@ const defaultConfig = {
   puzzleSize: {
     width: 60,
     left: 0
-  },
-  tipText: {
-    default: '向右拖动滑块填充拼图',
-    loading: '加载中...',
-    moving: null,
-    verifying: null,
-    success: null,
-    error: null,
-    errors: (
-      <>
-        <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
-      </>
-    )
-  } as TipTextType,
-  tipIcon: {
-    default: <SliderIcon type="arrowRight" />,
-    loading: <SliderIcon type="loading" spin />,
-    error: <SliderIcon type="x" />,
-    success: <SliderIcon type="check" />,
-    refresh: <SliderIcon type="refresh" />
-  } as TipIconType
+  }
 };
 
 const events = isSupportTouch
@@ -177,8 +137,9 @@ const events = isSupportTouch
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   mode: outMode = 'embed',
   limitErrorCount = 0,
-  tipText: outTipText,
-  tipIcon: outTipIcon,
+  tipText,
+  tipIcon,
+  refreshIcon: customRefreshIcon,
   bgSize: outBgSize,
   puzzleSize: outPuzzleSize,
   request,
@@ -200,23 +161,26 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
   const [status, setStatus] = useSafeState<Status>(Status.Default);
   const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
-  const loadingTimerRef = useRef<any>(null); // 延迟加载状态定时器
-  const hasLoadingDelay = typeof loadingDelay === 'number' && loadingDelay > 0;
+  const controlRef = useRef<ControlBarRefType>(null);
 
   // dom ref
-  const sliderButtonRef = useRef<HTMLSpanElement>(null);
   const puzzleRef = useRef<HTMLImageElement>(null);
-  const indicatorRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
   const mode = useMemo(
     () => (outMode === 'float' || outMode === 'slider' ? outMode : 'embed'),
     [outMode]
-  ); // 模式
-  const modeIsSlider = mode === 'slider';
-  const tipText = useMemo(() => ({ ...defaultConfig.tipText, ...outTipText }), [outTipText]);
-  const tipIcon = useMemo(() => ({ ...defaultConfig.tipIcon, ...outTipIcon }), [outTipIcon]);
+  );
+  const refreshIcon = useMemo(() => {
+    if (customRefreshIcon !== undefined) {
+      return customRefreshIcon;
+    }
+    if (tipIcon && tipIcon.refresh !== undefined) {
+      return tipIcon.refresh;
+    }
+    return <SliderIcon type="refresh" />;
+  }, [customRefreshIcon, tipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
   const puzzleSize = useMemo(
     () => ({ ...defaultConfig.puzzleSize, ...outPuzzleSize }),
@@ -224,28 +188,44 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   );
   const placementPos = useMemo(() => (placement === 'bottom' ? 'top' : 'bottom'), [placement]);
 
-  const currentTargetTypeRef = useRef<CurrentTargetType>(CurrentTargetType.Button); // 当前触发事件的节点，拼图或按钮
-  const errorCountRef = useRef(0); // 连续错误次数
-  const startInfoRef = useRef({ x: 0, y: 0, timestamp: 0 }); // 鼠标按下或触摸开始信息
-  const trailRef = useRef([] as [number, number][]); // 移动轨迹
-  const isPressedRef = useRef(false); // 标识是否按下
-  const sliderButtonWidthRef = useRef(SliderButtonWidth); // 滑块按钮宽度
+  const internalRef = useRef({
+    isPressed: false, // 标识是否按下
+    trail: [] as VerifyParam['trail'], // 移动轨迹
+    errorCount: 0, // 连续错误次数
+    startInfo: { x: 0, y: 0, timestamp: 0 }, // 鼠标按下或触摸开始信息
+    currentTargetType: CurrentTargetType.Button, // 当前触发事件的节点，拼图或按钮
 
-  const floatTransitionTimerRef = useRef<any>(null); // 触发式渐变过渡效果定时器
-  const floatDelayShowTimerRef = useRef<any>(null); // 触发式鼠标移入定时器
-  const floatDelayHideTimerRef = useRef<any>(null); // 触发式鼠标移出定时器
-  const refreshTimerRef = useRef<any>(null); // 自动刷新的定时器
+    floatTransitionTimer: null as any, // 触发式渐变过渡效果定时器
+    floatDelayShowTimer: null as any, // 触发式鼠标移入定时器
+    floatDelayHideTimer: null as any, // 触发式鼠标移出定时器
+    refreshTimer: null as any, // 自动刷新的定时器
+    loadingTimer: null as any, // 延迟加载状态定时器
+
+    sliderButtonWidth: 40, // 滑块按钮宽度
+    indicatorBorderWidth: 2, // 滑轨边框宽度
+    ratio: 1, // 当滑块或拼图为触发事件的焦点时，两者的变换比例
+    buttonMaxDistance: 0, // 按钮最大可移动距离
+    puzzleMaxDistance: 0 // 拼图最大可移动距离
+  });
+
+  const modeIsSlider = mode === 'slider'; // 单滑轨，无图片
+  const hasLoadingDelay = typeof loadingDelay === 'number' && loadingDelay > 0; // 延迟加载状态
+  const isLoading = status === Status.Loading; // 加载中
+  const isLoadFailed = status === Status.LoadFailed; // 加载失败
+  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止滑动
+
   const isLimitErrors =
-    latestStatus.current === Status.Error &&
+    status === Status.Error &&
     limitErrorCount > 0 &&
-    errorCountRef.current >= limitErrorCount; // 是否超过限制错误次数
+    internalRef.current.errorCount >= limitErrorCount; // 是否超过限制错误次数
 
-  const ratioRef = useRef(1); // 当滑块或拼图为触发事件的焦点时，两者的变换比例
-  const maxDistanceRef = useRef({ button: 0, puzzle: 0 }); // 最大可移动距离
   // 更新最大可移动距离
   const updateMaxDistance = () => {
-    maxDistanceRef.current.button = bgSize.width - sliderButtonWidthRef.current - SliderBorderWidth;
-    maxDistanceRef.current.puzzle = bgSize.width - puzzleSize.width - puzzleSize.left;
+    internalRef.current.buttonMaxDistance =
+      bgSize.width -
+      internalRef.current.sliderButtonWidth -
+      internalRef.current.indicatorBorderWidth;
+    internalRef.current.puzzleMaxDistance = bgSize.width - puzzleSize.width - puzzleSize.left;
   };
 
   // 获取背景图和拼图
@@ -253,21 +233,29 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (modeIsSlider) return;
     if (request) {
       if (hasLoadingDelay) {
-        loadingTimerRef.current = setTimeout(() => {
+        internalRef.current.loadingTimer = setTimeout(() => {
           setStatus(Status.Loading);
         }, loadingDelay);
       } else {
         setStatus(Status.Loading);
       }
 
-      const result = await request();
+      try {
+        const result = await request();
 
-      if (hasLoadingDelay) {
-        clearTimeout(loadingTimerRef.current);
+        if (hasLoadingDelay) {
+          clearTimeout(internalRef.current.loadingTimer);
+        }
+
+        setJigsawImgs(result);
+        setStatus(Status.Default);
+      } catch (err) {
+        // console.error(err);
+        if (hasLoadingDelay) {
+          clearTimeout(internalRef.current.loadingTimer);
+        }
+        setStatus(Status.LoadFailed);
       }
-
-      setJigsawImgs(result);
-      setStatus(Status.Default);
     }
   };
 
@@ -277,11 +265,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
-    clearTimeout(floatTransitionTimerRef.current);
-    clearTimeout(floatDelayHideTimerRef.current);
-    clearTimeout(floatDelayShowTimerRef.current);
+    clearTimeout(internalRef.current.floatTransitionTimer);
+    clearTimeout(internalRef.current.floatDelayHideTimer);
+    clearTimeout(internalRef.current.floatDelayShowTimer);
 
-    floatDelayShowTimerRef.current = setTimeout(() => {
+    internalRef.current.floatDelayShowTimer = setTimeout(() => {
       setStyle(panelRef.current, { display: 'block' });
       reflow(panelRef.current);
       setStyle(panelRef.current, { [placementPos]: '42px', opacity: '1' });
@@ -294,38 +282,43 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
-    clearTimeout(floatTransitionTimerRef.current);
-    clearTimeout(floatDelayHideTimerRef.current);
-    clearTimeout(floatDelayShowTimerRef.current);
+    clearTimeout(internalRef.current.floatTransitionTimer);
+    clearTimeout(internalRef.current.floatDelayHideTimer);
+    clearTimeout(internalRef.current.floatDelayShowTimer);
 
-    floatDelayHideTimerRef.current = setTimeout(() => {
+    internalRef.current.floatDelayHideTimer = setTimeout(() => {
       setStyle(panelRef.current, { [placementPos]: '22px', opacity: '0' });
-      floatTransitionTimerRef.current = setTimeout(() => {
+      internalRef.current.floatTransitionTimer = setTimeout(() => {
         setStyle(panelRef.current, { display: 'none' });
       }, 300);
     }, delay);
   };
 
+  // 更新拼图位置
+  const updatePuzzleLeft = (left: number) => {
+    if (!modeIsSlider && puzzleRef.current) {
+      setStyle(puzzleRef.current, { left: left + 'px' });
+    }
+  };
+
   // 重置状态和元素位置
   const reset = () => {
-    isPressedRef.current = false;
-    // isMovedRef.current = false;
+    internalRef.current.isPressed = false;
     setStatus(Status.Default);
 
-    setStyle(sliderButtonRef.current, { left: '0' });
-    setStyle(indicatorRef.current, { width: '0' });
-    setStyle(puzzleRef.current, { left: puzzleSize.left + 'px' });
+    controlRef.current?.updateLeft(0);
+    updatePuzzleLeft(puzzleSize.left);
   };
 
   // 刷新
   const refresh = (resetErrorCount = false) => {
     // 重置连续错误次数记录
     if (resetErrorCount) {
-      errorCountRef.current = 0;
+      internalRef.current.errorCount = 0;
     }
 
     // 清除延迟调用刷新方法的定时器
-    clearTimeout(refreshTimerRef.current);
+    clearTimeout(internalRef.current.refreshTimer);
 
     // 防止连续调用刷新方法，会触发多次请求的问题
     if (latestStatus.current === Status.Loading) {
@@ -336,9 +329,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     getJigsawImages();
   };
 
-  // 点击滑块操作条，如果连续超过错误次数则刷新
+  // 点击滑块操作条，如果连续超过错误次数或请求失败则刷新
   const handleClickControl = () => {
-    if (isLimitErrors) {
+    if (isLimitErrors || isLoadFailed) {
       refresh(true);
     }
   };
@@ -366,6 +359,15 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   };
 
+  const touchstartPuzzle = (e: any) => {
+    internalRef.current.currentTargetType = CurrentTargetType.Puzzle;
+    touchstart(e);
+  };
+  const touchstartSliderButton = (e: any) => {
+    internalRef.current.currentTargetType = CurrentTargetType.Button;
+    touchstart(e);
+  };
+
   // 鼠标按下或触摸开始
   const touchstart = (e: any) => {
     if (latestStatus.current !== Status.Default) {
@@ -374,52 +376,56 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     e.preventDefault(); // 防止移动端按下后会选择文本或图片
 
-    const target = e.currentTarget as HTMLElement; // 用于判断当前触发事件的节点
+    const { clientX, clientY } = getClient(e);
 
-    if (target && sliderButtonRef.current && (modeIsSlider || puzzleRef.current)) {
-      const { clientX, clientY } = getClient(e);
+    internalRef.current.startInfo = {
+      x: clientX,
+      y: clientY,
+      timestamp: new Date().getTime()
+    };
+    internalRef.current.trail = [[clientX, clientY]];
 
-      startInfoRef.current = {
-        x: clientX,
-        y: clientY,
-        timestamp: new Date().getTime()
-      };
-      trailRef.current = [[startInfoRef.current.x, startInfoRef.current.y]];
-
-      sliderButtonWidthRef.current = sliderButtonRef.current.clientWidth;
-      updateMaxDistance();
-      currentTargetTypeRef.current = target.getAttribute('data-id') as CurrentTargetType;
-
-      // 最大可移动区间值比例
-      ratioRef.current = maxDistanceRef.current.puzzle / maxDistanceRef.current.button;
-      if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
-        ratioRef.current = 1 / ratioRef.current;
-      }
-
-      // 处理移动端-触发式兼容
-      if (isSupportTouch) {
-        showPanel(0);
-      }
-
-      isPressedRef.current = true;
-
-      document.addEventListener(events.move, touchmove);
-      document.addEventListener(events.end, touchend);
-      document.addEventListener('touchcancel', touchend);
+    if (controlRef.current) {
+      internalRef.current.sliderButtonWidth = controlRef.current.getSliderButtonWidth(true);
+      internalRef.current.indicatorBorderWidth = controlRef.current.getIndicatorBorderWidth(true);
     }
+    updateMaxDistance();
+
+    // TODO 改动比例，等大版本更新在调整。
+    // if (modeIsSlider) {
+    //   internalRef.current.ratio = 1;
+    // } else {
+    // 最大可移动区间值比例
+    internalRef.current.ratio =
+      internalRef.current.puzzleMaxDistance / internalRef.current.buttonMaxDistance;
+    if (internalRef.current.currentTargetType === CurrentTargetType.Puzzle) {
+      internalRef.current.ratio = 1 / internalRef.current.ratio;
+    }
+    // }
+
+    // 处理移动端-触发式兼容
+    if (isSupportTouch) {
+      showPanel(0);
+    }
+
+    internalRef.current.isPressed = true;
+
+    document.addEventListener(events.move, touchmove);
+    document.addEventListener(events.end, touchend);
+    document.addEventListener('touchcancel', touchend);
   };
 
   // 鼠标移动 或 触摸移动
   const touchmove = (e: any) => {
-    if (!isPressedRef.current) {
+    if (!internalRef.current.isPressed) {
       return;
     }
 
     e.preventDefault();
     const { clientX, clientY } = getClient(e);
 
-    let diffX = clientX - startInfoRef.current.x; // 移动距离
-    trailRef.current.push([clientX, clientY]); // 记录移动轨迹
+    let diffX = clientX - internalRef.current.startInfo.x; // 移动距离
+    internalRef.current.trail.push([clientX, clientY]); // 记录移动轨迹
 
     if (latestStatus.current !== Status.Moving && diffX > 0) {
       setStatus(Status.Moving);
@@ -428,21 +434,18 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     let puzzleLeft = diffX; // 拼图左偏移值
     let sliderButtonLeft = diffX; // 滑块按钮左偏移值
 
-    if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
-      diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.puzzle));
+    if (internalRef.current.currentTargetType === CurrentTargetType.Puzzle) {
+      diffX = Math.max(0, Math.min(diffX, internalRef.current.puzzleMaxDistance));
       puzzleLeft = diffX + puzzleSize.left;
-      sliderButtonLeft = diffX * ratioRef.current;
+      sliderButtonLeft = diffX * internalRef.current.ratio;
     } else {
-      diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
+      diffX = Math.max(0, Math.min(diffX, internalRef.current.buttonMaxDistance));
       sliderButtonLeft = diffX;
-      puzzleLeft = diffX * ratioRef.current + puzzleSize.left;
+      puzzleLeft = diffX * internalRef.current.ratio + puzzleSize.left;
     }
 
-    setStyle(sliderButtonRef.current, { left: sliderButtonLeft + 'px' });
-    setStyle(indicatorRef.current, {
-      width: sliderButtonLeft + sliderButtonWidthRef.current + SliderBorderWidth + 'px'
-    });
-    setStyle(puzzleRef.current, { left: puzzleLeft + 'px' });
+    controlRef.current?.updateLeft(sliderButtonLeft);
+    updatePuzzleLeft(puzzleLeft);
   };
 
   // 鼠标弹起 或 停止触摸
@@ -451,12 +454,12 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     document.removeEventListener(events.end, touchend);
     document.removeEventListener('touchcancel', touchend);
 
-    if (!isPressedRef.current) {
+    if (!internalRef.current.isPressed) {
       return;
     }
 
     if (latestStatus.current !== Status.Moving) {
-      isPressedRef.current = false;
+      internalRef.current.isPressed = false;
 
       // 如果是移动端事件，并且是触发式，隐藏浮层
       if (isSupportTouch) {
@@ -466,41 +469,41 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
 
     if (onVerify) {
-      isPressedRef.current = false;
+      internalRef.current.isPressed = false;
       setStatus(Status.Verify);
 
       const endTimestamp = new Date().getTime();
       const { clientX, clientY } = getClient(e);
 
-      const diffY = clientY - startInfoRef.current.y;
-      let diffX = clientX - startInfoRef.current.x; // 拼图移动距离
+      const diffY = clientY - internalRef.current.startInfo.y;
+      let diffX = clientX - internalRef.current.startInfo.x; // 拼图移动距离
       let sliderOffsetX = diffX; // 滑块偏移值
 
-      if (currentTargetTypeRef.current === CurrentTargetType.Puzzle) {
-        diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.puzzle));
-        sliderOffsetX = diffX * ratioRef.current;
+      if (internalRef.current.currentTargetType === CurrentTargetType.Puzzle) {
+        diffX = Math.max(0, Math.min(diffX, internalRef.current.puzzleMaxDistance));
+        sliderOffsetX = diffX * internalRef.current.ratio;
       } else {
-        diffX = Math.max(0, Math.min(diffX, maxDistanceRef.current.button));
+        diffX = Math.max(0, Math.min(diffX, internalRef.current.buttonMaxDistance));
         sliderOffsetX = diffX;
-        diffX *= ratioRef.current;
+        diffX *= internalRef.current.ratio;
       }
 
       onVerify({
         x: diffX,
         y: diffY,
         sliderOffsetX,
-        duration: endTimestamp - startInfoRef.current.timestamp,
-        trail: trailRef.current,
-        targetType: currentTargetTypeRef.current,
-        errorCount: errorCountRef.current
+        duration: endTimestamp - internalRef.current.startInfo.timestamp,
+        trail: internalRef.current.trail,
+        targetType: internalRef.current.currentTargetType,
+        errorCount: internalRef.current.errorCount
       })
         .then(() => {
-          errorCountRef.current = 0;
+          internalRef.current.errorCount = 0;
           setStatus(Status.Success);
           hidePanel();
         })
         .catch(() => {
-          errorCountRef.current += 1;
+          internalRef.current.errorCount += 1;
           setStatus(Status.Error);
 
           if (isSupportTouch) {
@@ -508,10 +511,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           }
 
           if (
-            (limitErrorCount <= 0 || errorCountRef.current < limitErrorCount) &&
+            (limitErrorCount <= 0 || internalRef.current.errorCount < limitErrorCount) &&
             autoRefreshOnError
           ) {
-            refreshTimerRef.current = setTimeout(() => {
+            internalRef.current.refreshTimer = setTimeout(() => {
               refresh();
             }, errorHoldDuration);
           }
@@ -527,51 +530,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   }, []);
 
-  const loading = status === Status.Loading; // 加载中
-  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止滑动
-
-  // 当前提示文本
-  const currentTipText = useMemo(() => {
-    if (status === Status.Default) {
-      return tipText.default;
-    }
-    if (status === Status.Loading) {
-      return tipText.loading;
-    }
-    if (status === Status.Moving) {
-      return tipText.moving;
-    }
-    if (status === Status.Verify) {
-      return tipText.verifying;
-    }
-    if (isLimitErrors) {
-      return tipText.errors;
-    }
-    if (status === Status.Error) {
-      return tipText.error;
-    }
-    if (status === Status.Success) {
-      return tipText.success;
-    }
-    return null;
-  }, [status, tipText, isLimitErrors]);
-
-  // 当前提示图标
-  const currentTipIcon = useMemo(() => {
-    if (status === Status.Success) {
-      return tipIcon.success;
-    }
-    if (status === Status.Error) {
-      return tipIcon.error;
-    }
-    if (status === Status.Verify) {
-      return tipIcon.loading;
-    }
-    return tipIcon.default;
-  }, [status, tipIcon]);
-
   // 提供给外部
-  React.useImperativeHandle(actionRef, () => ({
+  useImperativeHandle(actionRef, () => ({
     refresh,
     get status() {
       return latestStatus.current;
@@ -598,7 +558,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
               style={{
                 ...styles?.jigsaw,
                 ...bgSize,
-                ...(loading || !jigsawImgs?.bgUrl ? { display: 'none' } : {})
+                ...(isLoading || isLoadFailed || !jigsawImgs?.bgUrl ? { display: 'none' } : {})
               }}
             >
               <img
@@ -612,12 +572,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
                 style={{ ...styles?.puzzleImg, ...puzzleSize }}
                 src={jigsawImgs?.puzzleUrl}
                 alt=""
-                data-id={CurrentTargetType.Puzzle}
                 ref={puzzleRef}
-                onTouchStart={touchstart}
-                onMouseDown={touchstart}
+                onTouchStart={touchstartPuzzle}
+                onMouseDown={touchstartPuzzle}
               />
-              {showRefreshIcon && status !== Status.Success && tipIcon.refresh && (
+              {showRefreshIcon && status !== Status.Success && refreshIcon && (
                 <div
                   className={classnames(`${jigsawPrefixCls}-refresh`, {
                     [`${jigsawPrefixCls}-refresh-disabled`]:
@@ -625,7 +584,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
                   })}
                   onClick={handleClickRefreshIcon}
                 >
-                  {tipIcon.refresh}
+                  {refreshIcon}
                 </div>
               )}
               {jigsawContent}
@@ -635,49 +594,34 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
               style={{
                 ...loadingBoxProps?.style,
                 ...bgSize,
-                ...(loading ? {} : { display: 'none' })
+                ...(isLoading ? {} : { display: 'none' })
               }}
             />
+            {isLoadFailed && (
+              <div className={`${prefixCls}-load-failed`}>
+                <SliderIcon type="imageFill" />
+              </div>
+            )}
           </div>
         </div>
       )}
-      <div
-        className={classnames(controlPrefixCls, {
-          [`${controlPrefixCls}-loading`]: loading,
-          [`${controlPrefixCls}-moving`]: status === Status.Moving,
-          [`${controlPrefixCls}-verify`]: status === Status.Verify,
-          [`${controlPrefixCls}-success`]: status === Status.Success,
-          [`${controlPrefixCls}-error`]: status === Status.Error,
-          [`${controlPrefixCls}-errors`]: isLimitErrors
-        })}
-        onClick={handleClickControl}
+      <ControlBar
+        status={status}
+        isLimitErrors={isLimitErrors}
+        tipText={tipText}
+        tipIcon={tipIcon}
         style={styles?.control}
-      >
-        <div
-          className={classnames(`${controlPrefixCls}-indicator`)}
-          style={styles?.indicator}
-          ref={indicatorRef}
-        />
-        <SliderButton
-          {...sliderButtonProps}
-          className={classnames(`${controlPrefixCls}-button`, sliderButtonProps?.className)}
-          disabled={loading}
-          active={status === Status.Moving}
-          verify={status === Status.Verify}
-          success={status === Status.Success}
-          error={status === Status.Error}
-          data-id={CurrentTargetType.Button}
-          mobile={isSupportTouch}
-          ref={sliderButtonRef}
-          onTouchStart={touchstart}
-          onMouseDown={touchstart}
-        >
-          {currentTipIcon}
-        </SliderButton>
-        {currentTipText && (
-          <div className={classnames(`${controlPrefixCls}-tips`)}>{currentTipText}</div>
-        )}
-      </div>
+        onClick={handleClickControl}
+        indicatorProps={{
+          style: styles?.indicator
+        }}
+        sliderButtonProps={{
+          ...sliderButtonProps,
+          onTouchStart: touchstartSliderButton,
+          onMouseDown: touchstartSliderButton
+        }}
+        controlRef={controlRef}
+      />
     </div>
   );
 };

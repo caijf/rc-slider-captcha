@@ -1,0 +1,83 @@
+@import './config.less';
+
+.@{prefixCls}-control {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 42px;
+  background-color: @bg-color;
+  border: 1px solid @border-color;
+  border-radius: @control-border-radius;
+
+  &-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    border-radius: @control-border-radius;
+  }
+
+  &-indicator {
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    left: -1px;
+    display: none;
+    box-sizing: border-box;
+    width: 0;
+    background-color: @primary-light;
+    border: 1px solid @primary;
+    border-radius: @control-border-radius;
+  }
+
+  &-tips {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    color: @text-color;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    user-select: none;
+  }
+
+  // 其他状态
+  &-moving &-indicator,
+  &-verify &-indicator,
+  &-error &-indicator,
+  &-success &-indicator {
+    display: block;
+  }
+
+  &-error &-indicator {
+    background-color: @error-light;
+    border-color: @error;
+  }
+
+  &-success &-indicator {
+    background-color: @success-light;
+    border-color: @success;
+  }
+
+  // 失败多次
+  &-errors,
+  &-load-failed {
+    padding-left: 0;
+    background-color: @error-light;
+    border-color: @error;
+  }
+  &-errors &-button,
+  &-errors &-indicator,
+  &-load-failed &-button,
+  &-load-failed &-indicator {
+    display: none;
+  }
+  &-errors &-tips,
+  &-load-failed &-tips {
+    color: @error;
+    cursor: pointer;
+  }
+}

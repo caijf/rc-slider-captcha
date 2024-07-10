@@ -13,6 +13,7 @@ function Demo() {
       <SliderIcon type="loading" spin />
       <SliderIcon type="refresh" />
       <SliderIcon type="x" />
+      <SliderIcon type="imageFill" />
     </>
   );
 }

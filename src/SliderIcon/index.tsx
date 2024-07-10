@@ -4,6 +4,7 @@ import IconCheck from './IconCheck';
 import IconLoading from './IconLoading';
 import IconRefresh from './IconRefresh';
 import IconX from './IconX';
+import IconImageFill from './IconImageFill';
 import '../style';
 import BaseIcon, { SliderIconBaseProps } from './SliderIconBase';
 
@@ -12,7 +13,8 @@ const iconMap = {
   check: <IconCheck />,
   loading: <IconLoading />,
   refresh: <IconRefresh />,
-  x: <IconX />
+  x: <IconX />,
+  imageFill: <IconImageFill />
 };
 
 export interface SliderIconProps extends SliderIconBaseProps {
