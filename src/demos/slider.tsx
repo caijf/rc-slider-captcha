@@ -15,10 +15,13 @@ function Demo() {
           success: '验证成功'
         }}
         errorHoldDuration={1000}
+        // 手动设置拼图宽度等于滑块宽度。后面大版本更新会将该模式下的拼图宽度改为和滑块宽度一致。
+        puzzleSize={{
+          width: 40
+        }}
         onVerify={(data) => {
           console.log(data);
-          // 默认背景图宽度 320 减去默认拼图宽度 60 所以滑轨宽度是 260
-          if (data.x === 260) {
+          if (data.x === 280) {
             return Promise.resolve();
           }
           return Promise.reject();
