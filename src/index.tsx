@@ -1,6 +1,6 @@
 import classnames from 'classnames';
-import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import { useSafeState, useLatest } from 'rc-hooks';
+import React, { ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
+import { useSafeState, useLatest, useMount } from 'rc-hooks';
 import './style';
 import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import { SliderButtonProps } from './SliderButton';
@@ -68,12 +68,13 @@ export type SliderCaptchaProps = {
   tipText?: Partial<TipTextType>; // 提示文本
   tipIcon?: Partial<
     TipIconType & {
-      /**
-       * @deprecated 即将废弃，请使用 `refreshIcon` 。
-       */
       refresh: ReactNode;
+      loadFailed: ReactNode;
     }
-  >; // 提示图标
+  >;
+  /**
+   * @deprecated 即将废弃，请使用 `tipIcon.refresh`。
+   */
   refreshIcon?: ReactNode;
   bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
   puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
@@ -176,11 +177,17 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (customRefreshIcon !== undefined) {
       return customRefreshIcon;
     }
-    if (tipIcon && tipIcon.refresh !== undefined) {
+    if (tipIcon?.refresh !== undefined) {
       return tipIcon.refresh;
     }
     return <SliderIcon type="refresh" />;
   }, [customRefreshIcon, tipIcon]);
+  const loadFailedIcon = useMemo(() => {
+    if (tipIcon?.loadFailed !== undefined) {
+      return tipIcon.loadFailed;
+    }
+    return <SliderIcon type="imageFill" />;
+  }, [tipIcon]);
   const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
   const puzzleSize = useMemo(
     () => ({ ...defaultConfig.puzzleSize, ...outPuzzleSize }),
@@ -524,11 +531,11 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     }
   };
 
-  useEffect(() => {
+  useMount(() => {
     if (autoRequest) {
       getJigsawImages();
     }
-  }, []);
+  });
 
   // 提供给外部
   useImperativeHandle(actionRef, () => ({
@@ -597,11 +604,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
                 ...(isLoading ? {} : { display: 'none' })
               }}
             />
-            {isLoadFailed && (
-              <div className={`${prefixCls}-load-failed`}>
-                <SliderIcon type="imageFill" />
-              </div>
-            )}
+            {isLoadFailed && <div className={`${prefixCls}-load-failed`}>{loadFailedIcon}</div>}
           </div>
         </div>
       )}
