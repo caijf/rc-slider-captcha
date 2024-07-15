@@ -1,822 +1,802 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot render default, float mode, slider mode, refresh icon, other 1`] = `
-<div
-  className="rc-slider-captcha rc-slider-captcha-embed"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    {
-      "width": 320,
-    }
-  }
->
+exports[`snapshot custom config 1`] = `
+<DocumentFragment>
   <div
-    className="rc-slider-captcha-panel"
+    class="rc-slider-captcha test rc-slider-captcha-embed"
+    style="width: 500px; background: red;"
   >
     <div
-      className="rc-slider-captcha-panel-inner"
-      style={
-        {
-          "height": 160,
-        }
-      }
+      class="rc-slider-captcha-panel"
     >
       <div
-        className="rc-slider-captcha-jigsaw"
-        style={
-          {
-            "display": "none",
-            "height": 160,
-            "width": 320,
-          }
-        }
-      >
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-bg"
-          style={
-            {
-              "height": 160,
-              "width": 320,
-            }
-          }
-        />
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-puzzle"
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          style={
-            {
-              "left": 0,
-              "width": 60,
-            }
-          }
-        />
-        <div
-          className="rc-slider-captcha-jigsaw-refresh"
-          onClick={[Function]}
-        >
-          <span
-            className="rc-slider-captcha-icon"
-          >
-            <svg
-              fill="currentColor"
-              height="1em"
-              viewBox="0 0 1024 1024"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M866.133333 573.013333a42.666667 42.666667 0 0 0-53.333333 27.733334A304.64 304.64 0 0 1 519.68 810.666667 302.933333 302.933333 0 0 1 213.333333 512a302.933333 302.933333 0 0 1 306.346667-298.666667 309.76 309.76 0 0 1 198.4 71.253334l-92.586667-15.36a42.666667 42.666667 0 0 0-49.066666 35.413333 42.666667 42.666667 0 0 0 35.413333 49.066667l180.906667 29.866666h7.253333a42.666667 42.666667 0 0 0 14.506667-2.56 14.08 14.08 0 0 0 4.266666-2.56 33.28 33.28 0 0 0 8.533334-4.693333l3.84-4.693333c0-2.133333 3.84-3.84 5.546666-6.4s0-4.266667 2.133334-5.973334a57.173333 57.173333 0 0 0 2.986666-7.68l32-170.666666a42.666667 42.666667 0 0 0-85.333333-16.213334l-11.52 61.866667A392.96 392.96 0 0 0 519.68 128 388.266667 388.266667 0 0 0 128 512a388.266667 388.266667 0 0 0 391.68 384A389.12 389.12 0 0 0 896 626.346667a42.666667 42.666667 0 0 0-29.866667-53.333334z"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div
-        className="rc-slider-captcha-loading"
-        style={
-          {
-            "display": "none",
-            "height": 160,
-            "width": 320,
-          }
-        }
+        class="rc-slider-captcha-panel-inner"
+        style="color: red; height: 200px;"
       >
         <div
-          className="rc-slider-captcha-loading-icon"
+          class="rc-slider-captcha-loading"
+          style="width: 500px; height: 200px;"
         >
-          <span
-            className="rc-slider-captcha-icon rc-slider-captcha-icon-spin"
+          <div
+            class="rc-slider-captcha-loading-icon"
           >
-            <svg
-              height="1em"
-              viewBox="0 0 120 120"
-              width="1em"
-            >
-              <defs>
-                <line
-                  id="l"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="11"
-                  x1="60"
-                  x2="60"
-                  y1="7"
-                  y2="27"
-                />
-              </defs>
-              <g>
-                <use
-                  opacity=".27"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(30 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(60 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(90 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(120 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(150 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".37"
-                  transform="rotate(180 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".46"
-                  transform="rotate(210 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".56"
-                  transform="rotate(240 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".66"
-                  transform="rotate(270 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".75"
-                  transform="rotate(300 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".85"
-                  transform="rotate(330 60,60)"
-                  xlinkHref="#l"
-                />
-              </g>
-            </svg>
-          </span>
-        </div>
-        <div
-          className="rc-slider-captcha-loading-text"
-        >
-          加载中...
+            define icon
+          </div>
+          <div
+            class="rc-slider-captcha-loading-text"
+          >
+            define text
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="rc-slider-captcha-control"
-    onClick={[Function]}
-  >
     <div
-      className="rc-slider-captcha-control-indicator"
-    />
-    <span
-      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
-      onMouseDown={[Function]}
-      onTouchStart={[Function]}
+      class="rc-slider-captcha-control rc-slider-captcha-control-loading"
+      style="font-size: 20px;"
     >
+      <div
+        class="rc-slider-captcha-control-indicator"
+        style="background-color: black;"
+      />
       <span
-        className="rc-slider-captcha-icon"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       >
-        <svg
-          fill="currentColor"
-          height="1em"
-          version="1.1"
-          viewBox="0 0 1024 1024"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
-          />
-          <path
-            d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
-          />
-        </svg>
+        define icon default
       </span>
-    </span>
-    <div
-      className="rc-slider-captcha-control-tips"
-      style={{}}
-    >
-      向右拖动滑块填充拼图
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        define loading
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`snapshot render default, float mode, slider mode, refresh icon, other 2`] = `
-<div
-  className="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-top"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    {
-      "width": 320,
-    }
-  }
->
+exports[`snapshot custom config 2`] = `
+<DocumentFragment>
   <div
-    className="rc-slider-captcha-panel"
+    class="rc-slider-captcha test rc-slider-captcha-embed"
+    style="width: 500px; background: red;"
   >
     <div
-      className="rc-slider-captcha-panel-inner"
-      style={
-        {
-          "height": 160,
-        }
-      }
+      class="rc-slider-captcha-panel"
     >
       <div
-        className="rc-slider-captcha-jigsaw"
-        style={
-          {
-            "display": "none",
-            "height": 160,
-            "width": 320,
-          }
-        }
-      >
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-bg"
-          style={
-            {
-              "height": 160,
-              "width": 320,
-            }
-          }
-        />
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-puzzle"
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          style={
-            {
-              "left": 0,
-              "width": 60,
-            }
-          }
-        />
-        <div
-          className="rc-slider-captcha-jigsaw-refresh"
-          onClick={[Function]}
-        >
-          <span
-            className="rc-slider-captcha-icon"
-          >
-            <svg
-              fill="currentColor"
-              height="1em"
-              viewBox="0 0 1024 1024"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M866.133333 573.013333a42.666667 42.666667 0 0 0-53.333333 27.733334A304.64 304.64 0 0 1 519.68 810.666667 302.933333 302.933333 0 0 1 213.333333 512a302.933333 302.933333 0 0 1 306.346667-298.666667 309.76 309.76 0 0 1 198.4 71.253334l-92.586667-15.36a42.666667 42.666667 0 0 0-49.066666 35.413333 42.666667 42.666667 0 0 0 35.413333 49.066667l180.906667 29.866666h7.253333a42.666667 42.666667 0 0 0 14.506667-2.56 14.08 14.08 0 0 0 4.266666-2.56 33.28 33.28 0 0 0 8.533334-4.693333l3.84-4.693333c0-2.133333 3.84-3.84 5.546666-6.4s0-4.266667 2.133334-5.973334a57.173333 57.173333 0 0 0 2.986666-7.68l32-170.666666a42.666667 42.666667 0 0 0-85.333333-16.213334l-11.52 61.866667A392.96 392.96 0 0 0 519.68 128 388.266667 388.266667 0 0 0 128 512a388.266667 388.266667 0 0 0 391.68 384A389.12 389.12 0 0 0 896 626.346667a42.666667 42.666667 0 0 0-29.866667-53.333334z"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div
-        className="rc-slider-captcha-loading"
-        style={
-          {
-            "height": 160,
-            "width": 320,
-          }
-        }
+        class="rc-slider-captcha-panel-inner"
+        style="color: red; height: 200px;"
       >
         <div
-          className="rc-slider-captcha-loading-icon"
+          class="rc-slider-captcha-jigsaw"
+          style="background-color: green; width: 500px; height: 200px;"
         >
-          <span
-            className="rc-slider-captcha-icon rc-slider-captcha-icon-spin"
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-bg"
+            src="image1"
+            style="border-radius: 5px; width: 500px; height: 200px;"
+          />
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-puzzle"
+            src="image2"
+            style="color: blue; width: 50px; left: 20px; height: 50px; top: 200px;"
+          />
+          <div
+            class="rc-slider-captcha-jigsaw-refresh"
           >
-            <svg
-              height="1em"
-              viewBox="0 0 120 120"
-              width="1em"
-            >
-              <defs>
-                <line
-                  id="l"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="11"
-                  x1="60"
-                  x2="60"
-                  y1="7"
-                  y2="27"
-                />
-              </defs>
-              <g>
-                <use
-                  opacity=".27"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(30 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(60 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(90 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(120 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(150 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".37"
-                  transform="rotate(180 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".46"
-                  transform="rotate(210 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".56"
-                  transform="rotate(240 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".66"
-                  transform="rotate(270 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".75"
-                  transform="rotate(300 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".85"
-                  transform="rotate(330 60,60)"
-                  xlinkHref="#l"
-                />
-              </g>
-            </svg>
-          </span>
-        </div>
-        <div
-          className="rc-slider-captcha-loading-text"
-        >
-          加载中...
+            define icon refresh
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="rc-slider-captcha-control rc-slider-captcha-control-loading"
-    onClick={[Function]}
-  >
     <div
-      className="rc-slider-captcha-control-indicator"
-    />
-    <span
-      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
-      onMouseDown={[Function]}
-      onTouchStart={[Function]}
+      class="rc-slider-captcha-control"
+      style="font-size: 20px;"
     >
+      <div
+        class="rc-slider-captcha-control-indicator"
+        style="background-color: black;"
+      />
       <span
-        className="rc-slider-captcha-icon"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
       >
-        <svg
-          fill="currentColor"
-          height="1em"
-          version="1.1"
-          viewBox="0 0 1024 1024"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
-          />
-          <path
-            d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
-          />
-        </svg>
+        define icon default
       </span>
-    </span>
-    <div
-      className="rc-slider-captcha-control-tips"
-      style={{}}
-    >
-      加载中...
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        define default
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`snapshot render default, float mode, slider mode, refresh icon, other 3`] = `
-<div
-  className="rc-slider-captcha rc-slider-captcha-slider"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    {
-      "width": 320,
-    }
-  }
->
+exports[`snapshot default mode 1`] = `
+<DocumentFragment>
   <div
-    className="rc-slider-captcha-control rc-slider-captcha-control-loading"
-    onClick={[Function]}
+    class="rc-slider-captcha rc-slider-captcha-embed"
+    style="width: 320px;"
   >
     <div
-      className="rc-slider-captcha-control-indicator"
-    />
-    <span
-      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
-      onMouseDown={[Function]}
-      onTouchStart={[Function]}
-    >
-      <span
-        className="rc-slider-captcha-icon"
-      >
-        <svg
-          fill="currentColor"
-          height="1em"
-          version="1.1"
-          viewBox="0 0 1024 1024"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
-          />
-          <path
-            d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
-          />
-        </svg>
-      </span>
-    </span>
-    <div
-      className="rc-slider-captcha-control-tips"
-      style={{}}
-    >
-      加载中...
-    </div>
-  </div>
-</div>
-`;
-
-exports[`snapshot render default, float mode, slider mode, refresh icon, other 4`] = `
-<div
-  className="rc-slider-captcha rc-slider-captcha-embed"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    {
-      "width": 320,
-    }
-  }
->
-  <div
-    className="rc-slider-captcha-panel"
-  >
-    <div
-      className="rc-slider-captcha-panel-inner"
-      style={
-        {
-          "height": 160,
-        }
-      }
+      class="rc-slider-captcha-panel"
     >
       <div
-        className="rc-slider-captcha-jigsaw"
-        style={
-          {
-            "display": "none",
-            "height": 160,
-            "width": 320,
-          }
-        }
-      >
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-bg"
-          style={
-            {
-              "height": 160,
-              "width": 320,
-            }
-          }
-        />
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-puzzle"
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          style={
-            {
-              "left": 0,
-              "width": 60,
-            }
-          }
-        />
-      </div>
-      <div
-        className="rc-slider-captcha-loading"
-        style={
-          {
-            "height": 160,
-            "width": 320,
-          }
-        }
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
       >
         <div
-          className="rc-slider-captcha-loading-icon"
+          class="rc-slider-captcha-loading"
+          style="width: 320px; height: 160px;"
         >
-          <span
-            className="rc-slider-captcha-icon rc-slider-captcha-icon-spin"
+          <div
+            class="rc-slider-captcha-loading-icon"
           >
-            <svg
-              height="1em"
-              viewBox="0 0 120 120"
-              width="1em"
+            <span
+              class="rc-slider-captcha-icon rc-slider-captcha-icon-spin"
             >
-              <defs>
-                <line
-                  id="l"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeWidth="11"
-                  x1="60"
-                  x2="60"
-                  y1="7"
-                  y2="27"
-                />
-              </defs>
-              <g>
-                <use
-                  opacity=".27"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(30 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(60 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(90 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(120 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".27"
-                  transform="rotate(150 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".37"
-                  transform="rotate(180 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".46"
-                  transform="rotate(210 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".56"
-                  transform="rotate(240 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".66"
-                  transform="rotate(270 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".75"
-                  transform="rotate(300 60,60)"
-                  xlinkHref="#l"
-                />
-                <use
-                  opacity=".85"
-                  transform="rotate(330 60,60)"
-                  xlinkHref="#l"
-                />
-              </g>
-            </svg>
-          </span>
-        </div>
-        <div
-          className="rc-slider-captcha-loading-text"
-        >
-          加载中...
+              <svg
+                height="1em"
+                viewBox="0 0 120 120"
+                width="1em"
+              >
+                <defs>
+                  <line
+                    id="l"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="11"
+                    x1="60"
+                    x2="60"
+                    y1="7"
+                    y2="27"
+                  />
+                </defs>
+                <g>
+                  <use
+                    opacity=".27"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(30 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(60 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(90 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(120 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(150 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".37"
+                    transform="rotate(180 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".46"
+                    transform="rotate(210 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".56"
+                    transform="rotate(240 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".66"
+                    transform="rotate(270 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".75"
+                    transform="rotate(300 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".85"
+                    transform="rotate(330 60,60)"
+                    xlink:href="#l"
+                  />
+                </g>
+              </svg>
+            </span>
+          </div>
+          <div
+            class="rc-slider-captcha-loading-text"
+          >
+            加载中...
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="rc-slider-captcha-control rc-slider-captcha-control-loading"
-    onClick={[Function]}
-  >
     <div
-      className="rc-slider-captcha-control-indicator"
-    />
-    <span
-      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
-      onMouseDown={[Function]}
-      onTouchStart={[Function]}
+      class="rc-slider-captcha-control rc-slider-captcha-control-loading"
     >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
       <span
-        className="rc-slider-captcha-icon"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
       >
-        <svg
-          fill="currentColor"
-          height="1em"
-          version="1.1"
-          viewBox="0 0 1024 1024"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
+        <span
+          class="rc-slider-captcha-icon"
         >
-          <path
-            d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
-          />
-          <path
-            d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
-          />
-        </svg>
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
       </span>
-    </span>
-    <div
-      className="rc-slider-captcha-control-tips"
-      style={{}}
-    >
-      加载中...
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        加载中...
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
-exports[`snapshot render default, float mode, slider mode, refresh icon, other 5`] = `
-<div
-  className="rc-slider-captcha test rc-slider-captcha-embed"
-  onMouseEnter={[Function]}
-  onMouseLeave={[Function]}
-  style={
-    {
-      "background": "red",
-      "width": 500,
-    }
-  }
->
+exports[`snapshot default mode 2`] = `
+<DocumentFragment>
   <div
-    className="rc-slider-captcha-panel"
+    class="rc-slider-captcha rc-slider-captcha-embed"
+    style="width: 320px;"
   >
     <div
-      className="rc-slider-captcha-panel-inner"
-      style={
-        {
-          "color": "red",
-          "height": 200,
-        }
-      }
+      class="rc-slider-captcha-panel"
     >
       <div
-        className="rc-slider-captcha-jigsaw"
-        style={
-          {
-            "backgroundColor": "green",
-            "display": "none",
-            "height": 200,
-            "width": 500,
-          }
-        }
-      >
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-bg"
-          style={
-            {
-              "borderRadius": 5,
-              "height": 200,
-              "width": 500,
-            }
-          }
-        />
-        <img
-          alt=""
-          className="rc-slider-captcha-jigsaw-puzzle"
-          onMouseDown={[Function]}
-          onTouchStart={[Function]}
-          style={
-            {
-              "color": "blue",
-              "height": 50,
-              "left": 20,
-              "top": 200,
-              "width": 50,
-            }
-          }
-        />
-        <div
-          className="rc-slider-captcha-jigsaw-refresh"
-          onClick={[Function]}
-        >
-          define icon refresh
-        </div>
-      </div>
-      <div
-        className="rc-slider-captcha-loading"
-        style={
-          {
-            "height": 200,
-            "width": 500,
-          }
-        }
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
       >
         <div
-          className="rc-slider-captcha-loading-icon"
+          class="rc-slider-captcha-jigsaw"
+          style="width: 320px; height: 160px;"
         >
-          define icon
-        </div>
-        <div
-          className="rc-slider-captcha-loading-text"
-        >
-          define text
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-bg"
+            src="image1"
+            style="width: 320px; height: 160px;"
+          />
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-puzzle"
+            src="image2"
+            style="width: 60px; left: 0px;"
+          />
+          <div
+            class="rc-slider-captcha-jigsaw-refresh"
+          >
+            <span
+              class="rc-slider-captcha-icon"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 1024 1024"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M866.133333 573.013333a42.666667 42.666667 0 0 0-53.333333 27.733334A304.64 304.64 0 0 1 519.68 810.666667 302.933333 302.933333 0 0 1 213.333333 512a302.933333 302.933333 0 0 1 306.346667-298.666667 309.76 309.76 0 0 1 198.4 71.253334l-92.586667-15.36a42.666667 42.666667 0 0 0-49.066666 35.413333 42.666667 42.666667 0 0 0 35.413333 49.066667l180.906667 29.866666h7.253333a42.666667 42.666667 0 0 0 14.506667-2.56 14.08 14.08 0 0 0 4.266666-2.56 33.28 33.28 0 0 0 8.533334-4.693333l3.84-4.693333c0-2.133333 3.84-3.84 5.546666-6.4s0-4.266667 2.133334-5.973334a57.173333 57.173333 0 0 0 2.986666-7.68l32-170.666666a42.666667 42.666667 0 0 0-85.333333-16.213334l-11.52 61.866667A392.96 392.96 0 0 0 519.68 128 388.266667 388.266667 0 0 0 128 512a388.266667 388.266667 0 0 0 391.68 384A389.12 389.12 0 0 0 896 626.346667a42.666667 42.666667 0 0 0-29.866667-53.333334z"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="rc-slider-captcha-control rc-slider-captcha-control-loading"
-    onClick={[Function]}
-    style={
-      {
-        "fontSize": 20,
-      }
-    }
-  >
     <div
-      className="rc-slider-captcha-control-indicator"
-      style={
-        {
-          "backgroundColor": "black",
-        }
-      }
-    />
-    <span
-      className="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
-      onMouseDown={[Function]}
-      onTouchStart={[Function]}
+      class="rc-slider-captcha-control"
     >
-      define icon default
-    </span>
-    <div
-      className="rc-slider-captcha-control-tips"
-      style={{}}
-    >
-      define loading
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        向右拖动滑块填充拼图
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
+`;
+
+exports[`snapshot default mode 3`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider-captcha rc-slider-captcha-embed"
+    style="width: 320px;"
+  >
+    <div
+      class="rc-slider-captcha-panel"
+    >
+      <div
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
+      >
+        <div
+          class="rc-slider-captcha-jigsaw"
+          style="width: 320px; height: 160px;"
+        >
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-bg"
+            src="image1"
+            style="width: 320px; height: 160px;"
+          />
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-puzzle"
+            src="image2"
+            style="width: 60px; left: 0px;"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="rc-slider-captcha-control"
+    >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        向右拖动滑块填充拼图
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`snapshot float mode 1`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-top"
+    style="width: 320px;"
+  >
+    <div
+      class="rc-slider-captcha-panel"
+    >
+      <div
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
+      >
+        <div
+          class="rc-slider-captcha-loading"
+          style="width: 320px; height: 160px;"
+        >
+          <div
+            class="rc-slider-captcha-loading-icon"
+          >
+            <span
+              class="rc-slider-captcha-icon rc-slider-captcha-icon-spin"
+            >
+              <svg
+                height="1em"
+                viewBox="0 0 120 120"
+                width="1em"
+              >
+                <defs>
+                  <line
+                    id="l"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="11"
+                    x1="60"
+                    x2="60"
+                    y1="7"
+                    y2="27"
+                  />
+                </defs>
+                <g>
+                  <use
+                    opacity=".27"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(30 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(60 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(90 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(120 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".27"
+                    transform="rotate(150 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".37"
+                    transform="rotate(180 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".46"
+                    transform="rotate(210 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".56"
+                    transform="rotate(240 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".66"
+                    transform="rotate(270 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".75"
+                    transform="rotate(300 60,60)"
+                    xlink:href="#l"
+                  />
+                  <use
+                    opacity=".85"
+                    transform="rotate(330 60,60)"
+                    xlink:href="#l"
+                  />
+                </g>
+              </svg>
+            </span>
+          </div>
+          <div
+            class="rc-slider-captcha-loading-text"
+          >
+            加载中...
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rc-slider-captcha-control rc-slider-captcha-control-loading"
+    >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        加载中...
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`snapshot float mode 2`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-top"
+    style="width: 320px;"
+  >
+    <div
+      class="rc-slider-captcha-panel"
+    >
+      <div
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
+      >
+        <div
+          class="rc-slider-captcha-jigsaw"
+          style="width: 320px; height: 160px;"
+        >
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-bg"
+            src="image1"
+            style="width: 320px; height: 160px;"
+          />
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-puzzle"
+            src="image2"
+            style="width: 60px; left: 0px;"
+          />
+          <div
+            class="rc-slider-captcha-jigsaw-refresh"
+          >
+            <span
+              class="rc-slider-captcha-icon"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 1024 1024"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M866.133333 573.013333a42.666667 42.666667 0 0 0-53.333333 27.733334A304.64 304.64 0 0 1 519.68 810.666667 302.933333 302.933333 0 0 1 213.333333 512a302.933333 302.933333 0 0 1 306.346667-298.666667 309.76 309.76 0 0 1 198.4 71.253334l-92.586667-15.36a42.666667 42.666667 0 0 0-49.066666 35.413333 42.666667 42.666667 0 0 0 35.413333 49.066667l180.906667 29.866666h7.253333a42.666667 42.666667 0 0 0 14.506667-2.56 14.08 14.08 0 0 0 4.266666-2.56 33.28 33.28 0 0 0 8.533334-4.693333l3.84-4.693333c0-2.133333 3.84-3.84 5.546666-6.4s0-4.266667 2.133334-5.973334a57.173333 57.173333 0 0 0 2.986666-7.68l32-170.666666a42.666667 42.666667 0 0 0-85.333333-16.213334l-11.52 61.866667A392.96 392.96 0 0 0 519.68 128 388.266667 388.266667 0 0 0 128 512a388.266667 388.266667 0 0 0 391.68 384A389.12 389.12 0 0 0 896 626.346667a42.666667 42.666667 0 0 0-29.866667-53.333334z"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rc-slider-captcha-control"
+    >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        向右拖动滑块填充拼图
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`snapshot float mode 3`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider-captcha rc-slider-captcha-float rc-slider-captcha-float-bottom"
+    style="width: 320px;"
+  >
+    <div
+      class="rc-slider-captcha-panel"
+    >
+      <div
+        class="rc-slider-captcha-panel-inner"
+        style="height: 160px;"
+      >
+        <div
+          class="rc-slider-captcha-jigsaw"
+          style="width: 320px; height: 160px;"
+        >
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-bg"
+            src="image1"
+            style="width: 320px; height: 160px;"
+          />
+          <img
+            alt=""
+            class="rc-slider-captcha-jigsaw-puzzle"
+            src="image2"
+            style="width: 60px; left: 0px;"
+          />
+          <div
+            class="rc-slider-captcha-jigsaw-refresh"
+          >
+            <span
+              class="rc-slider-captcha-icon"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 1024 1024"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M866.133333 573.013333a42.666667 42.666667 0 0 0-53.333333 27.733334A304.64 304.64 0 0 1 519.68 810.666667 302.933333 302.933333 0 0 1 213.333333 512a302.933333 302.933333 0 0 1 306.346667-298.666667 309.76 309.76 0 0 1 198.4 71.253334l-92.586667-15.36a42.666667 42.666667 0 0 0-49.066666 35.413333 42.666667 42.666667 0 0 0 35.413333 49.066667l180.906667 29.866666h7.253333a42.666667 42.666667 0 0 0 14.506667-2.56 14.08 14.08 0 0 0 4.266666-2.56 33.28 33.28 0 0 0 8.533334-4.693333l3.84-4.693333c0-2.133333 3.84-3.84 5.546666-6.4s0-4.266667 2.133334-5.973334a57.173333 57.173333 0 0 0 2.986666-7.68l32-170.666666a42.666667 42.666667 0 0 0-85.333333-16.213334l-11.52 61.866667A392.96 392.96 0 0 0 519.68 128 388.266667 388.266667 0 0 0 128 512a388.266667 388.266667 0 0 0 391.68 384A389.12 389.12 0 0 0 896 626.346667a42.666667 42.666667 0 0 0-29.866667-53.333334z"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rc-slider-captcha-control"
+    >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        向右拖动滑块填充拼图
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`snapshot slider mode 1`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider-captcha rc-slider-captcha-slider"
+    style="width: 320px;"
+  >
+    <div
+      class="rc-slider-captcha-control"
+    >
+      <div
+        class="rc-slider-captcha-control-indicator"
+      />
+      <span
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+      >
+        <span
+          class="rc-slider-captcha-icon"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M116.9408 561.4592m0-40.96l0 0q0-40.96 40.96-40.96l573.44 0q40.96 0 40.96 40.96l0 0q0 40.96-40.96 40.96l-573.44 0q-40.96 0-40.96-40.96Z"
+            />
+            <path
+              d="M769.82272 519.43424l-203.22304-203.22304a40.96 40.96 0 1 1 57.91744-57.91744l231.71072 231.71072a40.96 40.96 0 0 1 0.45056 58.44992L624.9472 780.12416a40.96 40.96 0 0 1-57.93792-57.91744l202.79296-202.79296z"
+            />
+          </svg>
+        </span>
+      </span>
+      <div
+        class="rc-slider-captcha-control-tips"
+      >
+        向右拖动滑块填充拼图
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;

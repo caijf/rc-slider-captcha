@@ -1,11 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import '@testing-library/jest-dom';
-import renderer from 'react-test-renderer';
-import { render, act, waitFor } from '@testing-library/react';
-import React from 'react';
+import { render } from '@testing-library/react';
+import React, { act } from 'react';
 import { getCaptcha, verifyCaptcha } from './fixtures/service1';
 import SliderCaptcha from '..';
 
@@ -17,90 +15,108 @@ describe('snapshot', () => {
     jest.useRealTimers();
   });
 
-  it('render default, float mode, slider mode, refresh icon, other', async () => {
-    const component = renderer.create(
-      <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} />
-    );
+  test('default mode', async () => {
+    const component = render(<SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} />);
 
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component.asFragment()).toMatchSnapshot();
 
-    // float mode
-    renderer.act(() => {
-      component.update(
-        <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} mode="float" />
-      );
+    await act(() => {
+      jest.runAllTimers();
     });
 
-    tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component.asFragment()).toMatchSnapshot();
 
-    // slider mode
-    renderer.act(() => {
-      component.update(<SliderCaptcha onVerify={verifyCaptcha} mode="slider" />);
-    });
-
-    tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-
-    // showRefreshIcon={false}
-    renderer.act(() => {
-      component.update(
+    await act(() => {
+      component.rerender(
         <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} showRefreshIcon={false} />
       );
     });
 
-    tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component.asFragment()).toMatchSnapshot();
+  });
 
-    // other props
-    renderer.act(() => {
-      component.update(
+  test('float mode', async () => {
+    const component = render(
+      <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} mode="float" />
+    );
+    expect(component.asFragment()).toMatchSnapshot();
+
+    await act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(component.asFragment()).toMatchSnapshot();
+
+    await act(() => {
+      component.rerender(
         <SliderCaptcha
           request={getCaptcha}
           onVerify={verifyCaptcha}
-          bgSize={{
-            width: 500,
-            height: 200
-          }}
-          puzzleSize={{
-            width: 50,
-            height: 50,
-            top: 200,
-            left: 20
-          }}
-          tipText={{
-            default: 'define default',
-            loading: 'define loading',
-            errors: 'define errors'
-          }}
-          tipIcon={{
-            default: 'define icon default',
-            loading: 'define icon loading',
-            error: 'define icon error',
-            success: 'define icon success',
-            refresh: 'define icon refresh'
-          }}
-          loadingBoxProps={{
-            text: 'define text',
-            icon: 'define icon'
-          }}
-          className="test"
-          style={{ background: 'red' }}
-          styles={{
-            panel: { color: 'red' },
-            jigsaw: { backgroundColor: 'green' },
-            bgImg: { borderRadius: 5 },
-            puzzleImg: { color: 'blue' },
-            control: { fontSize: 20 },
-            indicator: { backgroundColor: 'black' }
-          }}
+          mode="float"
+          placement="bottom"
         />
       );
     });
 
-    tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component.asFragment()).toMatchSnapshot();
+  });
+
+  test('slider mode', () => {
+    const component = render(<SliderCaptcha onVerify={verifyCaptcha} mode="slider" />);
+    expect(component.asFragment()).toMatchSnapshot();
+  });
+
+  test('custom config', async () => {
+    const component = render(
+      <SliderCaptcha
+        request={getCaptcha}
+        onVerify={verifyCaptcha}
+        bgSize={{
+          width: 500,
+          height: 200
+        }}
+        puzzleSize={{
+          width: 50,
+          height: 50,
+          top: 200,
+          left: 20
+        }}
+        tipText={{
+          default: 'define default',
+          loading: 'define loading',
+          errors: 'define errors'
+        }}
+        tipIcon={{
+          default: 'define icon default',
+          loading: 'define icon loading',
+          error: 'define icon error',
+          success: 'define icon success',
+          refresh: 'define icon refresh'
+        }}
+        loadingBoxProps={{
+          text: 'define text',
+          icon: 'define icon'
+        }}
+        className="test"
+        style={{ background: 'red' }}
+        styles={{
+          panel: { color: 'red' },
+          jigsaw: { backgroundColor: 'green' },
+          bgImg: { borderRadius: 5 },
+          puzzleImg: { color: 'blue' },
+          control: { fontSize: 20 },
+          indicator: { backgroundColor: 'black' }
+        }}
+      />
+    );
+
+    expect(component.asFragment()).toMatchSnapshot();
+
+    await act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(component.asFragment()).toMatchSnapshot();
   });
 });
 
@@ -120,31 +136,26 @@ describe('render', () => {
 
     const wrapperEl = container.querySelector('.rc-slider-captcha') as HTMLElement;
     const panelEl = container.querySelector('.rc-slider-captcha-panel') as HTMLElement;
-    const jigsawEl = container.querySelector('.rc-slider-captcha-jigsaw') as HTMLElement;
-    const loadingEl = container.querySelector('.rc-slider-captcha-loading') as HTMLElement;
     const controlEl = container.querySelector('.rc-slider-captcha-control') as HTMLElement;
 
     expect(container).toContainElement(wrapperEl);
     expect(wrapperEl).toContainElement(panelEl);
-    expect(panelEl).toContainElement(jigsawEl);
-    expect(panelEl).toContainElement(loadingEl);
-    expect(container).toContainElement(controlEl);
+    expect(wrapperEl).toContainElement(controlEl);
 
-    // 初始化时隐藏拼图，显示加载视图
-    expect(jigsawEl.getAttribute('style')).toMatch('display: none');
-    expect(loadingEl.getAttribute('style')).not.toMatch('display: none');
-    expect(controlEl.querySelector('.rc-slider-captcha-control-tips')?.innerHTML).toBe('加载中...');
+    expect(container.querySelector('.rc-slider-captcha-loading')).toBeInTheDocument();
+    expect(container.querySelector('.rc-slider-captcha-jigsaw')).not.toBeInTheDocument();
+    expect(controlEl.querySelector('.rc-slider-captcha-control-tips')).toHaveTextContent(
+      '加载中...'
+    );
 
-    act(() => {
+    await act(() => {
       jest.runAllTimers();
     });
 
-    await waitFor(() => {
-      expect(jigsawEl.getAttribute('style')).not.toMatch('display: none');
-      expect(loadingEl.getAttribute('style')).toMatch('display: none');
-      expect(controlEl.querySelector('.rc-slider-captcha-control-tips')?.innerHTML).toBe(
-        '向右拖动滑块填充拼图'
-      );
-    });
+    expect(container.querySelector('.rc-slider-captcha-loading')).not.toBeInTheDocument();
+    expect(container.querySelector('.rc-slider-captcha-jigsaw')).toBeInTheDocument();
+    expect(controlEl.querySelector('.rc-slider-captcha-control-tips')).toHaveTextContent(
+      '向右拖动滑块填充拼图'
+    );
   });
 });
