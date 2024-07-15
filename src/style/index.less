@@ -1,8 +1,8 @@
 @import './config.less';
 @import './SliderIcon.less';
 @import './SliderButton.less';
-@import './LoadingBox.less';
 @import './ControlBar.less';
+@import './Jigsaw.less';
 
 .@{prefixCls} {
   position: relative;
@@ -10,68 +10,6 @@
   & > * {
     // iOS中通过Javascript定义的可点击元素，长按就会出现一个灰色背景
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-
-  &-jigsaw {
-    position: relative;
-    background-color: #f7f9fa;
-    user-select: none;
-
-    img {
-      position: absolute;
-    }
-    &-bg {
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-    &-puzzle {
-      width: 60px;
-      height: 100%;
-      touch-action: none;
-
-      &:hover {
-        cursor: grab;
-      }
-      &:active {
-        cursor: grabbing;
-      }
-    }
-
-    &-refresh {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 2;
-      padding: 5px;
-      color: #fff;
-      font-size: 22px;
-      line-height: 0;
-      cursor: pointer;
-      opacity: 0.75;
-      transition: opacity 0.2s linear;
-
-      &:hover {
-        opacity: 1;
-      }
-
-      &-disabled {
-        cursor: not-allowed;
-
-        &:hover {
-          opacity: 0.75;
-        }
-      }
-    }
-
-    &-stop &-puzzle {
-      pointer-events: none;
-
-      &:hover,
-      &:active {
-        cursor: default;
-      }
-    }
   }
 
   &-panel {
@@ -100,18 +38,5 @@
   &-float-bottom &-panel {
     top: 22px;
     padding: 15px 0 0;
-  }
-
-  &-load-failed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    color: #ccc;
-    font-size: 85px;
-    background-color: @bg-color;
   }
 }

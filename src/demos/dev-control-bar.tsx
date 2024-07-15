@@ -18,23 +18,23 @@ const Demo = () => {
   const controlBarRef8 = React.useRef<ControlBarRefType>(null);
 
   React.useEffect(() => {
-    controlBarRef3.current?.updateLeft(48);
-    controlBarRef4.current?.updateLeft(158);
+    controlBarRef4.current?.updateLeft(48);
     controlBarRef5.current?.updateLeft(158);
-    controlBarRef6.current?.updateLeft(48);
+    controlBarRef6.current?.updateLeft(158);
     controlBarRef7.current?.updateLeft(48);
+    controlBarRef8.current?.updateLeft(48);
   }, []);
 
   return (
     <Space direction="vertical" style={{ display: 'flex' }}>
       <ControlBar status={Status.Loading} controlRef={controlBarRef1} />
-      <ControlBar status={Status.Default} controlRef={controlBarRef2} />
-      <ControlBar status={Status.Moving} controlRef={controlBarRef3} />
-      <ControlBar status={Status.Verify} controlRef={controlBarRef4} />
-      <ControlBar status={Status.Success} controlRef={controlBarRef5} />
-      <ControlBar status={Status.Error} controlRef={controlBarRef6} />
-      <ControlBar status={Status.Error} controlRef={controlBarRef7} isLimitErrors />
-      <ControlBar status={Status.LoadFailed} controlRef={controlBarRef8} />
+      <ControlBar status={Status.LoadFailed} controlRef={controlBarRef2} />
+      <ControlBar status={Status.Default} controlRef={controlBarRef3} />
+      <ControlBar status={Status.Moving} controlRef={controlBarRef4} />
+      <ControlBar status={Status.Verify} controlRef={controlBarRef5} />
+      <ControlBar status={Status.Success} controlRef={controlBarRef6} />
+      <ControlBar status={Status.Error} controlRef={controlBarRef7} />
+      <ControlBar status={Status.Error} controlRef={controlBarRef8} isLimitErrors />
     </Space>
   );
 };

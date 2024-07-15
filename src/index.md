@@ -21,6 +21,7 @@ React 滑块验证码组件。
 <code src='./demos/dev-icon.tsx' />
 <code src='./demos/dev-button.tsx' />
 <code src='./demos/dev-control-bar.tsx' />
+<code src='./demos/dev-jigsaw.tsx' />
 
 ### 基础用法
 

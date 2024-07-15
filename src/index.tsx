@@ -2,12 +2,11 @@ import classnames from 'classnames';
 import React, { ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
 import { useSafeState, useLatest, useMount } from 'rc-hooks';
 import './style';
-import LoadingBox, { LoadingBoxProps } from './LoadingBox';
 import { SliderButtonProps } from './SliderButton';
-import SliderIcon from './SliderIcon';
 import { getClient, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
 import ControlBar, { ControlBarRefType, TipIconType, TipTextType } from './ControlBar';
 import { Status } from './interface';
+import Jigsaw, { defaultConfig as jigsawDefaultConfig, JigsawProps, JigsawRefType } from './Jigsaw';
 
 type StyleWithVariable<V extends string = never> = React.CSSProperties & Partial<Record<V, string>>;
 type StyleProp = StyleWithVariable<
@@ -26,13 +25,6 @@ type StyleProp = StyleWithVariable<
   | '--rcsc-panel-border-radius'
   | '--rcsc-control-border-radius'
 >;
-
-type SizeType = {
-  width: number;
-  height: number;
-  top: number;
-  left: number;
-};
 
 type JigsawImages = {
   bgUrl: string; // 背景图
@@ -62,7 +54,10 @@ export type ActionType = {
   status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
 };
 
-export type SliderCaptchaProps = {
+export type SliderCaptchaProps = Pick<
+  JigsawProps,
+  'bgSize' | 'puzzleSize' | 'showRefreshIcon' | 'loadingBoxProps'
+> & {
   limitErrorCount?: number; // 限制连续错误次数
   onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
   tipText?: Partial<TipTextType>; // 提示文本
@@ -76,17 +71,13 @@ export type SliderCaptchaProps = {
    * @deprecated 即将废弃，请使用 `tipIcon.refresh`。
    */
   refreshIcon?: ReactNode;
-  bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
-  puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
   autoRequest?: boolean; // 自动发起请求
   autoRefreshOnError?: boolean; // 验证失败后自动刷新
   actionRef?: React.MutableRefObject<ActionType | undefined>; // 常用操作
-  showRefreshIcon?: boolean; // 显示右上角刷新图标
   jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
   errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
   loadingDelay?: number; // 延迟加载状态
   placement?: 'top' | 'bottom'; // 触发式的浮层位置
-  loadingBoxProps?: LoadingBoxProps;
   sliderButtonProps?: SliderButtonProps;
   className?: string;
   style?: StyleProp;
@@ -99,29 +90,15 @@ export type SliderCaptchaProps = {
     indicator?: StyleProp;
   };
 } & (
-  | {
-      mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式 slider-只有滑块无拼图，默认为 embed 。
-      request: () => Promise<JigsawImages>; // 请求背景图和拼图
-    }
-  | {
-      mode: 'slider'; // 纯滑块不需要传入 request 。
-      request?: () => Promise<JigsawImages>; // 请求背景图和拼图
-    }
-);
-
-const jigsawPrefixCls = `${prefixCls}-jigsaw`;
-
-// 默认配置
-const defaultConfig = {
-  bgSize: {
-    width: 320,
-    height: 160
-  },
-  puzzleSize: {
-    width: 60,
-    left: 0
-  }
-};
+    | {
+        mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式 slider-只有滑块无拼图，默认为 embed 。
+        request: () => Promise<JigsawImages>; // 请求背景图和拼图
+      }
+    | {
+        mode: 'slider'; // 纯滑块不需要传入 request 。
+        request?: () => Promise<JigsawImages>; // 请求背景图和拼图
+      }
+  );
 
 const events = isSupportTouch
   ? {
@@ -163,9 +140,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const [status, setStatus] = useSafeState<Status>(Status.Default);
   const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
   const controlRef = useRef<ControlBarRefType>(null);
+  const jigsawRef = useRef<JigsawRefType>(null);
 
   // dom ref
-  const puzzleRef = useRef<HTMLImageElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
@@ -180,17 +157,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (tipIcon?.refresh !== undefined) {
       return tipIcon.refresh;
     }
-    return <SliderIcon type="refresh" />;
   }, [customRefreshIcon, tipIcon]);
-  const loadFailedIcon = useMemo(() => {
-    if (tipIcon?.loadFailed !== undefined) {
-      return tipIcon.loadFailed;
-    }
-    return <SliderIcon type="imageFill" />;
-  }, [tipIcon]);
-  const bgSize = useMemo(() => ({ ...defaultConfig.bgSize, ...outBgSize }), [outBgSize]);
+  const bgSize = useMemo(() => ({ ...jigsawDefaultConfig.bgSize, ...outBgSize }), [outBgSize]);
   const puzzleSize = useMemo(
-    () => ({ ...defaultConfig.puzzleSize, ...outPuzzleSize }),
+    () => ({ ...jigsawDefaultConfig.puzzleSize, ...outPuzzleSize }),
     [outPuzzleSize]
   );
   const placementPos = useMemo(() => (placement === 'bottom' ? 'top' : 'bottom'), [placement]);
@@ -217,9 +187,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   const modeIsSlider = mode === 'slider'; // 单滑轨，无图片
   const hasLoadingDelay = typeof loadingDelay === 'number' && loadingDelay > 0; // 延迟加载状态
-  const isLoading = status === Status.Loading; // 加载中
-  const isLoadFailed = status === Status.LoadFailed; // 加载失败
-  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止滑动
 
   const isLimitErrors =
     status === Status.Error &&
@@ -303,8 +270,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 更新拼图位置
   const updatePuzzleLeft = (left: number) => {
-    if (!modeIsSlider && puzzleRef.current) {
-      setStyle(puzzleRef.current, { left: left + 'px' });
+    if (!modeIsSlider) {
+      jigsawRef.current?.updateLeft(left);
     }
   };
 
@@ -338,8 +305,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 点击滑块操作条，如果连续超过错误次数或请求失败则刷新
   const handleClickControl = () => {
-    if (isLimitErrors || isLoadFailed) {
-      refresh(true);
+    if (isLimitErrors || status === Status.LoadFailed) {
+      refresh(isLimitErrors);
     }
   };
 
@@ -357,13 +324,6 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
     hidePanel();
-  };
-
-  // 点击刷新图标
-  const handleClickRefreshIcon = () => {
-    if (status !== Status.Verify && !isLimitErrors) {
-      refresh();
-    }
   };
 
   const touchstartPuzzle = (e: any) => {
@@ -560,51 +520,29 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
             className={`${prefixCls}-panel-inner`}
             style={{ ...styles?.panel, height: bgSize.height }}
           >
-            <div
-              className={classnames(jigsawPrefixCls, { [`${jigsawPrefixCls}-stop`]: isStop })}
-              style={{
-                ...styles?.jigsaw,
-                ...bgSize,
-                ...(isLoading || isLoadFailed || !jigsawImgs?.bgUrl ? { display: 'none' } : {})
+            <Jigsaw
+              status={status}
+              bgSize={bgSize}
+              puzzleSize={puzzleSize}
+              bgUrl={jigsawImgs?.bgUrl}
+              puzzleUrl={jigsawImgs?.puzzleUrl}
+              jigsawRef={jigsawRef}
+              loadingBoxProps={loadingBoxProps}
+              loadFailedIcon={tipIcon?.loadFailed}
+              showRefreshIcon={showRefreshIcon}
+              refreshIcon={refreshIcon}
+              disabledRefresh={isLimitErrors}
+              onRefresh={refresh}
+              style={styles?.jigsaw}
+              bgImgProps={{ style: styles?.bgImg }}
+              puzzleImgProps={{
+                style: styles?.puzzleImg,
+                onTouchStart: touchstartPuzzle,
+                onMouseDown: touchstartPuzzle
               }}
             >
-              <img
-                className={`${jigsawPrefixCls}-bg`}
-                style={{ ...styles?.bgImg, ...bgSize }}
-                src={jigsawImgs?.bgUrl}
-                alt=""
-              />
-              <img
-                className={`${jigsawPrefixCls}-puzzle`}
-                style={{ ...styles?.puzzleImg, ...puzzleSize }}
-                src={jigsawImgs?.puzzleUrl}
-                alt=""
-                ref={puzzleRef}
-                onTouchStart={touchstartPuzzle}
-                onMouseDown={touchstartPuzzle}
-              />
-              {showRefreshIcon && status !== Status.Success && refreshIcon && (
-                <div
-                  className={classnames(`${jigsawPrefixCls}-refresh`, {
-                    [`${jigsawPrefixCls}-refresh-disabled`]:
-                      status === Status.Verify || isLimitErrors
-                  })}
-                  onClick={handleClickRefreshIcon}
-                >
-                  {refreshIcon}
-                </div>
-              )}
               {jigsawContent}
-            </div>
-            <LoadingBox
-              {...loadingBoxProps}
-              style={{
-                ...loadingBoxProps?.style,
-                ...bgSize,
-                ...(isLoading ? {} : { display: 'none' })
-              }}
-            />
-            {isLoadFailed && <div className={`${prefixCls}-load-failed`}>{loadFailedIcon}</div>}
+            </Jigsaw>
           </div>
         </div>
       )}
@@ -615,9 +553,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         tipIcon={tipIcon}
         style={styles?.control}
         onClick={handleClickControl}
-        indicatorProps={{
-          style: styles?.indicator
-        }}
+        indicatorProps={{ style: styles?.indicator }}
         sliderButtonProps={{
           ...sliderButtonProps,
           onTouchStart: touchstartSliderButton,
