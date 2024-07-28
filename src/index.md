@@ -50,6 +50,10 @@ React 滑块验证码组件。
 
 <code src='./demos/slider.tsx' />
 
+#### 宽度自适应
+
+<code src='./demos/slider-full-width.tsx' />
+
 ### 手动刷新
 
 <code src='./demos/actionRef.tsx' />
