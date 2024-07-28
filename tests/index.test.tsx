@@ -20,13 +20,13 @@ describe('snapshot', () => {
 
     expect(component.asFragment()).toMatchSnapshot();
 
-    await act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
 
     expect(component.asFragment()).toMatchSnapshot();
 
-    await act(() => {
+    await act(async () => {
       component.rerender(
         <SliderCaptcha request={getCaptcha} onVerify={verifyCaptcha} showRefreshIcon={false} />
       );
@@ -41,13 +41,13 @@ describe('snapshot', () => {
     );
     expect(component.asFragment()).toMatchSnapshot();
 
-    await act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
 
     expect(component.asFragment()).toMatchSnapshot();
 
-    await act(() => {
+    await act(async () => {
       component.rerender(
         <SliderCaptcha
           request={getCaptcha}
@@ -112,7 +112,7 @@ describe('snapshot', () => {
 
     expect(component.asFragment()).toMatchSnapshot();
 
-    await act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
 
@@ -148,7 +148,7 @@ describe('render', () => {
       '加载中...'
     );
 
-    await act(() => {
+    await act(async () => {
       jest.runAllTimers();
     });
 
