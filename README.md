@@ -150,6 +150,6 @@ export enum Status {
 | --rcsc-panel-border-radius | 图片容器边框圆角 | `2px` |
 | --rcsc-control-border-radius | 滑轨\/滑轨按钮边框圆角 | `2px` |
 
-[site]: https://caijf.github.io/rc-slider-captcha/index.html
+[site]: https://caijf.github.io/rc-slider-captcha/
 [npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg
 [npm-url]: https://npmjs.com/package/rc-slider-captcha
