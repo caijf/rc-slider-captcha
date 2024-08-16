@@ -5,9 +5,6 @@ const publicPath = !isDev ? '/rc-slider-captcha/' : '/';
 
 export default defineConfig({
   title: 'rc-slider-captcha',
-  history: {
-    type: 'hash'
-  },
   hash: true,
   publicPath,
   favicon: 'https://www.caijinfeng.com/favicon.ico',
