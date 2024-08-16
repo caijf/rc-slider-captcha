@@ -23,6 +23,11 @@ export default defineConfig({
   },
   headScripts: [
     {
+      content: `if(location.pathname.indexOf("/rc-slider-captcha/index.html") === 0){
+  location.replace("/rc-slider-captcha/");
+}`
+    },
+    {
       src: 'https://www.googletagmanager.com/gtag/js?id=G-9R6Q9PDGBK'
     },
     {
