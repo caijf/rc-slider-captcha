@@ -45,3 +45,16 @@ export const isSupportTouch = isBrowser && 'ontouchstart' in window;
 
 // 触发重绘
 export const reflow = (node: HTMLElement | null) => node?.scrollTop;
+
+// 规整化数字精度
+export function normalizeNumber(num: number, precision?: number | false) {
+  if (
+    typeof num === 'number' &&
+    !Number.isNaN(num) &&
+    typeof precision === 'number' &&
+    precision > 0
+  ) {
+    return Number(num.toFixed(precision));
+  }
+  return num;
+}

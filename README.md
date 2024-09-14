@@ -87,6 +87,7 @@ import SliderCaptcha, {
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
 | loadingDelay | 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。 | `number` | `0` |
 | placement | 浮层位置，触发式下生效 | `'top' \| 'bottom'` | `'top'` |
+| precision | 精度，为避免内部计算产生精度问题。<br/>只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。 | `number \| false` | `7` |
 | className | 容器类名 | `string` | - |
 | style | 容器样式 | `CSSProperties` | - |
 | styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; indicator?: CSSProperties; }` | - |

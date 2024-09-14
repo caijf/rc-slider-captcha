@@ -3,7 +3,7 @@ import React, { ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
 import { useSafeState, useLatest, useMount } from 'rc-hooks';
 import './style';
 import { SliderButtonProps } from './SliderButton';
-import { getClient, isSupportTouch, prefixCls, reflow, setStyle } from './utils';
+import { getClient, isSupportTouch, normalizeNumber, prefixCls, reflow, setStyle } from './utils';
 import ControlBar, { ControlBarRefType, TipIconType, TipTextType } from './ControlBar';
 import { Status } from './interface';
 import Jigsaw, { defaultConfig as jigsawDefaultConfig, JigsawProps, JigsawRefType } from './Jigsaw';
@@ -79,6 +79,7 @@ export type SliderCaptchaProps = Pick<
   loadingDelay?: number; // 延迟加载状态
   placement?: 'top' | 'bottom'; // 触发式的浮层位置
   sliderButtonProps?: SliderButtonProps;
+  precision?: number | false;
   className?: string;
   style?: StyleProp;
   styles?: {
@@ -132,6 +133,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   placement = 'top',
   loadingBoxProps,
   sliderButtonProps,
+  precision = 7,
   className,
   style,
   styles
@@ -456,9 +458,9 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       }
 
       onVerify({
-        x: diffX,
-        y: diffY,
-        sliderOffsetX,
+        x: normalizeNumber(diffX, precision),
+        y: normalizeNumber(diffY, precision),
+        sliderOffsetX: normalizeNumber(sliderOffsetX, precision),
         duration: endTimestamp - internalRef.current.startInfo.timestamp,
         trail: internalRef.current.trail,
         targetType: internalRef.current.currentTargetType,
