@@ -28,8 +28,15 @@ type StyleProp = StyleWithVariable<
 >;
 
 type JigsawImages = {
-  bgUrl: string; // 背景图
-  puzzleUrl: string; // 拼图
+  /**
+   * 背景图
+   */
+  bgUrl: string;
+
+  /**
+   * 拼图
+   */
+  puzzleUrl: string;
 };
 
 export enum CurrentTargetType {
@@ -38,51 +45,173 @@ export enum CurrentTargetType {
 }
 
 export type VerifyParam = {
-  x: number; // 拼图 x轴移动值
-  y: number; // y 轴移动值
-  sliderOffsetX: number; // 滑块 x轴偏移值
-  duration: number; // 操作持续时长
-  trail: [number, number][]; // 移动轨迹
-  targetType: CurrentTargetType; // 操作dom目标
-  errorCount: number; // 期间连续错误次数
+  /**
+   * 拼图 x 轴移动值。（这里指的是计算后的拼图移动距离。）
+   *
+   * 如果背景图和滑块有比例缩放，可能需要自己计算 x 乘以缩放比例
+   */
+  x: number;
+
+  /**
+   * 用户操作按钮或拼图 y 轴移动值。（按下鼠标到释放鼠标 y 轴的差值。）
+   */
+  y: number;
+
+  /**
+   * 滑块 x 轴偏移值。（暂时没有什么场景会用到）
+   */
+  sliderOffsetX: number;
+
+  /**
+   * 操作持续时长，单位毫秒。
+   */
+  duration: number;
+
+  /**
+   * 移动轨迹。
+   */
+  trail: [number, number][];
+
+  /**
+   * 操作 dom 目标。 `puzzle`-拼图 `button`-滑块按钮。
+   */
+  targetType: CurrentTargetType;
+
+  /**
+   * 连续错误次数。
+   */
+  errorCount: number;
 };
 
 export { Status };
 
 // 常用操作
 export type ActionType = {
-  refresh: (resetErrorCount?: boolean) => void; // 刷新，参数为是否重置连续错误次数为0
-  status: Status; // 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
+  /**
+   * @description 主动刷新。
+   * @param resetErrorCount 是否重置连续错误次数为 `0`。默认为 `false`。
+   * @returns
+   */
+  refresh: (resetErrorCount?: boolean) => void;
+
+  /**
+   * @description 每次获取返回当前的状态，注意它不是引用值，而是一个静态值。部分场景下配合自定义刷新操作使用。
+   */
+  status: Status;
 };
 
 export type SliderCaptchaProps = Pick<
   JigsawProps,
   'bgSize' | 'puzzleSize' | 'showRefreshIcon' | 'loadingBoxProps'
 > & {
-  limitErrorCount?: number; // 限制连续错误次数
-  onVerify: (data: VerifyParam) => Promise<any>; // 移动松开后触发验证方法
-  tipText?: Partial<TipTextType>; // 提示文本
+  /**
+   * @description 限制连续错误次数。当连续错误次数达到限制时，不允许操作滑块和刷新图标，必须手动点击操作条刷新。`0` 表示不限制错误次数。
+   * @default 0
+   */
+  limitErrorCount?: number;
+
+  /**
+   * @description 用户操作滑块完成后触发，主要用于验证，返回 `resolve` 表示验证成功，`reject` 表示验证失败。
+   * @param data 验证参数。
+   * @returns
+   */
+  onVerify: (data: VerifyParam) => Promise<any>;
+
+  /**
+   * @description 提示文本配置。
+   * @default { default: '向右拖动滑块填充拼图', loading: '加载中...', moving: null, verifying: null, success: null, error: null, errors: (<><SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试</>), loadFailed: '加载失败，点击重试' }
+   */
+  tipText?: Partial<TipTextType>;
+
+  /**
+   * @description 提示图标配置。
+   */
   tipIcon?: Partial<
     TipIconType & {
-      refresh: ReactNode;
+      /**
+       * @description 拼图区域刷新图标。
+       * @default <SliderIcon type="refresh" />
+       */
+      refresh: JigsawProps['refreshIcon'];
+
+      /**
+       * @description 拼图区域加载失败图标。
+       * @default <SliderIcon type="imageFill" />
+       */
       loadFailed: ReactNode;
     }
   >;
+
   /**
+   * @description 拼图区域刷新图标。
    * @deprecated 即将废弃，请使用 `tipIcon.refresh`。
    */
   refreshIcon?: ReactNode;
-  autoRequest?: boolean; // 自动发起请求
-  autoRefreshOnError?: boolean; // 验证失败后自动刷新
-  actionRef?: React.MutableRefObject<ActionType | undefined>; // 常用操作
-  jigsawContent?: React.ReactNode; // 面板内容，如xx秒完成超过多少用户；或隐藏刷新图标，自定义右上角内容。
-  errorHoldDuration?: number; // 错误停留时长，仅在 autoRefreshOnError = true 时生效
-  loadingDelay?: number; // 延迟加载状态
-  placement?: 'top' | 'bottom'; // 触发式的浮层位置
+
+  /**
+   * @description 自动发起请求。
+   * @default true
+   */
+  autoRequest?: boolean;
+
+  /**
+   * @description 验证失败后自动刷新。
+   * @default true
+   */
+  autoRefreshOnError?: boolean;
+
+  /**
+   * @description 常用操作，比如`刷新`。
+   */
+  actionRef?: React.MutableRefObject<ActionType | undefined>;
+
+  /**
+   * @description 拼图区域自定义内容，需要自己定义绝对定位和 `zIndex`。如“xx秒完成超过多少用户” 或隐藏刷新图标，自定义右上角内容。
+   */
+  jigsawContent?: React.ReactNode;
+
+  /**
+   * @description 错误停留多少毫秒后自动刷新。仅在 `autoRefreshOnError=true` 时生效。
+   * @default 500
+   */
+  errorHoldDuration?: number;
+
+  /**
+   * @description 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。
+   * @default 0
+   */
+  loadingDelay?: number;
+
+  /**
+   * @description 浮层位置。仅在 `mode=float` 时生效。
+   * @default 'top'
+   */
+  placement?: 'top' | 'bottom';
+
+  /**
+   * @description 滑轨按钮属性。
+   */
   sliderButtonProps?: SliderButtonProps;
+
+  /**
+   * @description 数字精度。为避免内部计算产生精度问题，只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。
+   * @default 7
+   */
   precision?: number | false;
+
+  /**
+   * @description 类名。
+   */
   className?: string;
+
+  /**
+   * @description 样式。
+   */
   style?: StyleProp;
+
+  /**
+   * @description 配置内置模块样式。
+   */
   styles?: {
     panel?: StyleProp;
     jigsaw?: StyleProp;
@@ -93,12 +222,28 @@ export type SliderCaptchaProps = Pick<
   };
 } & (
     | {
-        mode?: 'embed' | 'float'; // 模式，embed-嵌入式 float-触发式 slider-只有滑块无拼图，默认为 embed 。
-        request: () => Promise<JigsawImages>; // 请求背景图和拼图
+        /**
+         * @description 模式。`embed`-嵌入式 `float`-触发式 `slider`-只有滑块无拼图，默认为 `embed`。
+         */
+        mode?: 'embed' | 'float';
+
+        /**
+         * @description 请求背景图和拼图。
+         * @returns
+         */
+        request: () => Promise<JigsawImages>;
       }
     | {
-        mode: 'slider'; // 纯滑块不需要传入 request 。
-        request?: () => Promise<JigsawImages>; // 请求背景图和拼图
+        /**
+         * @description 纯滑块不需要传入 `request`。
+         */
+        mode: 'slider';
+
+        /**
+         * @description 不要传。
+         * @returns
+         */
+        request?: () => Promise<JigsawImages>;
       }
   );
 

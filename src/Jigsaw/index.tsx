@@ -24,6 +24,10 @@ type SizeType = {
 };
 
 export type JigsawRefType = {
+  /**
+   * 更新拼图 `left` 值。
+   * @param left 样式 `left` 值。
+   */
   updateLeft(left: number): void;
 };
 
@@ -42,20 +46,75 @@ export const defaultConfig = {
 };
 
 export interface JigsawProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * @description 状态。
+   */
   status?: Status;
-  bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>; // 背景图片尺寸
-  puzzleSize?: Partial<SizeType>; // 拼图尺寸和偏移调整
+
+  /**
+   * @description 背景图片尺寸。
+   * @default { width: 320, height: 160 }
+   */
+  bgSize?: Partial<Pick<SizeType, 'width' | 'height'>>;
+
+  /**
+   * @description 拼图尺寸和偏移调整。
+   * @default { width: 60, left: 0 }
+   */
+  puzzleSize?: Partial<SizeType>;
+
+  /**
+   * @description 背景图 url 。
+   */
   bgUrl?: string;
+
+  /**
+   * @description 拼图 url 。
+   */
   puzzleUrl?: string;
+
+  /**
+   * @description 背景图元素属性。
+   */
   bgImgProps?: ImgHTMLAttributes<HTMLImageElement>;
+
+  /**
+   * @description 拼图元素属性。
+   */
   puzzleImgProps?: ImgHTMLAttributes<HTMLImageElement>;
+
+  /**
+   * @description 拼图操作。
+   */
   jigsawRef?: Ref<JigsawRefType>;
 
+  /**
+   * @description 拼图区域加载配置，支持 div 属性。
+   */
   loadingBoxProps?: LoadingBoxProps;
+
+  /**
+   * @description 拼图区域加载失败图标。
+   * @default <SliderIcon type="imageFill" />
+   */
   loadFailedIcon?: ReactNode;
   showRefreshIcon?: boolean; // 显示右上角刷新图标
+
+  /**
+   * @description 拼图区域刷新图标。
+   * @default <SliderIcon type="refresh" />
+   */
   refreshIcon?: ReactNode;
+
+  /**
+   * @description 禁止刷新。
+   */
   disabledRefresh?: boolean;
+
+  /**
+   * @description 点击刷新时触发。
+   * @returns
+   */
   onRefresh?: () => void;
 }
 

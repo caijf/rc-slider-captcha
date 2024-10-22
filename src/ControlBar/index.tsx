@@ -19,20 +19,78 @@ const SliderButtonDefaultWidth = 40;
 const IndicatorBorderWidth = 2;
 
 export type TipTextType = {
+  /**
+   * @description 默认状态显示内容。
+   * @default '向右拖动滑块填充拼图'
+   */
   default: ReactNode;
+
+  /**
+   * @description 加载中显示内容。
+   * @default '加载中...'
+   */
   loading: ReactNode;
+
+  /**
+   * @description 用户操作滑块移动中显示内容。
+   * @default null
+   */
   moving: ReactNode;
+
+  /**
+   * @description 用户停止操作验证中显示内容。
+   * @default null
+   */
   verifying: ReactNode;
+
+  /**
+   * @description 验证成功显示内容。
+   * @default null
+   */
   success: ReactNode;
+
+  /**
+   * @description 验证失败显示内容。
+   * @default null
+   */
   error: ReactNode;
+
+  /**
+   * @description 验证失败且连续错误次数超出限制显示内容。
+   * @default <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
+   */
   errors: ReactNode;
+
+  /**
+   * @description `request` 请求返回失败显示内容。
+   * @default '加载失败，点击重试'
+   */
   loadFailed: ReactNode;
 };
 
 export type TipIconType = {
+  /**
+   * @description 默认状态滑轨按钮图标。
+   * @default <SliderIcon type="arrowRight" />
+   */
   default: ReactNode;
+
+  /**
+   * @description 加载中滑轨按钮图标。
+   * @default <SliderIcon type="loading" spin />
+   */
   loading: ReactNode;
+
+  /**
+   * @description 验证失败滑轨提示图标。
+   * @default <SliderIcon type="x" />
+   */
   error: ReactNode;
+
+  /**
+   * @description 验证成功滑轨提示图标。
+   * @default <SliderIcon type="check" />
+   */
   success: ReactNode;
 };
 

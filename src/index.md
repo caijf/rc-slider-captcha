@@ -136,8 +136,8 @@ React 滑块验证码组件。
 | autoRefreshOnError | 验证失败后自动刷新 | `boolean` | `true` |
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
 | loadingDelay | 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。 | `number` | `0` |
-| placement | 浮层位置，触发式下生效 | `'top' \| 'bottom'` | `'top'` |
-| precision | 精度，为避免内部计算产生精度问题。<br/>只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。 | `number \| false` | `7` |
+| placement | 浮层位置。仅在 `mode=float` 时生效。 | `'top' \| 'bottom'` | `'top'` |
+| precision | 数字精度。为避免内部计算产生精度问题，只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。 | `number \| false` | `7` |
 | className | 容器类名 | `string` | - |
 | style | 容器样式 | `CSSProperties` | - |
 | styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; indicator?: CSSProperties; }` | - |
@@ -148,12 +148,12 @@ React 滑块验证码组件。
 
 ```typescript
 type VerifyParam = {
-  x: number; // 拼图 x 轴移动值（拼图和滑块按钮可移动距离不一样，这里的移动距离是计算后的拼图移动距离。）
-  y: number; // y 轴移动值（按下鼠标到释放鼠标 y 轴的差值）
-  sliderOffsetX: number; // 滑块 x 轴偏移值（暂时没有什么场景会用到）
-  duration: number; // 操作持续时长
+  x: number; // 拼图 x 轴移动值。（拼图和滑块按钮移动距离不一样，这里指的是计算后的拼图移动距离。）
+  y: number; // 用户操作按钮或拼图 y 轴移动值。（按下鼠标到释放鼠标 y 轴的差值。）
+  sliderOffsetX: number; // 滑块 x 轴偏移值。（暂时没有什么场景会用到。）
+  duration: number; // 操作持续时长，单位毫秒。
   trail: [number, number][]; // 移动轨迹
-  targetType: 'puzzle' | 'button'; // 操作dom目标 puzzle-拼图 button-滑块按钮
+  targetType: 'puzzle' | 'button'; // 操作 dom 目标。 puzzle-拼图 button-滑块按钮。
   errorCount: number; // 连续错误次数
 };
 ```
