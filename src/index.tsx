@@ -24,6 +24,7 @@ type StyleProp = StyleWithVariable<
   | '--rcsc-button-bg-color'
   | '--rcsc-panel-border-radius'
   | '--rcsc-control-border-radius'
+  | '--rcsc-control-height'
 >;
 
 type JigsawImages = {
@@ -204,6 +205,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     internalRef.current.puzzleMaxDistance = bgSize.width - puzzleSize.width - puzzleSize.left;
   };
 
+  const getControlHeight = () => {
+    return controlRef.current?.getRect(true).height || 42;
+  };
+
   // 获取背景图和拼图
   const getJigsawImages = async () => {
     if (modeIsSlider) return;
@@ -248,7 +253,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     internalRef.current.floatDelayShowTimer = setTimeout(() => {
       setStyle(panelRef.current, { display: 'block' });
       reflow(panelRef.current);
-      setStyle(panelRef.current, { [placementPos]: '42px', opacity: '1' });
+      const controlBarHeight = getControlHeight() + 'px';
+      setStyle(panelRef.current, { [placementPos]: controlBarHeight, opacity: '1' });
     }, delay);
   };
 
@@ -263,7 +269,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     clearTimeout(internalRef.current.floatDelayShowTimer);
 
     internalRef.current.floatDelayHideTimer = setTimeout(() => {
-      setStyle(panelRef.current, { [placementPos]: '22px', opacity: '0' });
+      const controlBarHalfHeight = getControlHeight() / 2 + 'px';
+      setStyle(panelRef.current, { [placementPos]: controlBarHalfHeight, opacity: '0' });
       internalRef.current.floatTransitionTimer = setTimeout(() => {
         setStyle(panelRef.current, { display: 'none' });
       }, 300);

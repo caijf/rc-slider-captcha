@@ -39,6 +39,7 @@ export type TipIconType = {
 export type ControlBarRefType = {
   getSliderButtonWidth(force?: boolean): number;
   getIndicatorBorderWidth(force?: boolean): number;
+  getRect(force?: boolean): DOMRect;
   updateLeft(left: number): void;
 };
 
@@ -62,9 +63,14 @@ const ControlBar: FC<ControlBarProps> = ({
   controlRef,
   ...restProps
 }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const sliderButtonRef = useRef<HTMLSpanElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
-  const rectRef = useRef<{ sliderButtonWidth?: number; indicatorBorderWidth?: number }>({});
+  const rectRef = useRef<{
+    sliderButtonWidth?: number;
+    indicatorBorderWidth?: number;
+    rect?: DOMRect;
+  }>({});
 
   const tipText = useMemo(
     () => ({
@@ -128,11 +134,21 @@ const ControlBar: FC<ControlBarProps> = ({
     return rectRef.current.indicatorBorderWidth!;
   };
 
+  const getRect = (force?: boolean) => {
+    if (force || !rectRef.current.rect) {
+      if (wrapperRef.current) {
+        rectRef.current.rect = wrapperRef.current?.getBoundingClientRect();
+      }
+    }
+    return rectRef.current.rect!;
+  };
+
   useImperativeHandle(
     controlRef,
     () => ({
       getSliderButtonWidth,
       getIndicatorBorderWidth,
+      getRect,
       updateLeft(left) {
         const sliderButtonWidth = getSliderButtonWidth();
         const indicatorBorderWidth = getIndicatorBorderWidth();
@@ -170,6 +186,7 @@ const ControlBar: FC<ControlBarProps> = ({
         },
         restProps.className
       )}
+      ref={wrapperRef}
     >
       <div
         {...indicatorProps}
