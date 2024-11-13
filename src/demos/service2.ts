@@ -1,4 +1,4 @@
-import { sleep } from 'ut2';
+import { inRange, sleep } from 'ut2';
 import ImageBg from './assets/2bg.png';
 import ImagePuzzle from './assets/2puzzle.png';
 
@@ -13,7 +13,8 @@ export const getCaptcha = async () => {
 
 export const verifyCaptcha = async (data: { x: number }) => {
   await sleep();
-  if (data?.x && data.x > 187 && data.x < 193) {
+  // value is 190±5
+  if (data && inRange(data.x, 185, 195)) {
     return Promise.resolve();
   }
   return Promise.reject();
