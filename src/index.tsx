@@ -3,10 +3,44 @@ import React, { ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
 import { useSafeState, useLatest, useMount } from 'rc-hooks';
 import './style';
 import { SliderButtonProps } from './SliderButton';
-import { getClient, isSupportTouch, normalizeNumber, prefixCls, reflow, setStyle } from './utils';
+import {
+  getClient,
+  isSupportPointer,
+  isSupportTouch,
+  normalizeNumber,
+  prefixCls,
+  reflow,
+  setStyle
+} from './utils';
 import ControlBar, { ControlBarRefType, TipIconType, TipTextType } from './ControlBar';
 import { Status } from './interface';
 import Jigsaw, { defaultConfig as jigsawDefaultConfig, JigsawProps, JigsawRefType } from './Jigsaw';
+
+const events = isSupportPointer
+  ? {
+      start: 'pointerdown',
+      move: 'pointermove',
+      end: 'pointerup',
+      cancel: 'pointercancel'
+    }
+  : isSupportTouch
+    ? {
+        start: 'touchstart',
+        move: 'touchmove',
+        end: 'touchend',
+        cancel: 'touchcancel'
+      }
+    : {
+        start: 'mousedown',
+        move: 'mousemove',
+        end: 'mouseup',
+        cancel: 'touchcancel'
+      };
+const startEventName = isSupportPointer
+  ? 'onPointerDown'
+  : isSupportTouch
+    ? 'onTouchStart'
+    : 'onMouseDown';
 
 type StyleWithVariable<V extends string = never> = React.CSSProperties & Partial<Record<V, string>>;
 type StyleProp = StyleWithVariable<
@@ -246,19 +280,6 @@ export type SliderCaptchaProps = Pick<
         request?: () => Promise<JigsawImages>;
       }
   );
-
-const events = isSupportTouch
-  ? {
-      start: 'touchstart',
-      move: 'touchmove',
-      end: 'touchend'
-    }
-  : {
-      start: 'mousedown',
-      move: 'mousemove',
-      end: 'mouseup'
-    };
-
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   mode: outMode = 'embed',
   limitErrorCount = 0,
@@ -533,7 +554,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
     document.addEventListener(events.move, touchmove);
     document.addEventListener(events.end, touchend);
-    document.addEventListener('touchcancel', touchend);
+    document.addEventListener(events.cancel, touchend);
   };
 
   // 鼠标移动 或 触摸移动
@@ -573,7 +594,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const touchend = (e: any) => {
     document.removeEventListener(events.move, touchmove);
     document.removeEventListener(events.end, touchend);
-    document.removeEventListener('touchcancel', touchend);
+    document.removeEventListener(events.cancel, touchend);
 
     if (!internalRef.current.isPressed) {
       return;
@@ -691,8 +712,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
               bgImgProps={{ style: styles?.bgImg }}
               puzzleImgProps={{
                 style: styles?.puzzleImg,
-                onTouchStart: touchstartPuzzle,
-                onMouseDown: touchstartPuzzle
+                [startEventName]: touchstartPuzzle
               }}
             >
               {jigsawContent}
@@ -710,8 +730,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         indicatorProps={{ style: styles?.indicator }}
         sliderButtonProps={{
           ...sliderButtonProps,
-          onTouchStart: touchstartSliderButton,
-          onMouseDown: touchstartSliderButton
+          [startEventName]: touchstartSliderButton
         }}
         controlRef={controlRef}
       />
