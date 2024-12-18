@@ -546,7 +546,8 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     // }
 
     // 处理移动端-触发式兼容
-    if (isSupportTouch) {
+    // 可触屏电脑不支持触摸事件，但是 pointerType 可能为 'touch' 或 'pen'
+    if (isSupportTouch || e.pointerType === 'pen' || e.pointerType === 'touch') {
       showPanel(0);
     }
 
@@ -648,7 +649,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           internalRef.current.errorCount += 1;
           setStatus(Status.Error);
 
-          if (isSupportTouch) {
+          if (isSupportTouch || e.pointerType === 'pen' || e.pointerType === 'touch') {
             hidePanel();
           }
 
