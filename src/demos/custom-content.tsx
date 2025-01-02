@@ -1,6 +1,6 @@
 import SliderCaptcha from 'rc-slider-captcha';
 import React, { useState } from 'react';
-import styles from './custom-content.less';
+import styles from './custom-content.module.less';
 import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {

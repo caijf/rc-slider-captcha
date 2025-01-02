@@ -1,6 +1,3 @@
-/**
- * description:  使用 [`create-puzzle`](https://caijf.github.io/create-puzzle/index.html) 生成背景图和拼图。如果你使用的是 Node.js 做服务端，推荐使用 [`node-puzzle`](https://github.com/caijf/node-puzzle) 。
- */
 import SliderCaptcha, { ActionType } from 'rc-slider-captcha';
 import React, { useRef, useState } from 'react';
 import { Options, createPuzzle } from 'create-puzzle';

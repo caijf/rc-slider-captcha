@@ -110,7 +110,7 @@ type VerifyParam = {
 
 如果对安全比较重视的，可以通过 `y` `duration` `trail` 等结合算法判断是否人为操作，防止一些非人为操作破解滑块验证码。
 
-大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 `x 乘以 缩放比例`）。
+大部分情况下，只需要将 `x` 传给后端即可（如果背景图和滑块有比例缩放，可能需要自己计算 `x` 乘以缩放比例）。
 
 ### actionRef
 
@@ -150,6 +150,8 @@ export enum Status {
 | --rcsc-button-bg-color | 按钮背景颜色 | `#ffffff` <input type='color' value='#ffffff' disabled /> |
 | --rcsc-panel-border-radius | 图片容器边框圆角 | `2px` |
 | --rcsc-control-height | 滑轨高度 | `42px` |
+
+> \*注意 IE11 不支持 css 变量，如果你的项目需要兼容 IE11，尽量不使用 css 变量改变样式。
 
 [site]: https://caijf.github.io/rc-slider-captcha/
 [npm]: https://img.shields.io/npm/v/rc-slider-captcha.svg

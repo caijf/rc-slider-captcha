@@ -8,6 +8,11 @@
     "types": ["jest", "@testing-library/jest-dom"],
     "lib": ["DOM", "ESNext"],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "rc-slider-captcha": ["src"]
+    }
   }
 }

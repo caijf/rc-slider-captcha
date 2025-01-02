@@ -20,9 +20,9 @@ pnpm-lock.yaml
 /coverage
 
 # umi
-.umi
-.umi-production
-.umi-test
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
 .env.local
 
 # ide
