@@ -1,6 +1,5 @@
 /**
  * debug: true
- * title: 拼图
  */
 import React, { useEffect, useRef } from 'react';
 import Jigsaw, { JigsawRefType } from '../Jigsaw';

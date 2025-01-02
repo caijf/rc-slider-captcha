@@ -1,6 +1,5 @@
 /**
  * debug: true
- * title: 按钮
  */
 import * as React from 'react';
 import SliderButton from '../SliderButton';

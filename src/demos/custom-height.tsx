@@ -1,6 +1,5 @@
 /**
  * debug: true
- * title: 自定义滑轨高度
  */
 import SliderCaptcha from 'rc-slider-captcha';
 import React from 'react';

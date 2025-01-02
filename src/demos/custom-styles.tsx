@@ -1,6 +1,5 @@
 /**
  * debug: true
- * title: 自定义样式2
  */
 import { ArrowRepeat, EmojiFrownFill, EmojiSmileFill, Gem, Heart } from 'doly-icons';
 import SliderCaptcha from 'rc-slider-captcha';

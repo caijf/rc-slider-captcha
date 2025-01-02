@@ -1,6 +1,5 @@
 /**
  * debug: true
- * title: 图标
  */
 import * as React from 'react';
 import SliderIcon from '../SliderIcon';

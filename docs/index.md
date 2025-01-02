@@ -17,11 +17,19 @@ React 滑块验证码组件。
 
 ## 代码演示
 
+<!-- 图标 -->
+
 <code src='../src/demos/dev-icon.tsx'></code>
+
+<!-- 按钮 -->
 
 <code src='../src/demos/dev-button.tsx'></code>
 
+<!-- 滑轨 -->
+
 <code src='../src/demos/dev-control-bar.tsx'></code>
+
+<!-- 拼图 -->
 
 <code src='../src/demos/dev-jigsaw.tsx'></code>
 
@@ -79,7 +87,11 @@ React 滑块验证码组件。
 
 <code src='../src/demos/custom-style.tsx'></code>
 
+<!-- 自定义样式2 -->
+
 <code src='../src/demos/custom-styles.tsx'></code>
+
+<!-- 自定义滑轨高度 -->
 
 <code src='../src/demos/custom-height.tsx'></code>
 

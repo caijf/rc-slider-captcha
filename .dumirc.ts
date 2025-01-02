@@ -36,6 +36,9 @@ export default defineConfig({
     `body .dumi-default-doc-layout {
       background: white;
     }
+    body .dumi-default-doc-layout > main{
+      padding-top: 24px;
+    }
     body .dumi-default-header{
       display: none;
     }
