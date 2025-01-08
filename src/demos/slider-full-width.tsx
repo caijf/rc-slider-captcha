@@ -9,6 +9,7 @@ function Demo() {
 
   const finalWidth = width || 320;
   const controlButtonWidth = 40;
+  const indicatorBorderWidth = 2;
 
   return (
     <div>
@@ -27,11 +28,12 @@ function Demo() {
           }}
           // 手动设置拼图宽度等于滑块宽度。后面大版本更新会将该模式下的拼图宽度改为和滑块宽度一致。
           puzzleSize={{
+            left: indicatorBorderWidth,
             width: controlButtonWidth
           }}
           onVerify={(data) => {
             console.log(data);
-            if (data.x === finalWidth - controlButtonWidth) {
+            if (data.x === finalWidth - controlButtonWidth - indicatorBorderWidth) {
               return Promise.resolve();
             }
             return Promise.reject();
