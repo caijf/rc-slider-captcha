@@ -6,9 +6,10 @@ on:
     paths:
       - docs/**
       - src/**
-      - .umirc.ts
+      - .dumirc.ts
       - .github/**
       - package.json
+      - README.md
 
 jobs:
   build-and-deploy:

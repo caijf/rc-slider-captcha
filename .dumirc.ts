@@ -1,7 +1,7 @@
 import { defineConfig } from 'dumi';
 
 const isDev = process.env.NODE_ENV === 'development';
-const publicPath = !isDev ? '/rc-slider-captcha/' : '/';
+const publicPath = isDev ? '/' : '/rc-slider-captcha/';
 
 export default defineConfig({
   themeConfig: {
@@ -17,7 +17,7 @@ export default defineConfig({
     <div>Powered by <a href="https://d.umijs.org/" target="_blank">dumi</a></div>
     </div>`
   },
-  base: isDev ? '/' : '/rc-slider-captcha/',
+  base: publicPath,
   publicPath,
   favicons: ['https://www.caijinfeng.com/favicon.ico'],
   outputPath: 'docs-dist',
