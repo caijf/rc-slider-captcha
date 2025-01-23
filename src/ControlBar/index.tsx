@@ -259,7 +259,7 @@ const ControlBar: FC<ControlBarProps> = ({
         verify={isVerify}
         success={isSuccess}
         error={isError}
-        ref={sliderButtonRef}
+        buttonRef={sliderButtonRef}
       >
         {statusViewMap[status][1]}
       </SliderButton>
