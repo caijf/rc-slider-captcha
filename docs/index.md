@@ -137,7 +137,7 @@ React 滑块验证码组件。
 
 ### 客户端生成拼图
 
-> 使用 [create-puzzle](https://caijf.github.io/create-puzzle/index.html) 生成背景图和拼图。如果你使用的是 Node.js 做服务端，推荐使用 [node-puzzle](https://github.com/caijf/node-puzzle) 。
+> 使用 [create-puzzle](https://caijf.github.io/create-puzzle/) 生成背景图和拼图。如果你使用的是 Node.js 做服务端，推荐使用 [node-puzzle](https://github.com/caijf/node-puzzle) 。
 
 <code src='../src/demos/create-puzzle.tsx'></code>
 
