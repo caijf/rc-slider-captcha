@@ -24,14 +24,14 @@ export default defineConfig({
   analytics: {
     ga_v2: 'G-9R6Q9PDGBK'
   },
-  headScripts: [
-    {
-      src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js'
-    },
-    {
-      content: 'var vConsole = new window.VConsole();'
-    }
-  ],
+  // headScripts: [
+  //   {
+  //     src: 'https://cdn.bootcdn.net/ajax/libs/vConsole/3.13.0/vconsole.min.js'
+  //   },
+  //   {
+  //     content: 'var vConsole = new window.VConsole();'
+  //   }
+  // ],
   styles: [
     `body .dumi-default-doc-layout {
       background: white;
