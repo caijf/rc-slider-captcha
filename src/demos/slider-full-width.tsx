@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import SliderCaptcha, { ActionType } from 'rc-slider-captcha';
+import React, { useEffect, useRef } from 'react';
+import SliderCaptcha, { ActionType, Status } from 'rc-slider-captcha';
 import { useSize } from 'rc-hooks';
 
 function Demo() {
@@ -11,8 +11,16 @@ function Demo() {
   const controlButtonWidth = 40;
   const indicatorBorderWidth = 2;
 
+  useEffect(() => {
+    if (actionRef.current && actionRef.current.status === Status.Success) {
+      actionRef.current.refresh();
+      // reset your slider captcha flag
+      // ...
+    }
+  }, [width]);
+
   return (
-    <div>
+    <>
       <div ref={wrapperRef}>
         <SliderCaptcha
           mode="slider"
@@ -44,7 +52,7 @@ function Demo() {
       <div style={{ marginTop: 24 }}>
         <button onClick={() => actionRef.current?.refresh()}>点击重置</button>
       </div>
-    </div>
+    </>
   );
 }
 
