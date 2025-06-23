@@ -160,7 +160,7 @@ const Jigsaw: React.FC<JigsawProps> = ({
     );
   }
 
-  if (status === Status.LoadFailed || !bgUrl || !puzzleUrl) {
+  if (status === Status.LoadFailed) {
     return (
       <div className={`${prefixCls}-load-failed`} style={bgSize}>
         {loadFailedIcon}

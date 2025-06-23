@@ -306,7 +306,12 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   styles
 }) => {
   const [jigsawImgs, setJigsawImgs] = useSafeState<JigsawImages>();
-  const [status, setStatus] = useSafeState<Status>(Status.Default);
+  const [status, setStatus] = useSafeState<Status>(() => {
+    if (!modeIsSlider && !!request && autoRequest) {
+      return Status.Loading;
+    }
+    return Status.Default;
+  });
   const latestStatus = useLatest(status); // 同步status值，提供给事件方法使用
   const controlRef = useRef<ControlBarRefType>(null);
   const jigsawRef = useRef<JigsawRefType>(null);
@@ -401,6 +406,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         if (hasLoadingDelay) {
           clearTimeout(internalRef.current.loadingTimer);
         }
+        setJigsawImgs(undefined);
         setStatus(Status.LoadFailed);
       }
     }
