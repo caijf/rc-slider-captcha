@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`snapshot custom config 1`] = `
 <DocumentFragment>
@@ -39,7 +39,7 @@ exports[`snapshot custom config 1`] = `
         style="background-color: black;"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled"
       >
         define icon default
       </span>
@@ -99,7 +99,7 @@ exports[`snapshot custom config 2`] = `
         style="background-color: black;"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         define icon default
       </span>
@@ -232,7 +232,7 @@ exports[`snapshot default mode 1`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -322,7 +322,7 @@ exports[`snapshot default mode 2`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -393,7 +393,7 @@ exports[`snapshot default mode 3`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -544,7 +544,7 @@ exports[`snapshot float mode 1`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-disabled"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -634,7 +634,7 @@ exports[`snapshot float mode 2`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -724,7 +724,7 @@ exports[`snapshot float mode 3`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         <span
           class="rc-slider-captcha-icon"
@@ -769,7 +769,7 @@ exports[`snapshot slider mode 1`] = `
         class="rc-slider-captcha-control-indicator"
       />
       <span
-        class="rc-slider-captcha-button rc-slider-captcha-control-button rc-slider-captcha-button-pc"
+        class="rc-slider-captcha-button rc-slider-captcha-control-button"
       >
         <span
           class="rc-slider-captcha-icon"
