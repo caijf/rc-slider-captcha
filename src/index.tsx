@@ -401,6 +401,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
         setJigsawImgs(result);
         setStatus(Status.Default);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         // console.error(err);
         if (hasLoadingDelay) {
