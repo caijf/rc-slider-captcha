@@ -70,27 +70,28 @@ import SliderCaptcha, {
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| request | 请求背景图和拼图 | `() => Promise<{ bgUrl:string; puzzleUrl:string;}>` | - |
+| request | 请求背景图和拼图。 | `() => Promise<{ bgUrl:string; puzzleUrl:string;}>` | - |
 | onVerify | 用户操作滑块完成后触发，主要用于验证，返回 `resolve` 表示验证成功，`reject` 表示验证失败。 | `(data: VerifyParam) => Promise<any>` | - |
 | mode | 显示模式。`embed` - 嵌入式， `float` - 触发式， `slider` - 只有滑块无拼图。 | `'embed' \| 'float' \| 'slider'` | `'embed'` |
 | bgSize | 背景图尺寸 | `{ width: number; height: number; }` | `{ width: 320, height: 160 }` |
 | puzzleSize | 拼图尺寸和偏移调整，默认宽度 `60`，高度为背景图高度。 | `{ width: number; height: number; left: number; top: number; }` | `{ width: 60 }` |
-| tipText | 提示文本配置 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; loadFailed: ReactNode; }` | - |
-| tipIcon | 提示图标配置 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; loadFailed: ReactNode; }` | - |
+| tipText | 提示文本配置。 | `{ default: ReactNode; loading: ReactNode; moving: ReactNode; verifying: ReactNode; success: ReactNode; error: ReactNode; errors: ReactNode; loadFailed: ReactNode; }` | - |
+| tipIcon | 提示图标配置。 | `{ default: ReactNode; loading: ReactNode; error: ReactNode; success: ReactNode; refresh: ReactNode; loadFailed: ReactNode; }` | - |
 | actionRef | 常用操作，比如`刷新`。 | `React.MutableRefObject<ActionType \| undefined>;` | - |
-| showRefreshIcon | 显示右上角刷新图标 | `boolean` | `true` |
+| showRefreshIcon | 显示右上角刷新图标。 | `boolean` | `true` |
 | limitErrorCount | 限制连续错误次数。当连续错误次数达到限制时，不允许操作滑块和刷新图标，必须手动点击操作条刷新。`0` 表示不限制错误次数。 | `number` | `0` |
 | jigsawContent | 拼图区域自定义内容，需要自己定义绝对定位和 zIndex 。 | `ReactNode` | - |
 | loadingBoxProps | 拼图区域加载配置，支持 div 属性。 | `{ icon: ReactNode; text: ReactNode }` | - |
-| autoRequest | 自动发起请求 | `boolean` | `true` |
-| autoRefreshOnError | 验证失败后自动刷新 | `boolean` | `true` |
+| autoRequest | 自动发起请求。 | `boolean` | `true` |
+| autoRefreshOnError | 验证失败后自动刷新。 | `boolean` | `true` |
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
+| showJigsawOnActive | 在滑动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。 | `boolean` | `false` |
 | loadingDelay | 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。 | `number` | `0` |
 | placement | 浮层位置。仅在 `mode=float` 时生效。 | `'top' \| 'bottom'` | `'top'` |
 | precision | 数字精度。为避免内部计算产生精度问题，只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。 | `number \| false` | `7` |
-| className | 容器类名 | `string` | - |
-| style | 容器样式 | `CSSProperties` | - |
-| styles | 配置内置模块样式 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; indicator?: CSSProperties; }` | - |
+| className | 容器类名。 | `string` | - |
+| style | 容器样式。 | `CSSProperties` | - |
+| styles | 配置内置模块样式。 | `{ panel?: CSSProperties; jigsaw?: CSSProperties; bgImg?: CSSProperties; puzzleImg?: CSSProperties; control?: CSSProperties; indicator?: CSSProperties; }` | - |
 
 > 连续错误次数说明：当用户操作滑块验证成功后，将重置连续错误次数为 0 。当用户点击限制错误次数操作条刷新时也将错误次数重置为 0 。
 
@@ -125,6 +126,7 @@ export type ActionType = {
 export enum Status {
   Default = 1, // 默认
   Loading, // 加载中
+  Moving, // 移动中
   Verify, // 验证中
   Success, // 验证成功
   Error, // 验证失败

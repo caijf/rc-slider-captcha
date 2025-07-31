@@ -14,6 +14,19 @@ function Demo() {
         }}
       />
       <br />
+      <h3>激活时始终显示拼图</h3>
+      <p>showJigsawOnActive=true</p>
+      <SliderCaptcha
+        mode="float"
+        style={{ zIndex: 2 }}
+        request={getCaptcha}
+        onVerify={(data) => {
+          console.log(data);
+          return verifyCaptcha(data);
+        }}
+        showJigsawOnActive
+      />
+      <br />
       <h3>底部显示浮层</h3>
       <SliderCaptcha
         mode="float"

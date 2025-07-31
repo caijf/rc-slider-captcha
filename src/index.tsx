@@ -211,6 +211,12 @@ export type SliderCaptchaProps = Pick<
   errorHoldDuration?: number;
 
   /**
+   * @description 在滑动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。
+   * @default false
+   */
+  showJigsawOnActive?: boolean;
+
+  /**
    * @description 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。
    * @default 0
    */
@@ -296,6 +302,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   showRefreshIcon = true,
   jigsawContent,
   errorHoldDuration = 500,
+  showJigsawOnActive = false,
   loadingDelay = 0,
   placement = 'top',
   loadingBoxProps,
@@ -502,7 +509,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
 
   // 鼠标移出隐藏面板，如果支持touch事件不处理
   const handleMouseLeave = () => {
-    if (isSupportTouch) {
+    if (isSupportTouch || (showJigsawOnActive && internalRef.current.isPressed)) {
       return;
     }
     hidePanel();
@@ -608,70 +615,78 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
       return;
     }
 
-    if (latestStatus.current !== Status.Moving) {
+    if (latestStatus.current !== Status.Moving || typeof onVerify !== 'function') {
       internalRef.current.isPressed = false;
 
       // 如果是移动端事件，并且是触发式，隐藏浮层
-      if (isSupportTouch) {
+      if (
+        isSupportTouch ||
+        e.pointerType === 'pen' ||
+        e.pointerType === 'touch' ||
+        showJigsawOnActive
+      ) {
         hidePanel();
       }
+
+      reset();
       return;
     }
 
-    if (onVerify) {
-      internalRef.current.isPressed = false;
-      setStatus(Status.Verify);
+    internalRef.current.isPressed = false;
+    setStatus(Status.Verify);
 
-      const endTimestamp = new Date().getTime();
-      const { clientX, clientY } = getClient(e);
+    const endTimestamp = new Date().getTime();
+    const { clientX, clientY } = getClient(e);
 
-      const diffY = clientY - internalRef.current.startInfo.y;
-      let diffX = clientX - internalRef.current.startInfo.x; // 拼图移动距离
-      let sliderOffsetX = diffX; // 滑块偏移值
+    const diffY = clientY - internalRef.current.startInfo.y;
+    let diffX = clientX - internalRef.current.startInfo.x; // 拼图移动距离
+    let sliderOffsetX = diffX; // 滑块偏移值
 
-      if (internalRef.current.currentTargetType === CurrentTargetType.Puzzle) {
-        diffX = Math.max(0, Math.min(diffX, internalRef.current.puzzleMaxDistance));
-        sliderOffsetX = diffX * internalRef.current.ratio;
-      } else {
-        diffX = Math.max(0, Math.min(diffX, internalRef.current.buttonMaxDistance));
-        sliderOffsetX = diffX;
-        diffX *= internalRef.current.ratio;
-      }
-
-      onVerify({
-        x: normalizeNumber(diffX, precision),
-        y: normalizeNumber(diffY, precision),
-        sliderOffsetX: normalizeNumber(sliderOffsetX, precision),
-        duration: endTimestamp - internalRef.current.startInfo.timestamp,
-        trail: internalRef.current.trail,
-        targetType: internalRef.current.currentTargetType,
-        errorCount: internalRef.current.errorCount
-      })
-        .then(() => {
-          internalRef.current.errorCount = 0;
-          setStatus(Status.Success);
-          hidePanel();
-        })
-        .catch(() => {
-          internalRef.current.errorCount += 1;
-          setStatus(Status.Error);
-
-          if (isSupportTouch || e.pointerType === 'pen' || e.pointerType === 'touch') {
-            hidePanel();
-          }
-
-          if (
-            (limitErrorCount <= 0 || internalRef.current.errorCount < limitErrorCount) &&
-            autoRefreshOnError
-          ) {
-            internalRef.current.refreshTimer = setTimeout(() => {
-              refresh();
-            }, errorHoldDuration);
-          }
-        });
+    if (internalRef.current.currentTargetType === CurrentTargetType.Puzzle) {
+      diffX = Math.max(0, Math.min(diffX, internalRef.current.puzzleMaxDistance));
+      sliderOffsetX = diffX * internalRef.current.ratio;
     } else {
-      reset();
+      diffX = Math.max(0, Math.min(diffX, internalRef.current.buttonMaxDistance));
+      sliderOffsetX = diffX;
+      diffX *= internalRef.current.ratio;
     }
+
+    onVerify({
+      x: normalizeNumber(diffX, precision),
+      y: normalizeNumber(diffY, precision),
+      sliderOffsetX: normalizeNumber(sliderOffsetX, precision),
+      duration: endTimestamp - internalRef.current.startInfo.timestamp,
+      trail: internalRef.current.trail,
+      targetType: internalRef.current.currentTargetType,
+      errorCount: internalRef.current.errorCount
+    })
+      .then(() => {
+        internalRef.current.errorCount = 0;
+        setStatus(Status.Success);
+        hidePanel();
+      })
+      .catch(() => {
+        internalRef.current.errorCount += 1;
+        setStatus(Status.Error);
+
+        if (
+          isSupportTouch ||
+          e.pointerType === 'pen' ||
+          e.pointerType === 'touch' ||
+          showJigsawOnActive
+        ) {
+          hidePanel();
+        }
+
+        if (
+          (limitErrorCount <= 0 || internalRef.current.errorCount < limitErrorCount) &&
+          autoRefreshOnError
+        ) {
+          internalRef.current.refreshTimer = setTimeout(() => {
+            refresh();
+          }, errorHoldDuration);
+        }
+      });
   };
 
   useMount(() => {
