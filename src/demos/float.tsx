@@ -14,8 +14,8 @@ function Demo() {
         }}
       />
       <br />
-      <h3>激活时始终显示拼图</h3>
-      <p>showJigsawOnActive=true</p>
+      <h3>移动中或验证时始终显示拼图</h3>
+      <p>鼠标拖动过程中，移出滑块拼图区域也显示拼图。</p>
       <SliderCaptcha
         mode="float"
         style={{ zIndex: 2 }}
