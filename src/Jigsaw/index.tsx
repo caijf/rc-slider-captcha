@@ -168,7 +168,7 @@ const Jigsaw: React.FC<JigsawProps> = ({
     );
   }
 
-  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止滑动
+  const isStop = status === Status.Verify || status === Status.Error || status === Status.Success; // 是否停止移动
 
   return (
     <div

@@ -211,7 +211,7 @@ export type SliderCaptchaProps = Pick<
   errorHoldDuration?: number;
 
   /**
-   * @description 在滑动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。
+   * @description 在移动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。
    * @default false
    */
   showJigsawOnActive?: boolean;

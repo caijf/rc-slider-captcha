@@ -85,7 +85,7 @@ import SliderCaptcha, {
 | autoRequest | 自动发起请求。 | `boolean` | `true` |
 | autoRefreshOnError | 验证失败后自动刷新。 | `boolean` | `true` |
 | errorHoldDuration | 错误停留多少毫秒后自动刷新，仅在 `autoRefreshOnError=true` 时生效。 | `number` | `500` |
-| showJigsawOnActive | 在滑动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。 | `boolean` | `false` |
+| showJigsawOnActive | 在移动中和验证时始终显示拼图，验证完成后自动隐藏拼图。仅在 `mode=float` 时生效。 | `boolean` | `false` |
 | loadingDelay | 设置 `loading` 状态延迟的时间，避免闪烁，单位为毫秒。 | `number` | `0` |
 | placement | 浮层位置。仅在 `mode=float` 时生效。 | `'top' \| 'bottom'` | `'top'` |
 | precision | 数字精度。为避免内部计算产生精度问题，只对 `onVerify` 方法参数 `x` `y` `sliderOffsetX` 生效。 | `number \| false` | `7` |
