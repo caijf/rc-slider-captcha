@@ -353,6 +353,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     startInfo: { x: 0, y: 0, timestamp: 0 }, // 鼠标按下或触摸开始信息
     currentTargetType: CurrentTargetType.Button, // 当前触发事件的节点，拼图或按钮
 
+    isMouseEntered: false, // 鼠标是否移入
     floatTransitionTimer: null as any, // 触发式渐变过渡效果定时器
     floatDelayShowTimer: null as any, // 触发式鼠标移入定时器
     floatDelayHideTimer: null as any, // 触发式鼠标移出定时器
@@ -504,11 +505,13 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
     if (isSupportTouch) {
       return;
     }
+    internalRef.current.isMouseEntered = true;
     showPanel();
   };
 
   // 鼠标移出隐藏面板，如果支持touch事件不处理
   const handleMouseLeave = () => {
+    internalRef.current.isMouseEntered = false;
     if (isSupportTouch || (showJigsawOnActive && internalRef.current.isPressed)) {
       return;
     }
@@ -623,7 +626,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
         isSupportTouch ||
         e.pointerType === 'pen' ||
         e.pointerType === 'touch' ||
-        showJigsawOnActive
+        (showJigsawOnActive && !internalRef.current.isMouseEntered)
       ) {
         hidePanel();
       }
@@ -673,7 +676,7 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
           isSupportTouch ||
           e.pointerType === 'pen' ||
           e.pointerType === 'touch' ||
-          showJigsawOnActive
+          (showJigsawOnActive && !internalRef.current.isMouseEntered)
         ) {
           hidePanel();
         }
