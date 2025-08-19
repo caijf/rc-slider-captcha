@@ -99,6 +99,10 @@ React 滑块验证码组件。
 
 <code src='../src/demos/custom-dark.tsx' background="#000"></code>
 
+`antd` 动态切换主题
+
+<code src='../src/demos/custom-dark-antd.tsx'></code>
+
 ### 自定义文本
 
 <code src='../src/demos/custom-intl.tsx'></code>
