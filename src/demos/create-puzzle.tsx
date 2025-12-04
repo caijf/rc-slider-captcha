@@ -7,7 +7,7 @@ import { useUpdateEffect } from 'rc-hooks';
 
 function Demo() {
   const [format, setFormat] = useState<Options['format']>('blob');
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(undefined);
   const offsetXRef = useRef(0); // x 轴偏移值
 
   useUpdateEffect(() => {

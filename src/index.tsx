@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, { ReactNode, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { ReactNode, useImperativeHandle, useRef } from 'react';
 import { useSafeState, useLatest, useMount } from 'rc-hooks';
 import './style';
 import { SliderButtonProps } from './SliderButton';
@@ -287,7 +287,7 @@ export type SliderCaptchaProps = Pick<
       }
   );
 const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
-  mode: outMode = 'embed',
+  mode = 'embed',
   limitErrorCount = 0,
   tipText,
   tipIcon,
@@ -327,24 +327,10 @@ const SliderCaptcha: React.FC<SliderCaptchaProps> = ({
   const panelRef = useRef<HTMLDivElement>(null);
 
   // config
-  const mode = useMemo(
-    () => (outMode === 'float' || outMode === 'slider' ? outMode : 'embed'),
-    [outMode]
-  );
-  const refreshIcon = useMemo(() => {
-    if (customRefreshIcon !== undefined) {
-      return customRefreshIcon;
-    }
-    if (tipIcon?.refresh !== undefined) {
-      return tipIcon.refresh;
-    }
-  }, [customRefreshIcon, tipIcon]);
-  const bgSize = useMemo(() => ({ ...jigsawDefaultConfig.bgSize, ...outBgSize }), [outBgSize]);
-  const puzzleSize = useMemo(
-    () => ({ ...jigsawDefaultConfig.puzzleSize, ...outPuzzleSize }),
-    [outPuzzleSize]
-  );
-  const placementPos = useMemo(() => (placement === 'bottom' ? 'top' : 'bottom'), [placement]);
+  const refreshIcon = customRefreshIcon !== undefined ? customRefreshIcon : tipIcon?.refresh;
+  const bgSize = { ...jigsawDefaultConfig.bgSize, ...outBgSize };
+  const puzzleSize = { ...jigsawDefaultConfig.puzzleSize, ...outPuzzleSize };
+  const placementPos = placement === 'bottom' ? 'top' : 'bottom';
 
   const internalRef = useRef({
     isPressed: false, // 标识是否按下

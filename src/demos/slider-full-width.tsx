@@ -5,7 +5,7 @@ import { useSize } from 'rc-hooks';
 function Demo() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { width } = useSize(wrapperRef);
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(undefined);
 
   const finalWidth = width || 320;
   const controlButtonWidth = 40;

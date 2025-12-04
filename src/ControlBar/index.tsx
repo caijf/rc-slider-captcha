@@ -1,13 +1,5 @@
 import classnames from 'classnames';
-import React, {
-  FC,
-  Ref,
-  HTMLAttributes,
-  ReactNode,
-  useImperativeHandle,
-  useMemo,
-  useRef
-} from 'react';
+import React, { FC, Ref, HTMLAttributes, ReactNode, useImperativeHandle, useRef } from 'react';
 import SliderButton, { SliderButtonProps } from '../SliderButton';
 import { prefixCls, setStyle } from '../utils';
 import '../style';
@@ -130,46 +122,37 @@ const ControlBar: FC<ControlBarProps> = ({
     rect?: DOMRect;
   }>({});
 
-  const tipText = useMemo(
-    () => ({
-      default: '向右拖动滑块填充拼图',
-      loading: '加载中...',
-      moving: null,
-      verifying: null,
-      success: null,
-      error: null,
-      errors: (
-        <>
-          <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
-        </>
-      ),
-      loadFailed: '加载失败，点击重试',
-      ...customTipText
-    }),
-    [customTipText]
-  );
-  const tipIcon = useMemo(
-    () => ({
-      default: <SliderIcon type="arrowRight" />,
-      loading: <SliderIcon type="loading" spin />,
-      error: <SliderIcon type="x" />,
-      success: <SliderIcon type="check" />,
-      ...customTipIcon
-    }),
-    [customTipIcon]
-  );
-  const statusViewMap = useMemo(
-    () => ({
-      [Status.Default]: [tipText.default, tipIcon.default],
-      [Status.Loading]: [tipText.loading, tipIcon.default],
-      [Status.Moving]: [tipText.moving, tipIcon.default],
-      [Status.Verify]: [tipText.verifying, tipIcon.loading],
-      [Status.Error]: [tipText.error, tipIcon.error],
-      [Status.Success]: [tipText.success, tipIcon.success],
-      [Status.LoadFailed]: [tipText.loadFailed, tipIcon.default]
-    }),
-    [tipText, tipIcon]
-  );
+  const tipText = {
+    default: '向右拖动滑块填充拼图',
+    loading: '加载中...',
+    moving: null,
+    verifying: null,
+    success: null,
+    error: null,
+    errors: (
+      <>
+        <SliderIcon type="x" style={{ fontSize: 20 }} /> 失败过多，点击重试
+      </>
+    ),
+    loadFailed: '加载失败，点击重试',
+    ...customTipText
+  };
+  const tipIcon = {
+    default: <SliderIcon type="arrowRight" />,
+    loading: <SliderIcon type="loading" spin />,
+    error: <SliderIcon type="x" />,
+    success: <SliderIcon type="check" />,
+    ...customTipIcon
+  };
+  const statusViewMap = {
+    [Status.Default]: [tipText.default, tipIcon.default],
+    [Status.Loading]: [tipText.loading, tipIcon.default],
+    [Status.Moving]: [tipText.moving, tipIcon.default],
+    [Status.Verify]: [tipText.verifying, tipIcon.loading],
+    [Status.Error]: [tipText.error, tipIcon.error],
+    [Status.Success]: [tipText.success, tipIcon.success],
+    [Status.LoadFailed]: [tipText.loadFailed, tipIcon.default]
+  };
 
   const getSliderButtonWidth = (force?: boolean) => {
     if (force || typeof rectRef.current.sliderButtonWidth !== 'number') {

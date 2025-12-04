@@ -11,7 +11,7 @@ export interface SliderButtonProps extends React.HTMLAttributes<HTMLSpanElement>
   success?: boolean;
   error?: boolean;
   verify?: boolean;
-  buttonRef?: React.RefObject<HTMLSpanElement>;
+  buttonRef?: React.RefObject<HTMLSpanElement | null>;
 }
 
 const SliderButton: React.FC<SliderButtonProps> = ({
@@ -33,7 +33,7 @@ const SliderButton: React.FC<SliderButtonProps> = ({
       [`${currentPrefixCls}-error`]: error,
       [`${currentPrefixCls}-pc`]: !isSupportTouch // 如果是移动端，去掉 hover 样式
     })}
-    ref={buttonRef}
+    ref={buttonRef as React.RefObject<HTMLSpanElement>}
     {...restProps}
   />
 );

@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { getCaptcha, verifyCaptcha } from './service1';
 
 function Demo() {
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(undefined);
 
   return (
     <div>

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import SliderCaptcha, { ActionType } from 'rc-slider-captcha';
 
 function Demo() {
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(undefined);
 
   const controlBarWidth = 320;
   const controlButtonWidth = 40;
