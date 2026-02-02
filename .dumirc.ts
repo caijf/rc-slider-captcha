@@ -6,7 +6,7 @@ const publicPath = isDev ? '/' : '/rc-slider-captcha/';
 export default defineConfig({
   themeConfig: {
     name: 'rc-slider-captcha',
-    logo: 'https://www.caijinfeng.com/logo.png',
+    logo: 'https://www.caijf.top/logo.png',
     nav: [],
     prefersColor: {
       default: 'light',
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   base: publicPath,
   publicPath,
-  favicons: ['https://www.caijinfeng.com/favicon.ico'],
+  favicons: ['https://www.caijf.top/favicon.ico'],
   outputPath: 'docs-dist',
   analytics: {
     ga_v2: 'G-9R6Q9PDGBK'
